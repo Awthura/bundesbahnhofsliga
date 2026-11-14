@@ -1,10 +1,10 @@
 """Table engine: weekly seasons (calendar weeks, Mon..Sun), live tables after every matchday,
 promotion/relegation after Sunday.
 
-Pyramid like German football: 1., 2., 3. BBL are national (18 each), below them Regionalligen by region.
+Pyramid like German football: 1., 2., 3. BBL are national (18 each), below them Regionalbahnhofsligen by region.
 Between two national leagues: 17th and 18th go down, 1st and 2nd of the league below go up, and 16th (above)
 meets 3rd (below) in a playoff decided by punctuality on the week's last day.
-Between the 3. BBL and the Regionalligen: 17th and 18th go down into their own region; the regional champions
+Between the 3. BBL and the Regionalbahnhofsligen: 17th and 18th go down into their own region; the regional champions
 are ranked by Schnitt, the best 2 go up, the 3rd best plays the 16th of the 3. BBL (same Sunday playoff).
 
 Input: daily rows {day, eva, station, points, plays, arrivals?, punctual?}. Pure Python, no I/O.
@@ -117,7 +117,7 @@ def _sort_by(evas, score, names):
 
 
 def run(rows, states: dict[str, str] | None = None) -> dict:
-    """states: eva -> Bundesland, used to place stations in their Regionalliga."""
+    """states: eva -> Bundesland, used to place stations in their Regionalbahnhofsliga."""
     data = Data(rows)
     states = states or {}
     if not data.days:
@@ -156,7 +156,7 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
             for l in lists:   # drop stations that no longer qualify
                 lists[l] = [e for e in lists[l] if e in mem]
             known = {e for l in lists.values() for e in l}
-            for e in _sort_by(mem - known, win_avg, data.names):   # newcomers start in their Regionalliga
+            for e in _sort_by(mem - known, win_avg, data.names):   # newcomers start in their Regionalbahnhofsliga
                 score.setdefault(e, win_avg[e])
                 lists[rl(e)].append(e)
                 status[e] = "new"
@@ -224,7 +224,7 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
 
         regs = [l for l in reg_ids if l in fin]
         bottom = nat_active[-1] if nat_active else None
-        if bottom and regs:   # 3. BBL <-> Regionalligen: promotion round of the regional champions
+        if bottom and regs:   # 3. BBL <-> Regionalbahnhofsligen: promotion round of the regional champions
             champs = [finals[r][0] for r in regs if finals[r][0]["ranked"]]
             champs.sort(key=lambda r: (-r["avg"], -r["points"], r["station"]))
             direct = min(config.DIRECT_MOVERS, len(fin[bottom]) // 3, len(champs))

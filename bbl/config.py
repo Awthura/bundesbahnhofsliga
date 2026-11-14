@@ -20,7 +20,7 @@ DIRECT_MOVERS = 2                    # 17th and 18th go down, 1st and 2nd of the
 PLAYOFF = True                       # 16th vs 3rd below: higher punctuality on the week's last day wins
 
 # League pyramid, like German football: national leagues of 18 at the top (BBL, 2. BBL, 3. BBL),
-# then Regionalligen by region (DFB regions) as the 4th tier.
+# then Regionalbahnhofsligen by region (DFB regions) as the 4th tier.
 LEAGUE_SIZE = 18
 NATIONAL_TIERS = 3
 REGIONS = {   # id: (name, Bundeslaender)
@@ -45,7 +45,7 @@ def national_league(tier: int):
 
 
 def regional_league(rid: str):
-    return {"id": f"RL-{rid}", "name": f"Regionalliga {REGIONS[rid][0]}", "short": f"RL {REGIONS[rid][0]}",
+    return {"id": f"RL-{rid}", "name": f"Regionalbahnhofsliga {REGIONS[rid][0]}", "short": f"RBL {REGIONS[rid][0]}",
             "tier": NATIONAL_TIERS + 1, "region": rid}
 
 

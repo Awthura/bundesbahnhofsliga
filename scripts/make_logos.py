@@ -44,7 +44,7 @@ def icons(kind, n, color, bg, y=24):
 
 def league_icons(tier: int):
     """Speed scale: BBL 3 bolts (the round badge), 2. BBL 2, 3. BBL 1.
-    From the 4th tier down: turtles, 1 for the Regionalligen and one more per tier below."""
+    From the 4th tier down: turtles, 1 for the Regionalbahnhofsligen and one more per tier below."""
     if tier <= 3:
         return "bolt", 4 - tier
     return "turtle", tier - 3
@@ -103,7 +103,7 @@ def main():
     (OUT / "liga-1.svg").write_text(site_logo())   # the top league IS the BBL: same round badge
     (OUT / "liga-2.svg").write_text(crest("2", WHITE, RED, RED, icon=league_icons(2)))
     (OUT / "liga-3.svg").write_text(crest("3", RED, WHITE, RED, band=WHITE, icon=league_icons(3)))
-    for k, rid in enumerate(config.REGIONS):   # Regionalligen: region code, alternating colours
+    for k, rid in enumerate(config.REGIONS):   # Regionalbahnhofsligen: region code, alternating colours
         bg, fg = (WHITE, RED) if k % 2 == 0 else (RED, WHITE)
         (OUT / f"liga-RL-{rid}.svg").write_text(crest(rid, bg, fg, RED, dashed=True, icon=league_icons(4)))
     (OUT / "bbl.svg").write_text(site_logo())
