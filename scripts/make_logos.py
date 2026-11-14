@@ -43,9 +43,10 @@ def icons(kind, n, color, bg, y=24):
 
 
 def league_icons(i, n_leagues):
-    """Top half: bolts (5 for the 1. BBL, one fewer per league). Bottom half: turtles (5 for the last)."""
+    """The BBL badge has 5 bolts, so the 1. BBL has 4, the 2. BBL 3, ... (top half).
+    Bottom half: turtles, 5 for the last league, one fewer per league above it."""
     if i <= n_leagues / 2:
-        return "bolt", max(1, 6 - i)
+        return "bolt", max(1, 5 - i)
     return "turtle", max(1, 5 - (n_leagues - i))
 
 
@@ -71,7 +72,7 @@ def site_logo():
     """Round badge: red disc, white ring, 'BBL' with clear space, a short track underneath."""
     sleepers = "".join(f'<line x1="{x}" y1="80" x2="{x}" y2="90" stroke="{WHITE}" stroke-width="3" stroke-linecap="round"/>'
                        for x in range(40, 84, 8))
-    stars = "".join(f'<path d="{BOLT}" transform="translate({x} 31) scale(1.1)" fill="{WHITE}"/>' for x in (48, 60, 72))
+    stars = "".join(f'<path d="{BOLT}" transform="translate({x} 31) scale(0.95)" fill="{WHITE}"/>' for x in (38, 49, 60, 71, 82))
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Bundesbahnhofsliga">
 <circle cx="60" cy="60" r="58" fill="{RED}"/>
 <circle cx="60" cy="60" r="50" fill="none" stroke="{WHITE}" stroke-width="4"/>
