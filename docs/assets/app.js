@@ -58,7 +58,7 @@ const STR = {
     season_live: (n) => `Matchday ${n} of 7. Promotion and relegation after Sunday.`,
     sub: (n, id, day) => `${n} stations · season ${id} · table after ${day}`,
     matchday: "Matchday",
-    leader_top: "Top of the league", leader: "League leader", lantern: "Red lantern (last place)", day_winner: (d) => `Matchday winner ${d}`,
+    leader_top: "Top of the league", leader: "League leader", lantern: "Red lantern", day_winner: (d) => `Matchday winner ${d}`,
     legend: ["Promotion", "Playoff / promotion round", "Relegation",
       "Ranked by average daily points (0 to 1). Grey rows have played too few matchdays so far."],
     moves_title: "Promotion and relegation",
@@ -135,7 +135,7 @@ function trendCell(t) {
 function tableHTML(rows, zones, status) {
   const n = rows.length, c = T.cols;
   return `<div class="tablewrap"><table>
-    <thead><tr><th>${c[0]}</th><th></th><th>${c[1]}</th><th class="num">${c[2]}</th><th class="num">${c[3]}</th>
+    <thead><tr><th>${c[0]}</th><th></th><th>${c[1]}</th><th class="num">${c[2]}</th><th class="num hide-sm">${c[3]}</th>
     <th class="num">${c[4]}</th><th class="hide-sm">${c[5]}</th></tr></thead><tbody>
     ${rows.map((r, i) => {
       const po = (zones.po_up && i === zones.up) || (zones.po_down && i === n - zones.down - 1);
@@ -143,7 +143,7 @@ function tableHTML(rows, zones, status) {
       const tag = status[r.eva] === "new" ? `<span class="tag new">${T.new_tag}</span>` : "";
       return `<tr class="${cls}"><td class="rank">${r.rank}.</td><td>${trendCell(r.trend)}</td>
         <td class="st"><a href="${stLink(r.eva)}">${esc(r.station)}</a>${tag}</td>
-        <td class="num">${r.played}</td><td class="num">${num(r.points)}</td><td class="num"><b>${num(r.avg, 3)}</b></td>
+        <td class="num">${r.played}</td><td class="num hide-sm">${num(r.points)}</td><td class="num"><b>${num(r.avg, 3)}</b></td>
         <td class="hide-sm">${formChips(r.form)}</td></tr>`;
     }).join("")}</tbody></table></div>`;
 }
@@ -151,4 +151,10 @@ function tableHTML(rows, zones, status) {
 async function stamp(meta) {
   const u = $("#updated");
   if (u && meta) u.textContent = T.updated(meta.last_day, meta.generated.replace("T", " "));
+}
+
+// on phones the tab and matchday rows scroll sideways: bring the active one into view
+function revealActive(container) {
+  const el = container && container.querySelector(".on");
+  if (el && container.scrollWidth > container.clientWidth) container.scrollLeft = el.offsetLeft - container.offsetLeft - 16;
 }

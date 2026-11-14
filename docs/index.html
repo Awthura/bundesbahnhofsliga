@@ -58,6 +58,7 @@ async function loadSeason(id) {
     return `<button class="tab ${l === state.league ? "on" : ""}" data-l="${l}"><img src="${logo(l)}" alt="">${esc(s.leagues[l].short)}</button>`;
   }).join("");
   $("#tabs").querySelectorAll("button").forEach((b) => (b.onclick = () => { state.league = b.dataset.l; loadSeason(state.season); }));
+  revealActive($("#tabs"));
   state.md = s.matchdays.length - 1;
   renderMoves();
   render();
@@ -73,6 +74,7 @@ function render() {
   $("#matchdays").innerHTML = `${T.matchday}: ` + s.matchdays.map((d, i) =>
     `<button class="${i === state.md ? "on" : ""}" data-i="${i}">${i + 1} · ${dayLabel(d)}</button>`).join("");
   $("#matchdays").querySelectorAll("button").forEach((b) => (b.onclick = () => { state.md = +b.dataset.i; render(); }));
+  revealActive($("#matchdays"));
   $("#table").innerHTML = tableHTML(rows, s.zones[lid] || { up: 0, down: 0 }, L.status || {});
   // fun badges
   const ranked = rows.filter((r) => r.ranked);
