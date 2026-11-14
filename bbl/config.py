@@ -25,22 +25,17 @@ LEAGUE_SIZE = 18                     # default size of a national league
 LEAGUE_SIZES = {1: 18, 2: 18, 3: 20}  # like football: Bundesliga 18, 2. Bundesliga 18, 3. Liga 20
 NATIONAL_TIERS = 3
 
-# 3. BBL <-> Regionalbahnhofsligen, modelled on 3. Liga <-> Regionalliga (DFB, since 2020/21):
-# places 17-20 of the 3. BBL go down directly (no playoff); 4 regional champions go up:
-# West and Suedwest directly, one of Nord/Nordost/Bayern directly by rotation (football: yearly,
-# here: every calendar week), the other two play off for the 4th place (Sunday punctuality).
+# 3. BBL <-> Regionalbahnhofsligen: places 17-20 of the 3. BBL go down directly (like the 3. Liga).
+# Going up we deliberately do NOT copy football's regional rotation and playoff: of the five regional
+# champions, the best 4 by weekly Schnitt go up, so no region is favoured.
 RL_RELEGATED = 4
-RL_DIRECT_REGIONS = ["W", "SW"]
-RL_ROTATION = ["N", "NO", "BY"]
+RL_PROMOTED = 4
 
 
 def league_size(tier: int) -> int:
     return LEAGUE_SIZES.get(tier, LEAGUE_SIZE)
 
 
-def rotation_region(week_number: int) -> str | None:
-    """Which of Nord/Nordost/Bayern gets the direct promotion spot in this calendar week."""
-    return RL_ROTATION[week_number % len(RL_ROTATION)] if RL_ROTATION else None
 REGIONS = {   # id: (name, Bundeslaender)
     "N": ("Nord", ["Niedersachsen", "Bremen", "Hamburg", "Schleswig-Holstein"]),
     "NO": ("Nordost", ["Berlin", "Brandenburg", "Mecklenburg-Vorpommern", "Sachsen", "Sachsen-Anhalt", "Thüringen"]),

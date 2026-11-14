@@ -9,8 +9,7 @@ arrivals, and is a league member only if it had more than 5 arrivals on every da
 after Sunday. Like German football: the BBL and 2. BBL have 18 stations, the 3. BBL 20, and below them are five
 Regionalbahnhofsligen by region (Nord, Nordost, West, Südwest, Bayern). Between national leagues 17th and 18th go down,
 1st and 2nd go up, and 16th vs 3rd is a playoff decided by punctuality on Sunday. From the 3. BBL places 17-20 go down;
-four regional champions go up (West and Südwest directly, one of Nord/Nordost/Bayern directly by weekly rotation, the
-other two in a Sunday playoff). Full rules: [docs/rules.html](docs/rules.html).
+of the five regional champions the best 4 by weekly average go up (no regional rotation, unlike football). Full rules: [docs/rules.html](docs/rules.html).
 
 ## How it works
 
