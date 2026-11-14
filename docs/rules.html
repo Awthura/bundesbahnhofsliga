@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regeln · Bundesbahnhofsliga</title>
+<link rel="icon" href="assets/logos/favicon.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<main class="wrap prose">
+<h1>Die Regeln</h1>
+<p class="sub">How a railway station earns points, how the table is sorted, and how it gets promoted or relegated.</p>
+
+<h2>1. Who plays</h2>
+<p>Every German station is a club. The only thing that counts is how punctually <b>ICE and IC trains arrive</b> there.
+Departures, regional trains, S-Bahn, EC/ECE and buses are ignored. A train's first stop has no arrival, so it does not
+count at that station.</p>
+<p>A station plays on a given day only if it has <b>more than 5 scheduled ICE/IC arrivals</b> that day. With 5 or fewer,
+its matchday is <i>abgesagt</i> (called off): no points, and it does not count as a played game.</p>
+<p>To keep it fair, only stations with a real ICE/IC service are in the league at all. To be a member for a week, a
+station must have had <b>more than 5 scheduled ICE/IC arrivals on every single day of the 28 days before that week</b>.
+A station that reaches 6 arrivals only on some days (weekends, holiday extras) is not a member, even on its busy days.</p>
+<p>One exception protects against our data source, not against timetables: if the data for a whole day is clearly
+incomplete (fewer than 85% of the usual number of ICE/IC arrivals across all of Germany), that day is skipped for the
+membership check, so a collection outage can't throw anyone out.</p>
+
+<h2>2. Daily points: 0 to 1</h2>
+<p>Every day (one operating day, by planned arrival time) is a matchday. A station's points for the day are simply the
+share of its scheduled ICE/IC arrivals that were punctual:</p>
+<div class="example">
+<p><b>Points = punctual arrivals ÷ scheduled arrivals</b>, rounded to two decimals. So the range is 0.00 (nothing on time) to
+1.00 (everything on time).</p>
+</div>
+<p><b>Punctual</b> means the train arrived less than 6 minutes late, which is Deutsche Bahn's own threshold. A train 5
+minutes late is punctual, 6 minutes late is not. A <b>cancelled arrival counts as not punctual</b>: it was scheduled,
+and passengers waiting for it did not get it.</p>
+<div class="example">
+<p><b>Example (made-up numbers).</b> Halle (Saale) Hbf has 40 scheduled ICE/IC arrivals on Tuesday. 29 arrive less than 6 minutes late,
+8 arrive later, and 3 are cancelled. Points: 29 ÷ 40 = <b>0.73</b>.</p>
+<p>Köthen has 4 scheduled arrivals that day. That is not more than 5, so the matchday is abgesagt for Köthen.</p>
+</div>
+
+<h2>3. The table</h2>
+<p>A season is <b>one calendar week (KW), Monday to Sunday</b>, so seven matchdays. The table is live: it is recalculated after every
+matchday, and the arrows show how many places a station moved since the previous day.</p>
+<p>The columns are <b>Platz</b>, <b>Bahnhof</b>, <b>Spiele</b> (matchdays played this week), <b>Punkte</b> (sum of daily
+points), <b>Schnitt</b> (Punkte ÷ Spiele) and <b>Form</b> (the last five matchdays).</p>
+<p>The table is sorted by <b>Schnitt</b>, not by the sum, so a station is not punished for a called-off day. Ties are
+broken by Punkte, then alphabetically. To be ranked normally a station must have played at least <b>half of the
+matchdays so far</b> (4 of 7 at the end of a week). Stations below that are listed at the bottom in grey, which in
+practice means they are in the relegation zone.</p>
+
+<h2>4. Promotion and relegation, every week</h2>
+<p>After Sunday's matchday the calendar week (KW) is final, and stations move between every pair of neighbouring leagues.
+<b>Places 17 and 18 go down directly</b>, and <b>places 1 and 2 of the league below go up directly</b>.</p>
+<p>The third spot is decided in the <b>Relegation</b>: the 16th of the upper league plays the 3rd of the league below.
+There is no extra match. The winner is simply the station with the <b>higher punctuality on the last day of that week</b>
+(Sunday): the share of its ICE/IC arrivals under 6 minutes late, compared exactly, not rounded. The winner plays in the
+upper league next week, the loser in the lower one. Every playoff in the pyramid is decided this way.</p>
+<div class="example">
+<p><b>Example (made-up numbers).</b> Erfurt Hbf finishes 16th in the 1. Bundesbahnhofsliga, Fulda finishes 3rd in the 2. Bundesbahnhofsliga.
+On Sunday, 31 of 38 arrivals at Erfurt are punctual (81.6%) and 27 of 32 at Fulda (84.4%). Fulda goes up, Erfurt goes down.</p>
+</div>
+<p>If both are exactly level, the upper league's station stays up. A station whose Sunday is abgesagt (5 or fewer
+arrivals) cannot win the playoff; if both are abgesagt, the upper league's station stays up.</p>
+<p>The new week starts on Monday with everyone back on zero. If a member drops out (it no longer meets the every-day rule),
+the next station from the league below moves up to fill the gap. New members start at the bottom of the pyramid.</p>
+
+<h2>5. The pyramid</h2>
+<p>Every league has <b>18 stations</b>, like the Bundesliga: the 1. Bundesbahnhofsliga, the 2. Bundesbahnhofsliga, the
+3. Bundesbahnhofsliga, and so on down. The lowest league takes whoever is left, so it can be smaller.</p>
+<div class="crests">
+  <figure><img src="assets/logos/liga-1.svg" alt=""><figcaption>1. Bundesbahnhofsliga</figcaption></figure>
+  <figure><img src="assets/logos/liga-2.svg" alt=""><figcaption>2. Bundesbahnhofsliga</figcaption></figure>
+  <figure><img src="assets/logos/liga-3.svg" alt=""><figcaption>3. Bundesbahnhofsliga</figcaption></figure>
+  <figure><img src="assets/logos/liga-4.svg" alt=""><figcaption>4. Bundesbahnhofsliga</figcaption></figure>
+  <figure><img src="assets/logos/liga-5.svg" alt=""><figcaption>5. Bundesbahnhofsliga</figcaption></figure>
+</div>
+<p>The very first season was seeded by the average daily points over the history available before it. Since then, the
+only way up is to play your way up.</p>
+
+<h2>6. Small print</h2>
+<p>Stations at the end of long routes inherit delays from upstream. That is fine for this league, because it measures what
+passengers at that station experience, but it means a low place is not a verdict on the station or the people working
+there. See the <a href="about.html">methodology page</a> for the data details.</p>
+</main>
+<script src="assets/app.js"></script>
+<script>chrome("rules.html"); getJSON("data/meta.json").then(stamp).catch(() => {});</script>
+</body>
+</html>

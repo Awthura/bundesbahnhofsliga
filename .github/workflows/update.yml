@@ -1,0 +1,61 @@
+# Fetch new data, rebuild tables, commit the results. GitHub Pages serves docs/.
+name: Update tables
+
+on:
+  schedule:
+    - cron: "20 */3 * * *"     # every 3 hours (UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      HETZNER_HOST: ${{ secrets.HETZNER_HOST }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+
+      - name: Set up SSH to storage server
+        if: env.HETZNER_HOST != ''
+        run: bash ops/ssh_setup.sh
+        env:
+          HETZNER_SSH_KEY: ${{ secrets.HETZNER_SSH_KEY }}
+          HETZNER_KNOWN_HOSTS: ${{ secrets.HETZNER_KNOWN_HOSTS }}
+
+      - name: Pull our own collector data from server
+        if: env.HETZNER_HOST != ''
+        run: bash ops/sync.sh pull
+        env:
+          HETZNER_USER: ${{ secrets.HETZNER_USER }}
+
+      - name: Update data
+        run: python -m scripts.update_data
+      - name: Run tests
+        run: python -m pytest -q
+      - name: Build site data
+        run: python scripts/build_site.py
+
+      - name: Archive stops and points on server
+        if: env.HETZNER_HOST != ''
+        run: bash ops/sync.sh push
+        env:
+          HETZNER_USER: ${{ secrets.HETZNER_USER }}
+
+      - name: Commit
+        run: |
+          git config user.name "bbl-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/daily_points.csv data/sources.json data/stations.json docs/data
+          git diff --cached --quiet || git commit -m "Update tables $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push

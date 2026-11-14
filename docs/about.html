@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methodik · Bundesbahnhofsliga</title>
+<link rel="icon" href="assets/logos/favicon.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<main class="wrap prose">
+<h1>Methodik</h1>
+<h2>Data</h2>
+<p>All data comes from the Deutsche Bahn Timetables API (planned timetable and live changes), licensed CC BY 4.0.
+We use the public archive <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>,
+which polls the API for every German station around the clock. Complete months come from its processed monthly files;
+the running month is parsed from the raw API responses. Each stop has a unique id and is counted once.</p>
+<p>Only scheduled stops count (those in the planned timetable), so extra stops added on the day do not.
+A stop's delay is its last known changed arrival time minus its planned arrival time. Note that the archive's own
+<code>delay_in_min</code> column prefers the departure delay, so we compute the arrival delay ourselves. If the API never reported a change,
+the train is treated as on time. Because the API is polled rather than streamed, a late change can occasionally be missed,
+so the numbers can differ slightly from DB's official punctuality statistics.</p>
+<h2>Fairness</h2>
+<p>Stations at the end of long routes inherit delays from upstream, and big hubs see far more trains than small ones.
+This league deliberately measures what a passenger standing on the platform experiences, not who caused a delay. Delay
+causes are unknown in this data, so a ranking is never blame. A possible later addition is a "Heimleistung" table that
+scores only the delay added at the station itself.</p>
+<h2>Updates</h2>
+<p>The site is rebuilt automatically every morning (and a few times during the day) by GitHub Actions. The current week's
+table is live and will change after every matchday; promotion and relegation are applied after Sunday.</p>
+<h2>Not affiliated</h2>
+<p>This is an independent fan project. It is not affiliated with or endorsed by Deutsche Bahn AG. All crests on this site
+are our own designs. No betting, no prizes, just bragging rights.</p>
+</main>
+<script src="assets/app.js"></script>
+<script>chrome("about.html"); getJSON("data/meta.json").then(stamp).catch(() => {});</script>
+</body>
+</html>

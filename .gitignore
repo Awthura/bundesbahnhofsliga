@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+.pytest_cache/
+data/raw/
+data/stops/
+data/collector/
+*.part
+bundesbahnhofliga_stations.csv
+.DS_Store
+.env
+*.pem
+*_key
+PROJECT3_BRIEF.md
