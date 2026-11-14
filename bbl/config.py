@@ -19,13 +19,13 @@ MIN_PLAYED_SHARE = 0.5               # need to have played half the matchdays so
 DIRECT_MOVERS = 2                    # 17th and 18th go down, 1st and 2nd of the league below go up
 PLAYOFF = True                       # 16th vs 3rd below: higher punctuality on the week's last day wins
 
-# League pyramid, like German football: national leagues of 18 at the top (BBL, 2. BBL, 3. BBL),
+# League pyramid, like German football: national leagues of 18 at the top (BBL, 2. BBL, 3. BL),
 # then Regionalbahnhofsligen by region (DFB regions) as the 4th tier.
 LEAGUE_SIZE = 18                     # default size of a national league
 LEAGUE_SIZES = {1: 18, 2: 18, 3: 20}  # like football: Bundesliga 18, 2. Bundesliga 18, 3. Liga 20
 NATIONAL_TIERS = 3
 
-# 3. BBL <-> Regionalbahnhofsligen: places 17-20 of the 3. BBL go down directly (like the 3. Liga).
+# 3. BL <-> Regionalbahnhofsligen: places 17-20 of the 3. BL go down directly (like the 3. Liga).
 # Going up we deliberately do NOT copy football's regional rotation and playoff: of the five regional
 # champions, the best 4 by weekly Schnitt go up, so no region is favoured.
 RL_RELEGATED = 4
@@ -51,9 +51,11 @@ DEFAULT_REGION = "NO"
 
 
 def national_league(tier: int):
-    """Like football: the top tier is just 'the Bundesbahnhofsliga' (BBL), then the 2. and 3. Bundesbahnhofsliga."""
+    """Like football: Bundesbahnhofsliga (BBL), 2. Bundesbahnhofsliga (2. BBL), 3. Bahnhofsliga (3. BL)."""
     if tier == 1:
         return {"id": "1", "name": "Bundesbahnhofsliga", "short": "BBL", "tier": 1}
+    if tier == 3:   # like football's "3. Liga": no "Bundes" in the name
+        return {"id": "3", "name": "3. Bahnhofsliga", "short": "3. BL", "tier": 3}
     return {"id": str(tier), "name": f"{tier}. Bundesbahnhofsliga", "short": f"{tier}. BBL", "tier": tier}
 
 
@@ -68,6 +70,14 @@ def region_of(state: str | None) -> str | None:
             return rid
     return None
 
+
+# Next-day forecast on station pages ("Will it score at least 0.60 tomorrow?")
+FORECAST_THRESHOLD = 0.60            # about 42 % of all played station-days reach it
+FORECAST_WINDOW_DAYS = 56            # look back 8 weeks
+FORECAST_HALF_LIFE_DAYS = 14         # a day 2 weeks old counts half
+FORECAST_SAME_WEEKDAY_WEIGHT = 2.0   # same weekday as the forecast day counts double
+FORECAST_MIN_DAYS = 7                # need at least a week of played days
+FORECAST_MAX_GAP_DAYS = 3            # no played day in the last 3 days: no forecast (no current ICE/IC service)
 
 # Data sources
 HF_BASE = "https://huggingface.co/datasets/piebro/deutsche-bahn-data/resolve/main/monthly_processed_data"

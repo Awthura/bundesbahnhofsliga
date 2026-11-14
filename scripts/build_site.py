@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from bbl import config, league  # noqa: E402
+from bbl import config, forecast, league  # noqa: E402
 
 OUT = ROOT / "docs" / "data"
 
@@ -52,7 +52,9 @@ def main():
         best = max(played, key=lambda x: x["points"], default=None)
         worst = min(played, key=lambda x: x["points"], default=None)
         m = stations_meta.get(eva, {})
+        fc = forecast.station_forecast(daily, data.days[-1] + dt.timedelta(days=1))
         dump(OUT / "stations" / f"{eva}.json", {
+            "forecast": fc,
             "eva": eva, "name": data.names[eva], "state": config.STATE_OVERRIDES.get(eva) or m.get("state"), "lat": m.get("lat"), "lon": m.get("lon"),
             "daily": daily[-120:], "best": best, "worst": worst, "history": history[eva]})
 

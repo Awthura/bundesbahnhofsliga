@@ -30,6 +30,14 @@ Pünktlichkeitsstatistik der DB abweichen.</p>
 Bahnhöfe. Diese Liga misst bewusst, was ein Fahrgast am Bahnsteig erlebt, nicht wer eine Verspätung verursacht hat. Die
 Ursachen stehen nicht in den Daten, eine Platzierung ist also nie eine Schuldzuweisung. Denkbar ist später eine Tabelle
 "Heimleistung", die nur die am Bahnhof selbst entstandene Verspätung wertet.</p>
+<h2>Prognose für morgen</h2>
+<p>Jede Bahnhofsseite zeigt eine Prognose im Stil eines Vorhersagemarkts: Wie wahrscheinlich schafft der Bahnhof morgen
+mindestens 0,60 Punkte? Das Modell ist bewusst einfach: Es nimmt die gespielten Tage der letzten 8 Wochen, gewichtet
+jüngere Tage stärker (ein zwei Wochen alter Tag zählt halb) und den gleichen Wochentag doppelt, weil Wochenenden deutlich
+pünktlicher sind. Die Wahrscheinlichkeit ist der gewichtete Anteil der Tage über der Schwelle, leicht Richtung 50 % gezogen.
+Über alle Bahnhöfe erreicht es einen Brier-Score von etwa 0,18 (Münzwurf: 0,25; für alle die gleiche Quote: 0,24), es ist
+also nützlich, aber weit weg von sicher. Halten an einem Bahnhof gerade keine ICE/IC, gibt es keine Prognose.
+Keine Wetten, kein Geld.</p>
 <h2>Aktualisierung</h2>
 <p>Die Seite wird automatisch per GitHub Actions neu gebaut, alle drei Stunden. Die Tabelle der laufenden Woche ist live
 und ändert sich nach jedem Spieltag; Auf- und Abstieg gibt es nach dem Sonntag.</p>
@@ -54,6 +62,13 @@ so the numbers can differ slightly from DB's official punctuality statistics.</p
 This league deliberately measures what a passenger standing on the platform experiences, not who caused a delay. Delay
 causes are unknown in this data, so a ranking is never blame. A possible later addition is a "Heimleistung" table that
 scores only the delay added at the station itself.</p>
+<h2>Forecast for tomorrow</h2>
+<p>Every station page shows a prediction-market style forecast: how likely is the station to score at least 0.60 tomorrow?
+The model is deliberately simple. It takes the played days of the last 8 weeks, weights recent days more (a day two weeks
+old counts half) and the same weekday double, because weekends are clearly more punctual. The probability is the weighted
+share of days above the threshold, pulled slightly towards 50%. Across all stations it reaches a Brier score of about 0.18
+(coin flip: 0.25; the same odds for everyone: 0.24), so it is useful but far from certain. When no ICE/IC trains currently
+stop at a station, there is no forecast. No betting, no money.</p>
 <h2>Updates</h2>
 <p>The site is rebuilt automatically by GitHub Actions every three hours. The current week's
 table is live and will change after every matchday; promotion and relegation are applied after Sunday.</p>

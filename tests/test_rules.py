@@ -2,7 +2,7 @@ import datetime as dt
 
 import duckdb
 
-from bbl import config, ingest, league, points
+from bbl import config, forecast, ingest, league, points
 
 
 def stops_con(rows):
@@ -196,3 +196,25 @@ def test_best_4_of_5_champions_go_up(monkeypatch):
     downs = [m for m in s1["moves"] if m["from"] == "1"]
     assert ups == {c["eva"] for c in rnd[:4]} and len(downs) == 4
     assert not s1["playoffs"]
+
+
+def test_forecast_probability_and_weekday_weight():
+    target = dt.date(2026, 11, 15)                           # a Sunday
+    hist = []
+    for i in range(1, 29):
+        d = target - dt.timedelta(days=i)
+        hist.append((d, 0.9 if d.weekday() == 6 else 0.4))   # great on Sundays, poor otherwise
+    f = forecast.predict(hist, target)
+    g = forecast.predict(hist, target + dt.timedelta(days=1))   # Monday
+    assert 0 < g["p_yes"] < f["p_yes"] < 1                   # Sunday forecast clearly higher
+    assert f["low"] == 0.4 and f["high"] == 0.9
+    assert forecast.predict(hist[:3], target) is None        # too little history
+    assert forecast.predict([(target, 1.0)] * 10, target) is None   # never uses the target day itself
+
+
+def test_forecast_history_is_out_of_sample():
+    daily = [{"day": (dt.date(2026, 10, 1) + dt.timedelta(days=i)).isoformat(), "points": 0.7, "plays": True}
+             for i in range(40)]
+    fc = forecast.station_forecast(daily, dt.date(2026, 11, 10))
+    assert fc["p_yes"] > 0.9 and fc["brier"] is not None and fc["resolved"] > 0
+    assert all(h["day"] < "2026-11-10" for h in fc["history"])

@@ -139,3 +139,18 @@ header.top nav .lang a.on { background: #fff; color: var(--red); }
 html[data-lang="de"] .i18n[lang="en"], html[data-lang="en"] .i18n[lang="de"] { display: none; }
 .tagline { margin: 0 0 14px; font-size: 16px; font-weight: 600; line-height: 1.4; }
 @media (max-width: 640px) { .tagline { font-size: 14px; } }
+
+/* forecast card, Polymarket style */
+.market { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--panel); margin: 16px 0 6px; }
+.market h3 { margin: 0 0 4px; font-size: 13px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
+.mk-q { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+.mk-odds { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mk-odds > div { border-radius: 10px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; }
+.mk-odds b { font-size: 24px; }
+.mk-yes { background: var(--up-soft); color: var(--up); }
+.mk-no { background: var(--down-soft); color: var(--red); }
+.mk-bar { height: 8px; border-radius: 999px; background: var(--red); overflow: hidden; margin: 12px 0 8px; }
+.mk-bar i { display: block; height: 100%; background: var(--up); }
+.mk-chart { width: 100%; display: block; }
+.mk-small { font-size: 12px; }
+@media (max-width: 640px) { .mk-q { font-size: 16px; } .mk-odds b { font-size: 20px; } }

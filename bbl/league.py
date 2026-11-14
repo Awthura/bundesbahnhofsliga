@@ -1,10 +1,10 @@
 """Table engine: weekly seasons (calendar weeks, Mon..Sun), live tables after every matchday,
 promotion/relegation after Sunday.
 
-Pyramid like German football: 1., 2., 3. BBL are national (18 each), below them Regionalbahnhofsligen by region.
+Pyramid like German football: 1., 2., 3. BL are national (18 each), below them Regionalbahnhofsligen by region.
 Between two national leagues: 17th and 18th go down, 1st and 2nd of the league below go up, and 16th (above)
 meets 3rd (below) in a playoff decided by punctuality on the week's last day.
-Between the 3. BBL (20 stations) and the Regionalbahnhofsligen: places 17-20 go down into their own region, and the
+Between the 3. BL (20 stations) and the Regionalbahnhofsligen: places 17-20 go down into their own region, and the
 best 4 of the 5 regional champions (by weekly Schnitt) go up. No regional rotation, no playoff.
 
 Input: daily rows {day, eva, station, points, plays, arrivals?, punctual?}. Pure Python, no I/O.
@@ -226,7 +226,7 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
 
         regs = [l for l in reg_ids if l in fin]
         bottom = nat_active[-1] if nat_active else None
-        if bottom and regs:   # 3. BBL <-> Regionalbahnhofsligen: best 4 champions up, places 17-20 down
+        if bottom and regs:   # 3. BL <-> Regionalbahnhofsligen: best 4 champions up, places 17-20 down
             champs = sorted((finals[r][0] for r in regs if finals[r][0]["ranked"]),
                             key=lambda r: (-r["avg"], -r["points"], r["station"]))
             n_down = min(config.RL_RELEGATED, config.RL_PROMOTED, len(champs), len(fin[bottom]) // 3)

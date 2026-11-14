@@ -43,7 +43,7 @@ def icons(kind, n, color, bg, y=24):
 
 
 def league_icons(tier: int):
-    """Speed scale: BBL 3 bolts (the round badge), 2. BBL 2, 3. BBL 1.
+    """Speed scale: BBL 3 bolts (the round badge), 2. BBL 2, 3. BL 1.
     From the 4th tier down: turtles, 1 for the Regionalbahnhofsligen and one more per tier below."""
     if tier <= 3:
         return "bolt", 4 - tier

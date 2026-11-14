@@ -13,6 +13,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
 <main class="wrap">
   <div class="league-head"><img id="logo" alt=""><div><h2 id="name">…</h2><div class="sub" id="sub"></div></div></div>
   <div class="kpis" id="kpis"></div>
+  <div id="market"></div>
   <h3 id="chart-title"></h3>
   <svg class="chart" id="chart" role="img"></svg>
   <p class="sub" id="chart-note"></p>
@@ -46,8 +47,10 @@ $("#hist-title").textContent = T.hist_title;
   ];
   $("#kpis").innerHTML = k.map(([v, l]) => `<div class="kpi"><b>${v}</b><span>${l}</span></div>`).join("");
 
+  renderMarket(st);
+
   // bar chart, plain SVG
-  const svg = $("#chart"), W = svg.clientWidth || 800, H = 180, pad = 24, n = st.daily.length;
+  const svg = $("#chart"), W = innerWidth(svg.parentElement) || 800, H = 180, pad = 24, n = st.daily.length;
   const bw = (W - pad) / Math.max(n, 1);
   let g = "";
   for (const y of [0, 0.5, 1]) {
@@ -66,13 +69,59 @@ $("#hist-title").textContent = T.hist_title;
 
   const hc = T.hist_cols;
   $("#hist").innerHTML = `<div class="tablewrap"><table><thead><tr><th>${hc[0]}</th><th>${hc[1]}</th><th class="num">${hc[2]}</th>
-    <th class="num">${hc[3]}</th><th class="num">${hc[4]}</th></tr></thead><tbody>${st.history.slice().reverse().map((h) => {
+    <th class="num hide-sm">${hc[3]}</th><th class="num">${hc[4]}</th></tr></thead><tbody>${st.history.slice().reverse().map((h) => {
       const l = { short: h.short || h.league };
       return `<tr><td><a href="index.html?season=${h.season}&liga=${h.league}&lang=${LANG}">${h.season}</a>${h.complete ? "" : ` <span class="tag new">${T.live}</span>`}</td>
         <td><img src="${logo(h.league)}" alt="${esc(l.short)}" title="${esc(l.short)}" style="width:16px;height:19px;vertical-align:-4px"> <span class="hide-sm">${esc(l.short)}</span></td>
-        <td class="num">${h.rank}.</td><td class="num">${h.played}</td><td class="num">${num(h.avg, 3)}</td></tr>`;
+        <td class="num">${h.rank}.</td><td class="num hide-sm">${h.played}</td><td class="num">${num(h.avg, 3)}</td></tr>`;
     }).join("")}</tbody></table></div>`;
 })().catch((e) => { $("#name").textContent = T.st_missing; });
+
+function innerWidth(el) {   // content width of a block element (SVG elements don't report it reliably)
+  const cs = getComputedStyle(el);
+  return Math.floor(el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight));
+}
+
+function renderMarket(st) {
+  const f = st.forecast, box = $("#market");
+  if (!f) return;
+  if (f.no_service) { box.innerHTML = `<div class="market"><h3>${T.fc_title}</h3><p class="sub">${T.fc_no_service}</p></div>`; return; }
+  const yes = Math.round(f.p_yes * 100), no = 100 - yes;
+  // probability history, Polymarket style: one line, 0-100 %, outcomes as dots at top (yes) and bottom (no)
+  const pts = f.history.concat([{ day: f.day, p: f.p_yes, yes: null }]);
+  box.innerHTML = `<div class="market" id="mk-probe"></div>`;   // measure the card's real inner width
+  const W = Math.max(innerWidth($("#mk-probe")) || 640, 260), H = W < 500 ? 140 : 170, L = 34, R = 8, Tp = 10, B = 22;
+  const x = (i) => L + (i * (W - L - R)) / Math.max(pts.length - 1, 1);
+  const y = (p) => Tp + (1 - p) * (H - Tp - B);
+  let g = "";
+  for (const v of [0, 0.5, 1]) {
+    g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" ${v === 0.5 ? 'stroke-dasharray="4 4"' : ""}/>
+      <text x="${L - 6}" y="${y(v) + 4}" font-size="10" text-anchor="end" fill="var(--muted)">${v * 100}%</text>`;
+  }
+  const line = pts.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(p.p).toFixed(1)}`).join(" ");
+  g += `<path d="${line} L${x(pts.length - 1).toFixed(1)} ${y(0)} L${x(0)} ${y(0)} Z" fill="var(--up)" opacity="0.08"/>`;
+  g += `<path d="${line}" fill="none" stroke="var(--up)" stroke-width="2.2" stroke-linejoin="round"/>`;
+  pts.forEach((p, i) => {
+    if (p.yes == null) return;
+    g += `<circle cx="${x(i)}" cy="${p.yes ? y(1) : y(0)}" r="2.6" fill="${p.yes ? "var(--up)" : "var(--red)"}"><title>${p.day}: ${p.yes ? T.yes : T.no} (${Math.round(p.p * 100)}%)</title></circle>`;
+  });
+  const last = pts.length - 1;
+  g += `<circle cx="${x(last)}" cy="${y(f.p_yes)}" r="4.5" fill="var(--up)" stroke="var(--panel)" stroke-width="2"/>`;
+  g += `<text x="${L}" y="${H - 4}" font-size="10" fill="var(--muted)">${dayLabel(pts[0].day)}</text>
+    <text x="${W - R}" y="${H - 4}" font-size="10" text-anchor="end" fill="var(--muted)">${dayLabel(f.day)}</text>`;
+  box.innerHTML = `<div class="market">
+    <h3>${T.fc_title}</h3>
+    <div class="mk-q">${T.fc_q(esc(st.name), dayLabel(f.day), num(f.threshold))}</div>
+    <div class="mk-odds">
+      <div class="mk-yes"><span>${T.yes}</span><b>${yes}%</b></div>
+      <div class="mk-no"><span>${T.no}</span><b>${no}%</b></div>
+    </div>
+    <div class="mk-bar" role="img" aria-label="${T.yes} ${yes}%, ${T.no} ${no}%"><i style="width:${yes}%"></i></div>
+    <svg class="mk-chart" viewBox="0 0 ${W} ${H}" style="height:${H}px" role="img" aria-label="${T.fc_legend}">${g}</svg>
+    <p class="sub">${T.fc_expected(num(f.expected), num(f.low), num(f.high))}${f.brier != null ? "<br>" + T.fc_brier(num(f.brier, 3), f.resolved) : ""}</p>
+    <p class="sub mk-small">${T.fc_legend} ${T.fc_note}</p>
+  </div>`;
+}
 </script>
 </body>
 </html>
