@@ -56,6 +56,6 @@ jobs:
         run: |
           git config user.name "bbl-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/daily_points.csv data/sources.json data/stations.json docs/data docs/assets/logos
+          git add data/daily_points.csv data/sources.json data/stations.json docs/data docs/assets/logos docs/*.html
           git diff --cached --quiet || git commit -m "Update tables $(date -u +%Y-%m-%dT%H:%MZ)"
           git push

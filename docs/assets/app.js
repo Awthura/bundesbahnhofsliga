@@ -1,7 +1,10 @@
 // Bundesbahnhofsliga: tiny static frontend, no build step. Bilingual (de/en).
 const $ = (s, el = document) => el.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const getJSON = (p) => fetch(p, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(p); return r.json(); });
+const getJSON = (p) => fetch(p, { cache: "no-cache" }).then((r) => {
+  if (!r.ok) { const e = new Error(`${p}: HTTP ${r.status}`); e.status = r.status; throw e; }
+  return r.json();
+});
 const fmt = (x, d = 2) => (x == null ? "-" : Number(x).toFixed(d));
 const logo = (lid) => `assets/logos/liga-${lid}.svg`;
 
@@ -46,6 +49,7 @@ const STR = {
     fc_note: "Statistische Schätzung aus den letzten 8 Wochen dieses Bahnhofs; jüngere Tage und der gleiche Wochentag zählen mehr. Keine Wette, kein Geld, nur Statistik.",
     fc_no_service: "Zurzeit halten hier keine ICE- oder IC-Züge (zum Beispiel wegen Bauarbeiten), deshalb gibt es keine Prognose.",
     st_title: "Bahnhof", st_none: "diese Woche in keiner Liga", st_missing: "Bahnhof nicht gefunden",
+    st_error: (m) => `Die Seite konnte nicht geladen werden. Bitte neu laden. (${m})`,
     kpi: ["Durchschnitt Tagespunkte", "gespielte Spieltage", "bester Tag", "schlechtester Tag"],
     chart_title: "Tagespunkte (letzte 120 Tage)",
     chart_note: "Jeder Balken ist ein Spieltag: Anteil der ICE/IC-Ankünfte mit weniger als 6 Minuten Verspätung. Grün ab 0,85, grau 0,70 bis 0,85, rot unter 0,70. Dünne Striche an der Grundlinie: abgesagt (5 oder weniger Ankünfte).",
@@ -89,6 +93,7 @@ const STR = {
     fc_note: "A statistical estimate from this station's last 8 weeks; recent days and the same weekday count more. No betting, no money, just statistics.",
     fc_no_service: "No ICE or IC trains stop here at the moment (for example because of construction), so there is no forecast.",
     st_title: "Station", st_none: "not in a league this week", st_missing: "Station not found",
+    st_error: (m) => `The page could not be loaded. Please reload. (${m})`,
     kpi: ["average daily points", "matchdays played", "best day", "worst day"],
     chart_title: "Daily points (last 120 days)",
     chart_note: "Each bar is one matchday: share of ICE/IC arrivals under 6 minutes late. Green 0.85 or more, grey 0.70 to 0.85, red below 0.70. Thin ticks at the baseline: called off (5 or fewer arrivals).",

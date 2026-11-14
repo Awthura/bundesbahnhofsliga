@@ -16,6 +16,21 @@ from bbl import config, forecast, league  # noqa: E402
 OUT = ROOT / "docs" / "data"
 
 
+def version_assets():
+    """Cache-busting: reference app.js/style.css as ...?v=<content hash> in every page, so a browser
+    never combines a new page with a cached old script (GitHub Pages caches assets for 10 minutes)."""
+    import hashlib
+    import re
+    docs = ROOT / "docs"
+    for name in ("app.js", "style.css"):
+        h = hashlib.sha256((docs / "assets" / name).read_bytes()).hexdigest()[:10]
+        for page in docs.glob("*.html"):
+            txt = page.read_text()
+            new = re.sub(rf"assets/{re.escape(name)}(\?v=[0-9a-f]+)?", f"assets/{name}?v={h}", txt)
+            if new != txt:
+                page.write_text(new)
+
+
 def dump(path: Path, obj):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(obj, ensure_ascii=False, separators=(",", ":")))
@@ -79,6 +94,7 @@ def main():
     # crests are generated from bbl/config.py (regions)
     from scripts import make_logos
     make_logos.main()
+    version_assets()
     print(f"{len(index)} seasons, {len(members)} stations, latest {index[-1]['id'] if index else '-'}")
 
 

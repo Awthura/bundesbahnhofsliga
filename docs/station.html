@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bahnhof · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=576afc6938">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -20,7 +20,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <h3 id="hist-title"></h3>
   <div id="hist"></div>
 </main>
-<script src="assets/app.js"></script>
+<script src="assets/app.js?v=1250a143aa"></script>
 <script>
 chrome("");
 $("#chart-title").textContent = T.chart_title;
@@ -75,7 +75,11 @@ $("#hist-title").textContent = T.hist_title;
         <td><img src="${logo(h.league)}" alt="${esc(l.short)}" title="${esc(l.short)}" style="width:16px;height:19px;vertical-align:-4px"> <span class="hide-sm">${esc(l.short)}</span></td>
         <td class="num">${h.rank}.</td><td class="num hide-sm">${h.played}</td><td class="num">${num(h.avg, 3)}</td></tr>`;
     }).join("")}</tbody></table></div>`;
-})().catch((e) => { $("#name").textContent = T.st_missing; });
+})().catch((e) => {
+  console.error(e);
+  if (e && e.status === 404) $("#name").textContent = T.st_missing;   // only a missing station is "not found"
+  else { $("#name").textContent = "Bundesbahnhofsliga"; $("#sub").textContent = T.st_error(e && e.message ? e.message : e); }
+});
 
 function innerWidth(el) {   // content width of a block element (SVG elements don't report it reliably)
   const cs = getComputedStyle(el);
