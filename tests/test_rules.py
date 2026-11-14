@@ -76,10 +76,15 @@ def make_rows(n_stations, days, score):
     return out
 
 
-def small_pyramid(monkeypatch, tiers=2, size=6):
+def small_pyramid(monkeypatch, tiers=2, size=6, direct=("N", "S"), rotation=(), relegated=2,
+                  regions=None):
     monkeypatch.setattr(config, "LEAGUE_SIZE", size)
+    monkeypatch.setattr(config, "LEAGUE_SIZES", {})
     monkeypatch.setattr(config, "NATIONAL_TIERS", tiers)
-    monkeypatch.setattr(config, "REGIONS", {"N": ("Nord", ["Hamburg"]), "S": ("Süd", ["Bayern"])})
+    monkeypatch.setattr(config, "REGIONS", regions or {"N": ("Nord", ["Hamburg"]), "S": ("Süd", ["Bayern"])})
+    monkeypatch.setattr(config, "RL_DIRECT_REGIONS", list(direct))
+    monkeypatch.setattr(config, "RL_ROTATION", list(rotation))
+    monkeypatch.setattr(config, "RL_RELEGATED", relegated)
 
 
 def test_weekly_promotion_relegation_and_playoff(monkeypatch):
@@ -119,8 +124,8 @@ def test_regionalligen_and_promotion_round(monkeypatch):
     assert s1["league_order"] == ["1", "RL-N", "RL-S"]
     assert sorted(e["eva"] for e in s1["leagues"]["RL-N"]["tables"][0]) == ["007", "009", "011"]
     assert sorted(e["eva"] for e in s1["leagues"]["RL-S"]["tables"][0]) == ["006", "008", "010"]
-    # champions 011 (Nord) and 010 (Süd) go up directly; only 2 champions, so no playoff
-    assert [c["eva"] for c in s1["promotion_round"]] == ["011", "010"]
+    # both champions have a direct spot: 011 (Nord) and 010 (Süd) go up, no playoff
+    assert {c["eva"]: c["result"] for c in s1["promotion_round"]} == {"011": "up", "010": "up"}
     moves = {(m["eva"], m["from"], m["to"]) for m in s1["moves"]}
     # 000 (Bayern) and 001 (Hamburg) drop into their own region
     assert moves == {("011", "RL-N", "1"), ("010", "RL-S", "1"), ("000", "1", "RL-S"), ("001", "1", "RL-N")}
@@ -173,3 +178,29 @@ def test_data_gap_day_does_not_cost_membership():
                          "arrivals": 3 if gap else 20})
     mem, _ = league.Data(rows).members(start)
     assert mem == {"a", "b", "c"}
+
+
+def test_promotion_like_3_liga_rotation_and_champions_playoff(monkeypatch):
+    # 4 regions: W direct; A, B, C rotate (one direct per week), the other two play off.
+    regions = {"W": ("West", ["NRW"]), "A": ("A", ["SA"]), "B": ("B", ["SB"]), "C": ("C", ["SC"])}
+    small_pyramid(monkeypatch, tiers=1, size=12, direct=("W",), rotation=("A", "B", "C"), relegated=4,
+                  regions=regions)
+    start = dt.date(2026, 11, 2)            # KW45: 45 % 3 == 0 -> region A has the direct spot
+    seed = [start - dt.timedelta(days=i) for i in range(1, 8)]
+    week1 = [start + dt.timedelta(days=i) for i in range(7)]
+    n = 20                                   # 12 national + 2 per region
+    st = ["NRW", "SA", "SB", "SC"]
+    states = {f"{i:03d}": st[i % 4] for i in range(12, n)}
+    states.update({f"{i:03d}": st[i % 4] for i in range(12)})
+    rows = make_rows(n, seed, lambda i, d: 1 - i / 40)
+    rows += make_rows(n, week1, lambda i, d: 0.3 + i / 100)   # reversed: regional champions strong
+    s1 = league.run(rows, states)["seasons"][0]
+    rnd = {c["league"]: c["result"] for c in s1["promotion_round"]}
+    assert rnd == {"RL-W": "up", "RL-A": "rotation", "RL-B": "playoff", "RL-C": "playoff"}
+    (po,) = s1["playoffs"]
+    assert po["kind"] == "promotion" and {po["upper"], po["lower"]} == {"RL-B", "RL-C"}
+    ups = [m for m in s1["moves"] if m["to"] == "1"]
+    downs = [m for m in s1["moves"] if m["from"] == "1"]
+    assert len(ups) == len(downs) == 3   # W + rotation A directly, plus the B/C playoff winner
+    assert {m["to"] for m in downs} <= {"RL-W", "RL-A", "RL-B", "RL-C"}
+    assert po["winner"] in {m["eva"] for m in ups}

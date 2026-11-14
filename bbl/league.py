@@ -4,8 +4,9 @@ promotion/relegation after Sunday.
 Pyramid like German football: 1., 2., 3. BBL are national (18 each), below them Regionalbahnhofsligen by region.
 Between two national leagues: 17th and 18th go down, 1st and 2nd of the league below go up, and 16th (above)
 meets 3rd (below) in a playoff decided by punctuality on the week's last day.
-Between the 3. BBL and the Regionalbahnhofsligen: 17th and 18th go down into their own region; the regional champions
-are ranked by Schnitt, the best 2 go up, the 3rd best plays the 16th of the 3. BBL (same Sunday playoff).
+Between the 3. BBL (20 stations) and the Regionalbahnhofsligen, like 3. Liga and Regionalliga: places 17-20 go down
+into their own region; 4 regional champions go up (West and Suedwest directly, one of Nord/Nordost/Bayern directly by
+weekly rotation, the other two play off on Sunday punctuality).
 
 Input: daily rows {day, eva, station, points, plays, arrivals?, punctual?}. Pure Python, no I/O.
 """
@@ -122,7 +123,8 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
     states = states or {}
     if not data.days:
         return {"seasons": [], "names": {}, "data": data, "leagues": {}}
-    size, nat = config.LEAGUE_SIZE, config.NATIONAL_TIERS
+    nat = config.NATIONAL_TIERS
+    sizes = {str(t): config.league_size(t) for t in range(1, nat + 1)}
     nat_ids = [str(t) for t in range(1, nat + 1)]
     reg_ids = [config.regional_league(r)["id"] for r in config.REGIONS]
     defs = {str(t): config.national_league(t) for t in range(1, nat + 1)}
@@ -149,8 +151,9 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
             score = dict(win_avg)
             order = _sort_by(mem, score, data.names)
             lists = {l: [] for l in nat_ids + reg_ids}
+            slots = [l for l in nat_ids for _ in range(sizes[l])]   # national places, top to bottom
             for i, e in enumerate(order):
-                lists[nat_ids[i // size] if i < size * nat else rl(e)].append(e)
+                lists[slots[i] if i < len(slots) else rl(e)].append(e)
             status = {e: "seeded" for e in order}
         else:
             for l in lists:   # drop stations that no longer qualify
@@ -161,7 +164,7 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
                 lists[rl(e)].append(e)
                 status[e] = "new"
             for i, l in enumerate(nat_ids):   # fill gaps in national leagues from below
-                while len(lists[l]) < size:
+                while len(lists[l]) < sizes[l]:
                     if i + 1 < len(nat_ids):
                         if not lists[nat_ids[i + 1]]:
                             break
@@ -200,10 +203,10 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
             new[b].append(e)
             season["moves"].append({"eva": e, "from": a, "to": b})
 
-        def playoff(upper_l, upper_e, lower_l, lower_e):
+        def playoff(upper_l, upper_e, lower_l, lower_e, kind="relegation"):
             w = playoff_winner(data, sunday, upper_e, lower_e)
             season["playoffs"].append({"upper": upper_l, "lower": lower_l, "upper_eva": upper_e, "lower_eva": lower_e,
-                                       "winner": w, "day": sunday.isoformat(),
+                                       "winner": w, "day": sunday.isoformat(), "kind": kind,
                                        "upper_share": data.by_day[sunday].get(upper_e, {}).get("share"),
                                        "lower_share": data.by_day[sunday].get(lower_e, {}).get("share")})
             return w
@@ -224,24 +227,32 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
 
         regs = [l for l in reg_ids if l in fin]
         bottom = nat_active[-1] if nat_active else None
-        if bottom and regs:   # 3. BBL <-> Regionalbahnhofsligen: promotion round of the regional champions
-            champs = [finals[r][0] for r in regs if finals[r][0]["ranked"]]
-            champs.sort(key=lambda r: (-r["avg"], -r["points"], r["station"]))
-            direct = min(config.DIRECT_MOVERS, len(fin[bottom]) // 3, len(champs))
-            po = config.PLAYOFF and len(champs) > direct and len(fin[bottom]) >= direct + 2
-            season["zones"][bottom].update(down=direct, po_down=po)
-            for r in regs:
-                season["zones"][r].update(po_up=True)   # the champion is in the promotion round
-            season["promotion_round"] = [{"eva": c["eva"], "league": rl(c["eva"]), "avg": c["avg"],
-                                          "result": "up" if i < direct else ("playoff" if po and i == direct else "stays")}
-                                         for i, c in enumerate(champs)]
-            if complete and direct:
-                downs, ups = fin[bottom][-direct:], [c["eva"] for c in champs[:direct]]
-                if po:
-                    ue, le = fin[bottom][-direct - 1], champs[direct]["eva"]
-                    if playoff(bottom, ue, rl(le), le) == le:
-                        downs, ups = downs + [ue], ups + [le]
-                for e in downs:
+        if bottom and regs:   # 3. BBL <-> Regionalbahnhofsligen
+            champ = {r: finals[r][0] for r in regs if finals[r][0]["ranked"]}
+            rot = config.rotation_region(week.isocalendar()[1])
+            direct_l = [f"RL-{r}" for r in config.RL_DIRECT_REGIONS + ([rot] if rot else []) if f"RL-{r}" in champ]
+            po_l = [f"RL-{r}" for r in config.RL_ROTATION if r != rot and f"RL-{r}" in champ]
+            if len(po_l) < 2:          # no opponent: a lone candidate goes up directly
+                direct_l, po_l = direct_l + po_l, []
+            n_up = len(direct_l) + (1 if po_l else 0)
+            n_down = min(config.RL_RELEGATED, n_up, len(fin[bottom]) // 3)
+            season["zones"][bottom].update(down=n_down)
+            for r in direct_l:
+                season["zones"][r].update(up=1)
+            for r in po_l:
+                season["zones"][r].update(po_up=True)
+            season["promotion_round"] = [
+                {"eva": champ[r]["eva"], "league": r, "avg": champ[r]["avg"],
+                 "result": ("rotation" if r == f"RL-{rot}" else "up") if r in direct_l else
+                           ("playoff" if r in po_l else "stays")}
+                for r in regs if r in champ]
+            if complete and n_down:
+                ups = [champ[r]["eva"] for r in direct_l]
+                if po_l:   # the better weekly average counts as "upper": it wins an exact tie
+                    a_l, b_l = sorted(po_l, key=lambda r: (-champ[r]["avg"], -champ[r]["points"]))
+                    ups.append(playoff(a_l, champ[a_l]["eva"], b_l, champ[b_l]["eva"], kind="promotion"))
+                ups = ups[:n_down]
+                for e in fin[bottom][-n_down:]:
                     move(e, bottom, rl(e))
                 for e in ups:
                     move(e, rl(e), bottom)

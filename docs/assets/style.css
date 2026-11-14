@@ -137,3 +137,5 @@ header.top nav .lang { display: inline-flex; border: 2px solid #fff; border-radi
 header.top nav .lang a { padding: 1px 10px; font-size: 13px; opacity: 1; text-decoration: none; }
 header.top nav .lang a.on { background: #fff; color: var(--red); }
 html[data-lang="de"] .i18n[lang="en"], html[data-lang="en"] .i18n[lang="de"] { display: none; }
+.tagline { margin: 0 0 14px; font-size: 16px; font-weight: 600; line-height: 1.4; }
+@media (max-width: 640px) { .tagline { font-size: 14px; } }

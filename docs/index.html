@@ -12,6 +12,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
 </head>
 <body>
 <main class="wrap">
+  <p class="tagline" id="tagline"></p>
   <div class="matchdays" style="margin-top:0">
     <label for="season" id="season-label"></label> <select id="season"></select>
     <span id="season-state"></span>
@@ -28,6 +29,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
 <script src="assets/app.js"></script>
 <script>
 chrome("index.html");
+$("#tagline").textContent = T.tagline;
 $("#season-label").textContent = T.season_label;
 $("#moves-title").textContent = T.moves_title;
 $("#legend").innerHTML = `<span class="lu">${T.legend[0]}</span><span class="lp">${T.legend[1]}</span><span class="ld">${T.legend[2]}</span><span>${T.legend[3]}</span>`;
@@ -106,7 +108,7 @@ async function renderMoves() {
   const tier = (l) => s.leagues[l]?.tier ?? state.meta.leagues.find((x) => x.id === l)?.tier ?? 9;
   const groups = {};
   const po = (s.playoffs || []).map((p) => {
-    const won = p.winner === p.lower_eva;
+    const won = p.kind === "promotion" || p.winner === p.lower_eva;
     const pct = (x) => (x == null ? T.called_off : num(x * 100, 1) + " %");
     return `<li>${short(p.upper)} vs ${short(p.lower)}: <a href="${stLink(p.upper_eva)}">${name(p.upper_eva)}</a>
       ${pct(p.upper_share)} : ${pct(p.lower_share)}
