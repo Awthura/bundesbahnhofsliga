@@ -60,7 +60,7 @@ chrome("");
 
   $("#hist").innerHTML = `<div class="tablewrap"><table><thead><tr><th>Saison</th><th>Liga</th><th class="num">Platz</th>
     <th class="num">Spiele</th><th class="num">Schnitt</th></tr></thead><tbody>${st.history.slice().reverse().map((h) => {
-      const l = { short: `${h.league}. BBL` };
+      const l = { short: h.short || h.league };
       return `<tr><td><a href="index.html?season=${h.season}&liga=${h.league}">${h.season}</a>${h.complete ? "" : ' <span class="tag new">LIVE</span>'}</td>
         <td><img src="${logo(h.league)}" alt="" style="width:16px;height:19px;vertical-align:-4px"> ${esc(l.short)}</td>
         <td class="num">${h.rank}.</td><td class="num">${h.played}</td><td class="num">${fmt(h.avg, 3)}</td></tr>`;

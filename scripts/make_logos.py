@@ -35,19 +35,19 @@ def icons(kind, n, color, bg, y=24):
         step, scale = 13, 1.35
         one = lambda x: f'<path d="{BOLT}" transform="translate({x:.1f} {y}) scale({scale})" fill="{color}"/>'
     else:
-        step, scale = 17.5, 0.88
+        step, scale = (20, 1.35) if n <= 2 else (17.5, 0.88)
         one = lambda x: (f'<g transform="translate({x - 1:.1f} {y + 1}) scale({scale})"><path d="{TURTLE_BODY}" fill="{color}"/>'
                          f'<path d="{TURTLE_SHELL}" fill="none" stroke="{bg}" stroke-width="1.1" stroke-linejoin="round"/></g>')
     x0 = 60 - step * (n - 1) / 2
     return "".join(one(x0 + i * step) for i in range(n))
 
 
-def league_icons(i, n_leagues):
-    """The BBL badge has 5 bolts, so the 1. BBL has 4, the 2. BBL 3, ... (top half).
-    Bottom half: turtles, 5 for the last league, one fewer per league above it."""
-    if i <= n_leagues / 2:
-        return "bolt", max(1, 5 - i)
-    return "turtle", max(1, 5 - (n_leagues - i))
+def league_icons(tier: int):
+    """Speed scale: BBL 3 bolts (the round badge), 2. BBL 2, 3. BBL 1.
+    From the 4th tier down: turtles, 1 for the Regionalligen and one more per tier below."""
+    if tier <= 3:
+        return "bolt", 4 - tier
+    return "turtle", tier - 3
 
 
 def crest(num, bg, fg, border, extra="", dashed=False, icon=None, band=None):
@@ -61,7 +61,7 @@ def crest(num, bg, fg, border, extra="", dashed=False, icon=None, band=None):
 <path d="{SHIELD}" fill="{bg}"/>
 <g clip-path="url(#c)">{band_svg}</g>
 {icons(icon[0], icon[1], fg, bg) if icon else ""}
-<text x="60" y="71" text-anchor="middle" font-family="Arial Black, Helvetica, Arial, sans-serif" font-weight="900" font-size="{40 if len(num) == 1 else 32}" fill="{num_color}">{num}</text>
+<text x="60" y="71" text-anchor="middle" font-family="Arial Black, Helvetica, Arial, sans-serif" font-weight="900" font-size="{40 if len(num) == 1 else 30}" fill="{num_color}">{num}</text>
 <g clip-path="url(#c)">{track(fg, dashed)}</g>
 {extra}
 <path d="{SHIELD}" fill="none" stroke="{border}" stroke-width="5" stroke-linejoin="round"/>
@@ -72,7 +72,7 @@ def site_logo():
     """Round badge: red disc, white ring, 'BBL' with clear space, a short track underneath."""
     sleepers = "".join(f'<line x1="{x}" y1="80" x2="{x}" y2="90" stroke="{WHITE}" stroke-width="3" stroke-linecap="round"/>'
                        for x in range(40, 84, 8))
-    stars = "".join(f'<path d="{BOLT}" transform="translate({x} 31) scale(0.95)" fill="{WHITE}"/>' for x in (38, 49, 60, 71, 82))
+    stars = "".join(f'<path d="{BOLT}" transform="translate({x} 31) scale(1.1)" fill="{WHITE}"/>' for x in (48, 60, 72))
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Bundesbahnhofsliga">
 <circle cx="60" cy="60" r="58" fill="{RED}"/>
 <circle cx="60" cy="60" r="50" fill="none" stroke="{WHITE}" stroke-width="4"/>
@@ -93,23 +93,23 @@ def favicon():
 </svg>'''
 
 
-def main(n_leagues: int = 8):
+def main():
+    import sys
+    sys.path.insert(0, str(OUT.parent.parent.parent))
+    from bbl import config
     OUT.mkdir(parents=True, exist_ok=True)
-    for i in range(1, 13):
-        ic = league_icons(i, n_leagues) if i <= n_leagues else ("turtle", 5)
-        if i == 3:
-            svg = crest("3", RED, WHITE, RED, band=WHITE, icon=ic)
-        elif i in (1, 2):
-            svg = crest(str(i), RED if i == 1 else WHITE, WHITE if i == 1 else RED, RED, icon=ic)
-        else:
-            bg, fg = (WHITE, RED) if i % 2 == 0 else (RED, WHITE)
-            svg = crest(str(i), bg, fg, RED, dashed=True, icon=ic)
-        (OUT / f"liga-{i}.svg").write_text(svg)
+    for old in OUT.glob("liga-*.svg"):
+        old.unlink()
+    (OUT / "liga-1.svg").write_text(site_logo())   # the top league IS the BBL: same round badge
+    (OUT / "liga-2.svg").write_text(crest("2", WHITE, RED, RED, icon=league_icons(2)))
+    (OUT / "liga-3.svg").write_text(crest("3", RED, WHITE, RED, band=WHITE, icon=league_icons(3)))
+    for k, rid in enumerate(config.REGIONS):   # Regionalligen: region code, alternating colours
+        bg, fg = (WHITE, RED) if k % 2 == 0 else (RED, WHITE)
+        (OUT / f"liga-RL-{rid}.svg").write_text(crest(rid, bg, fg, RED, dashed=True, icon=league_icons(4)))
     (OUT / "bbl.svg").write_text(site_logo())
     (OUT / "favicon.svg").write_text(favicon())
-    print(f"logos written to {OUT} for {n_leagues} leagues")
+    print(f"logos written to {OUT}")
 
 
 if __name__ == "__main__":
-    import sys
-    main(int(sys.argv[1]) if len(sys.argv) > 1 else 8)
+    main()

@@ -19,17 +19,42 @@ MIN_PLAYED_SHARE = 0.5               # need to have played half the matchdays so
 DIRECT_MOVERS = 2                    # 17th and 18th go down, 1st and 2nd of the league below go up
 PLAYOFF = True                       # 16th vs 3rd below: higher punctuality on the week's last day wins
 
-# League pyramid: numbered leagues of 18, like the Bundesliga. The last one takes the remainder.
+# League pyramid, like German football: national leagues of 18 at the top (BBL, 2. BBL, 3. BBL),
+# then Regionalligen by region (DFB regions) as the 4th tier.
 LEAGUE_SIZE = 18
-MAX_LEAGUES = 12
+NATIONAL_TIERS = 3
+REGIONS = {   # id: (name, Bundeslaender)
+    "N": ("Nord", ["Niedersachsen", "Bremen", "Hamburg", "Schleswig-Holstein"]),
+    "NO": ("Nordost", ["Berlin", "Brandenburg", "Mecklenburg-Vorpommern", "Sachsen", "Sachsen-Anhalt", "Thüringen"]),
+    "W": ("West", ["Nordrhein-Westfalen"]),
+    "SW": ("Südwest", ["Hessen", "Rheinland-Pfalz", "Saarland", "Baden-Württemberg"]),
+    "BY": ("Bayern", ["Bayern"]),
+}
+STATE_OVERRIDES = {   # stations whose platform-level EVA is missing in the station data
+    "08098160": "Berlin",                 # Berlin Hbf (tief)
+    "08073368": "Nordrhein-Westfalen",    # Köln Messe/Deutz Gl.11-12
+}
+DEFAULT_REGION = "NO"
 
 
-def league_defs(n_leagues: int = MAX_LEAGUES):
-    return [{"id": str(i), "name": f"{i}. Bundesbahnhofsliga", "short": f"{i}. BBL", "size": LEAGUE_SIZE}
-            for i in range(1, n_leagues + 1)]
+def national_league(tier: int):
+    """Like football: the top tier is just 'the Bundesbahnhofsliga' (BBL), then the 2. and 3. Bundesbahnhofsliga."""
+    if tier == 1:
+        return {"id": "1", "name": "Bundesbahnhofsliga", "short": "BBL", "tier": 1}
+    return {"id": str(tier), "name": f"{tier}. Bundesbahnhofsliga", "short": f"{tier}. BBL", "tier": tier}
 
 
-LEAGUES = league_defs()
+def regional_league(rid: str):
+    return {"id": f"RL-{rid}", "name": f"Regionalliga {REGIONS[rid][0]}", "short": f"RL {REGIONS[rid][0]}",
+            "tier": NATIONAL_TIERS + 1, "region": rid}
+
+
+def region_of(state: str | None) -> str | None:
+    for rid, (_, states) in REGIONS.items():
+        if state in states:
+            return rid
+    return None
+
 
 # Data sources
 HF_BASE = "https://huggingface.co/datasets/piebro/deutsche-bahn-data/resolve/main/monthly_processed_data"

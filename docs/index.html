@@ -19,7 +19,7 @@
   <div class="badges" id="badges"></div>
   <div class="matchdays" id="matchdays"></div>
   <div id="table"></div>
-  <div class="legend"><span class="lu">Aufstieg</span><span class="lp">Relegation (Sunday playoff)</span><span class="ld">Abstieg</span>
+  <div class="legend"><span class="lu">Aufstieg</span><span class="lp">Relegation / Aufstiegsrunde</span><span class="ld">Abstieg</span>
     <span>Ranked by Schnitt = average daily points (0 to 1). Grey rows played too few matchdays so far.</span></div>
   <h2>Auf- und Abstieg</h2>
   <div id="moves" class="moves"></div>
@@ -96,7 +96,8 @@ async function renderMoves() {
   }
   const names = state.meta.stations;
   const name = (e) => esc(names[e]?.name || e);
-  const short = (l) => s.leagues[l]?.short || `${l}. BBL`;
+  const short = (l) => s.leagues[l]?.short || l;
+  const tier = (l) => s.leagues[l]?.tier ?? state.meta.leagues.find((x) => x.id === l)?.tier ?? 9;
   const groups = {};
   const po = (s.playoffs || []).map((p) => {
     const won = p.winner === p.lower_eva;
@@ -105,11 +106,14 @@ async function renderMoves() {
       <a href="station.html?eva=${p.lower_eva}">${name(p.lower_eva)}</a>, <b>${won ? "goes up" : "stays up"}: ${name(p.winner)}</b></li>`;
   });
   for (const m of s.moves) {
-    const up = +m.to < +m.from;
+    const up = tier(m.to) < tier(m.from);
     const key = up ? `Aufsteiger in die ${short(m.to)}` : `Absteiger aus der ${short(m.from)}`;
     (groups[key] ||= []).push(m.eva);
   }
   $("#moves").innerHTML = `<p class="sub" style="grid-column:1/-1">After season ${s.id}:</p>` +
+    (s.promotion_round?.length ? `<div class="card" style="grid-column:1/-1"><h3>Aufstiegsrunde: Regionalliga champions, ranked by Schnitt</h3><ol>${
+      s.promotion_round.map((c) => `<li><a href="station.html?eva=${c.eva}">${name(c.eva)}</a> (${esc(short(c.league))}, ${fmt(c.avg, 3)}):
+        ${c.result === "up" ? "promoted directly" : c.result === "playoff" ? "playoff vs 16th of the 3. BBL" : "stays"}</li>`).join("")}</ol></div>` : "") +
     (po.length ? `<div class="card" style="grid-column:1/-1"><h3>Relegation playoffs (Sunday punctuality)</h3><ul>${po.join("")}</ul></div>` : "") +
     Object.entries(groups).map(([k, v]) => `<div class="card"><h3>${k}</h3><ul>${v.map((e) =>
       `<li><a href="station.html?eva=${e}">${name(e)}</a></li>`).join("")}</ul></div>`).join("");

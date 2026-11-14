@@ -1,10 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 142" role="img" aria-label="1">
-<defs><clipPath id="c"><path d="M60 6 L110 20 V68 C110 102 88 124 60 136 C32 124 10 102 10 68 V20 Z"/></clipPath></defs>
-<path d="M60 6 L110 20 V68 C110 102 88 124 60 136 C32 124 10 102 10 68 V20 Z" fill="#C8102E"/>
-<g clip-path="url(#c)"></g>
-<path d="M1.5 -6.5 L-4 1 L-0.5 1 L-2 6.5 L4 -1.2 L0.5 -1.2 Z" transform="translate(40.5 24) scale(1.35)" fill="#FFFFFF"/><path d="M1.5 -6.5 L-4 1 L-0.5 1 L-2 6.5 L4 -1.2 L0.5 -1.2 Z" transform="translate(53.5 24) scale(1.35)" fill="#FFFFFF"/><path d="M1.5 -6.5 L-4 1 L-0.5 1 L-2 6.5 L4 -1.2 L0.5 -1.2 Z" transform="translate(66.5 24) scale(1.35)" fill="#FFFFFF"/><path d="M1.5 -6.5 L-4 1 L-0.5 1 L-2 6.5 L4 -1.2 L0.5 -1.2 Z" transform="translate(79.5 24) scale(1.35)" fill="#FFFFFF"/>
-<text x="60" y="71" text-anchor="middle" font-family="Arial Black, Helvetica, Arial, sans-serif" font-weight="900" font-size="40" fill="#FFFFFF">1</text>
-<g clip-path="url(#c)"><line x1="40" y1="114" x2="80" y2="114" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/><line x1="43" y1="105" x2="77" y2="105" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/><line x1="45.5" y1="97" x2="74.5" y2="97" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/><line x1="47.5" y1="90" x2="72.5" y2="90" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/><path d="M47 118 L56 86 M73 118 L64 86" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" fill="none"/></g>
-
-<path d="M60 6 L110 20 V68 C110 102 88 124 60 136 C32 124 10 102 10 68 V20 Z" fill="none" stroke="#C8102E" stroke-width="5" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Bundesbahnhofsliga">
+<circle cx="60" cy="60" r="58" fill="#C8102E"/>
+<circle cx="60" cy="60" r="50" fill="none" stroke="#FFFFFF" stroke-width="4"/>
+<path d="M1.5 -6.5 L-4 1 L-0.5 1 L-2 6.5 L4 -1.2 L0.5 -1.2 Z" transform="translate(48 31) scale(1.1)" fill="#FFFFFF"/><path d="M1.5 -6.5 L-4 1 L-0.5 1 L-2 6.5 L4 -1.2 L0.5 -1.2 Z" transform="translate(60 31) scale(1.1)" fill="#FFFFFF"/><path d="M1.5 -6.5 L-4 1 L-0.5 1 L-2 6.5 L4 -1.2 L0.5 -1.2 Z" transform="translate(72 31) scale(1.1)" fill="#FFFFFF"/>
+<text x="60" y="69" text-anchor="middle" font-family="Arial Black, Helvetica, Arial, sans-serif" font-weight="900" font-size="27" letter-spacing="1" fill="#FFFFFF">BBL</text>
+<line x1="34" y1="82" x2="86" y2="82" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+<line x1="34" y1="88" x2="86" y2="88" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+<line x1="40" y1="80" x2="40" y2="90" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/><line x1="48" y1="80" x2="48" y2="90" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/><line x1="56" y1="80" x2="56" y2="90" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/><line x1="64" y1="80" x2="64" y2="90" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/><line x1="72" y1="80" x2="72" y2="90" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/><line x1="80" y1="80" x2="80" y2="90" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
 </svg>

@@ -28,7 +28,8 @@ def main():
     sp = ROOT / "data" / "stations.json"
     if sp.exists():
         stations_meta = json.loads(sp.read_text())
-    res = league.run(rows)
+    states = {e: v.get("state") for e, v in stations_meta.items()}
+    res = league.run(rows, states)
     data = res["data"]
     if OUT.exists():
         shutil.rmtree(OUT)
@@ -41,7 +42,7 @@ def main():
         for lid, lg in s["leagues"].items():
             for r in lg["tables"][-1] if lg["tables"] else []:
                 history.setdefault(r["eva"], []).append(
-                    {"season": s["id"], "league": lid, "rank": r["rank"], "avg": r["avg"], "played": r["played"],
+                    {"season": s["id"], "league": lid, "short": lg["short"], "rank": r["rank"], "avg": r["avg"], "played": r["played"],
                      "complete": s["complete"]})
 
     members = sorted(history)
@@ -52,7 +53,7 @@ def main():
         worst = min(played, key=lambda x: x["points"], default=None)
         m = stations_meta.get(eva, {})
         dump(OUT / "stations" / f"{eva}.json", {
-            "eva": eva, "name": data.names[eva], "state": m.get("state"), "lat": m.get("lat"), "lon": m.get("lon"),
+            "eva": eva, "name": data.names[eva], "state": config.STATE_OVERRIDES.get(eva) or m.get("state"), "lat": m.get("lat"), "lon": m.get("lon"),
             "daily": daily[-120:], "best": best, "worst": worst, "history": history[eva]})
 
     latest = res["seasons"][-1] if res["seasons"] else None
@@ -64,18 +65,18 @@ def main():
     dump(OUT / "meta.json", {
         "generated": dt.datetime.now(dt.timezone.utc).isoformat(timespec="minutes"),
         "last_day": data.days[-1].isoformat() if data.days else None,
-        "leagues": config.league_defs(max((len(s["league_order"]) for s in res["seasons"]), default=1)), "seasons": index, "latest": latest["id"] if latest else None,
+        "leagues": list(res["leagues"].values()), "seasons": index, "latest": latest["id"] if latest else None,
         "stations": {eva: {"name": data.names[eva], "league": current.get(eva),
-                           "state": stations_meta.get(eva, {}).get("state"),
+                           "state": config.STATE_OVERRIDES.get(eva) or stations_meta.get(eva, {}).get("state"),
                            "lat": stations_meta.get(eva, {}).get("lat"),
                            "lon": stations_meta.get(eva, {}).get("lon")} for eva in members},
         "rules": {"min_arrivals": config.MIN_ARRIVALS, "punctual_limit": config.PUNCTUAL_LIMIT_MIN,
                   "types": config.TRAIN_TYPES, "direct_movers": config.DIRECT_MOVERS, "league_size": config.LEAGUE_SIZE, "min_day_share": config.MIN_DAY_SHARE,
                   "window": config.MEMBERSHIP_WINDOW_DAYS, "min_played_share": config.MIN_PLAYED_SHARE},
     })
-    # crest icons depend on how many leagues there are (last league always gets 5 turtles)
+    # crests are generated from bbl/config.py (regions)
     from scripts import make_logos
-    make_logos.main(len(latest["league_order"]) if latest else 8)
+    make_logos.main()
     print(f"{len(index)} seasons, {len(members)} stations, latest {index[-1]['id'] if index else '-'}")
 
 

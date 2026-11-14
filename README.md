@@ -6,8 +6,9 @@ Live at **https://awthura.github.io/bundesbahnhofsliga/**
 Each day is a matchday. A station's points for the day are the share of its scheduled ICE/IC arrivals that were
 less than 6 minutes late (cancelled counts as late), so 0.00 to 1.00. A station plays a day only with more than 5
 arrivals, and is a league member only if it had more than 5 arrivals on every day of the previous 28. A season is one calendar week; the table updates after every matchday and promotion/relegation happens
-after Sunday. Leagues have 18 stations: 17th and 18th go down, 1st and 2nd of the league below go up, and 16th vs
-3rd is a playoff decided by punctuality on Sunday. Full rules: [docs/rules.html](docs/rules.html).
+after Sunday. The 1., 2. and 3. BBL are national with 18 stations each; below them are five Regionalligen by region
+(Nord, Nordost, West, Südwest, Bayern). 17th and 18th go down, 1st and 2nd of the league below go up, and 16th vs
+3rd is a playoff decided by punctuality on Sunday; into the 3. BBL the Regionalliga champions play an Aufstiegsrunde. Full rules: [docs/rules.html](docs/rules.html).
 
 ## How it works
 

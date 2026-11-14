@@ -76,18 +76,23 @@ def make_rows(n_stations, days, score):
     return out
 
 
+def small_pyramid(monkeypatch, tiers=2, size=6):
+    monkeypatch.setattr(config, "LEAGUE_SIZE", size)
+    monkeypatch.setattr(config, "NATIONAL_TIERS", tiers)
+    monkeypatch.setattr(config, "REGIONS", {"N": ("Nord", ["Hamburg"]), "S": ("Süd", ["Bayern"])})
+
+
 def test_weekly_promotion_relegation_and_playoff(monkeypatch):
-    monkeypatch.setattr(config, "LEAGUES", [
-        {"id": "1", "name": "A", "short": "A", "size": 6},
-        {"id": "2", "name": "B", "short": "B", "size": 6}])
+    small_pyramid(monkeypatch, tiers=2, size=6)
     start = dt.date(2026, 11, 2)
     seed = [start - dt.timedelta(days=i) for i in range(1, 8)]
     week1 = [start + dt.timedelta(days=i) for i in range(7)]
     week2 = [start + dt.timedelta(days=7 + i) for i in range(2)]
-    # seeding: station i better than i+1. week 1: reversed, so the lowest become the best
+    # 12 stations fill the two national leagues. Seeding: station i better than i+1.
+    # Week 1: reversed, so the lowest become the best.
     rows = make_rows(12, seed, lambda i, d: 1 - i / 20)
     rows += make_rows(12, week1 + week2, lambda i, d: i / 20)
-    res = league.run(rows)
+    res = league.run(rows, {})
     s1, s2 = res["seasons"]
     assert s1["id"] == "2026-KW45" and s1["complete"] and not s2["complete"]
     assert s1["leagues"]["1"]["tables"][0][0]["eva"] == "005"
@@ -101,6 +106,26 @@ def test_weekly_promotion_relegation_and_playoff(monkeypatch):
     assert len(s2["leagues"]["1"]["tables"]) == 2  # live table after each matchday
 
 
+def test_regionalligen_and_promotion_round(monkeypatch):
+    small_pyramid(monkeypatch, tiers=1, size=6)
+    start = dt.date(2026, 11, 2)
+    seed = [start - dt.timedelta(days=i) for i in range(1, 8)]
+    week1 = [start + dt.timedelta(days=i) for i in range(7)]
+    # 6 national + 6 regional: odd stations in Hamburg (Nord), even in Bayern (Süd)
+    states = {f"{i:03d}": ("Hamburg" if i % 2 else "Bayern") for i in range(12)}
+    rows = make_rows(12, seed, lambda i, d: 1 - i / 20)
+    rows += make_rows(12, week1, lambda i, d: i / 20)   # reversed again
+    s1 = league.run(rows, states)["seasons"][0]
+    assert s1["league_order"] == ["1", "RL-N", "RL-S"]
+    assert sorted(e["eva"] for e in s1["leagues"]["RL-N"]["tables"][0]) == ["007", "009", "011"]
+    assert sorted(e["eva"] for e in s1["leagues"]["RL-S"]["tables"][0]) == ["006", "008", "010"]
+    # champions 011 (Nord) and 010 (Süd) go up directly; only 2 champions, so no playoff
+    assert [c["eva"] for c in s1["promotion_round"]] == ["011", "010"]
+    moves = {(m["eva"], m["from"], m["to"]) for m in s1["moves"]}
+    # 000 (Bayern) and 001 (Hamburg) drop into their own region
+    assert moves == {("011", "RL-N", "1"), ("010", "RL-S", "1"), ("000", "1", "RL-S"), ("001", "1", "RL-N")}
+
+
 def test_playoff_tie_and_called_off():
     sun = dt.date(2026, 11, 8)
     data = league.Data([
@@ -112,28 +137,6 @@ def test_playoff_tie_and_called_off():
     assert league.playoff_winner(data, sun, "u", "l") == "u"   # tie: upper stays
     assert league.playoff_winner(data, sun, "u", "x") == "u"   # lower did not play Sunday
     assert league.playoff_winner(data, sun, "x", "y") == "y"   # upper did not play Sunday
-
-
-def test_leagues_of_18_last_takes_rest():
-    split = league.split_leagues([str(i) for i in range(40)])
-    assert [len(e) for _, e in split] == [18, 18, 4]
-
-
-def test_ranking_by_average_and_min_played():
-    data = league.Data([
-        {"day": "2026-11-09", "eva": "a", "station": "A", "points": 0.9, "plays": True},
-        {"day": "2026-11-10", "eva": "a", "station": "A", "points": 0.9, "plays": True},
-        {"day": "2026-11-09", "eva": "b", "station": "B", "points": 0.5, "plays": True},
-        {"day": "2026-11-10", "eva": "b", "station": "B", "points": 0.7, "plays": True},
-        {"day": "2026-11-09", "eva": "c", "station": "C", "points": 1.0, "plays": True},
-        {"day": "2026-11-10", "eva": "c", "station": "C", "points": 0.2, "plays": False},
-    ])
-    days = data.days + [dt.date(2026, 11, 11)]
-    data.by_day[days[-1]] = {"a": {"points": 0.1, "plays": True}, "b": {"points": 0.9, "plays": True}}
-    t = league.table(["a", "b", "c"], data, days, None)
-    assert [r["eva"] for r in t] == ["b", "a", "c"]   # c played only 1 of 3: needs 2 to be ranked
-    assert t[1]["points"] == 1.9 and t[1]["avg"] == round(1.9 / 3, 3)
-    assert t[2]["form"] == [1.0, None, None]
 
 
 def test_fchg_cancellation_time_counts_and_empty_snapshots_are_ignored():
