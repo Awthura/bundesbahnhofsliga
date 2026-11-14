@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from bbl import config, forecast, league  # noqa: E402
+from bbl import audit, config, forecast, league  # noqa: E402
 
 OUT = ROOT / "docs" / "data"
 
@@ -45,6 +45,13 @@ def main():
         stations_meta = json.loads(sp.read_text())
     states = {e: v.get("state") for e, v in stations_meta.items()}
     res = league.run(rows, states)
+    problems = audit.audit(res, rows, states)
+    if problems:   # never publish a history that breaks the rules
+        print(f"AUDIT FAILED: {len(problems)} violations", file=sys.stderr)
+        for p in problems[:50]:
+            print(" -", p, file=sys.stderr)
+        sys.exit(1)
+    print("audit: 0 violations")
     data = res["data"]
     if OUT.exists():
         shutil.rmtree(OUT)
@@ -55,6 +62,7 @@ def main():
         tier_of = {lid: lg["tier"] for lid, lg in s["leagues"].items()}
         tier_of.update({l["id"]: l["tier"] for l in res["leagues"].values()})
         moved = {m["eva"]: ("up" if tier_of[m["to"]] < tier_of[m["from"]] else "down") for m in s["moves"]}
+        filled = {f["eva"]: f["reason"] for f in s.get("fills", [])}
         index.append({k: s[k] for k in ("id", "start", "end", "complete")} | {"matchdays": len(s["matchdays"])})
         dump(OUT / "season" / f"{s['id']}.json", s)
         for lid, lg in s["leagues"].items():
@@ -62,7 +70,7 @@ def main():
                 history.setdefault(r["eva"], []).append(
                     {"season": s["id"], "league": lid, "short": lg["short"], "tier": lg["tier"], "rank": r["rank"],
                      "size": len(lg["tables"][-1]), "avg": r["avg"], "played": r["played"],
-                     "complete": s["complete"], "move": moved.get(r["eva"])})
+                     "complete": s["complete"], "move": moved.get(r["eva"]), "filled": filled.get(r["eva"])})
 
     # champions history per league: winner (and runner-up) of every finished week
     champions = {lid: {**lg, "seasons": []} for lid, lg in res["leagues"].items()}

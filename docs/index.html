@@ -26,7 +26,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <h2 id="moves-title"></h2>
   <div id="moves" class="moves"></div>
 </main>
-<script src="assets/app.js?v=3669634b76"></script>
+<script src="assets/app.js?v=b1058cd66c"></script>
 <script>
 chrome("index.html");
 $("#tagline").textContent = T.tagline;
@@ -93,13 +93,25 @@ function render() {
   $("#badges").innerHTML = b.map(([k, v]) => `<div class="badge"><b>${k}</b>${esc(v)}</div>`).join("");
 }
 
+function renderFills() {   // transparency: who moved up to fill a gap, and who dropped out, at the start of this season
+  const s = state.data, names = state.meta.stations;
+  const name = (e) => esc(names[e]?.name || e);
+  const short = (l) => s.leagues[l]?.short || l;
+  let h = "";
+  if (s.fills?.length) h += `<div class="card" style="grid-column:1/-1"><h3>${T.fills_title}</h3><ul>${
+    s.fills.map((f) => `<li><a href="${stLink(f.eva)}">${name(f.eva)}</a>: ${esc(short(f.from))} → ${esc(short(f.to))}, ${T.filled[f.reason]}</li>`).join("")}</ul></div>`;
+  if (s.dropped?.length) h += `<div class="card" style="grid-column:1/-1"><h3>${T.dropped_title(s.dropped.length)}</h3><p class="sub" style="margin:0">${
+    s.dropped.map((d) => `<a href="${stLink(d.eva)}">${name(d.eva)}</a>`).join(" · ")}</p></div>`;
+  return h;
+}
+
 async function renderMoves() {
   // show the moves of this season if complete, otherwise of the previous one
   const seasons = state.meta.seasons;
   let s = state.data;
   if (!s.complete) {
     const i = seasons.findIndex((x) => x.id === s.id);
-    if (i <= 0) { $("#moves").innerHTML = `<p class="sub">${T.first_season}</p>`; return; }
+    if (i <= 0) { $("#moves").innerHTML = renderFills() + `<p class="sub">${T.first_season}</p>`; return; }
     s = await getJSON(`data/season/${seasons[i - 1].id}.json`);
   }
   const names = state.meta.stations;
@@ -119,7 +131,7 @@ async function renderMoves() {
     const key = up ? T.up_into(short(m.to)) : T.down_from(short(m.from));
     (groups[key] ||= []).push(m.eva);
   }
-  $("#moves").innerHTML = `<p class="sub" style="grid-column:1/-1">${T.after(s.id)}</p>` +
+  $("#moves").innerHTML = renderFills() + `<p class="sub" style="grid-column:1/-1">${T.after(s.id)}</p>` +
     (s.promotion_round?.length ? `<div class="card" style="grid-column:1/-1"><h3>${T.round_title}</h3><ol>${
       s.promotion_round.map((c) => `<li><a href="${stLink(c.eva)}">${name(c.eva)}</a> (${esc(short(c.league))}, ${num(c.avg, 3)}):
         ${T.round_res[c.result] || c.result}</li>`).join("")}</ol></div>` : "") +

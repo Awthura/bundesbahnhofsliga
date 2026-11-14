@@ -137,6 +137,8 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
         return f"RL-{region(e)}"
 
     seasons, lists, score = [], None, {}   # lists: league id -> ordered evas; score: last known Schnitt
+    last_rank: dict[str, tuple[str, int]] = {}   # eva -> (league, final place) of the last finished week
+    went_down: dict[str, str] = {}               # relegated last week: eva -> league it left
     week = monday(data.days[0]) + dt.timedelta(days=7)
     last = data.days[-1]
     while week <= last:
@@ -145,7 +147,7 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
         if mem is None or not days:
             week += dt.timedelta(days=7)
             continue
-        status = {}
+        status, fills, dropped = {}, [], []
         if lists is None:   # season 1 seeding: rank by average of the history window
             score = dict(win_avg)
             order = _sort_by(mem, score, data.names)
@@ -156,31 +158,41 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
             status = {e: "seeded" for e in order}
         else:
             for l in lists:   # drop stations that no longer qualify
+                dropped += [{"eva": e, "league": l} for e in lists[l] if e not in mem]
                 lists[l] = [e for e in lists[l] if e in mem]
             known = {e for l in lists.values() for e in l}
             for e in _sort_by(mem - known, win_avg, data.names):   # newcomers start in their Regionalbahnhofsliga
                 score.setdefault(e, win_avg[e])
                 lists[rl(e)].append(e)
                 status[e] = "new"
-            for i, l in enumerate(nat_ids):   # fill gaps in national leagues from below
+            # Fill gaps in national leagues, like football does when a club withdraws:
+            # 1) spare the best-placed station that was just relegated from that league;
+            # 2) otherwise the best-placed station of the league below that was already there last week
+            #    (never a station that was just promoted into it, so nobody can jump two tiers).
+            for i, l in enumerate(nat_ids):
+                below = nat_ids[i + 1:i + 2] or reg_ids
                 while len(lists[l]) < sizes[l]:
-                    if i + 1 < len(nat_ids):
-                        if not lists[nat_ids[i + 1]]:
-                            break
-                        lists[l].append(lists[nat_ids[i + 1]].pop(0))
+                    spared = [e for e, frm in went_down.items() if frm == l and any(e in lists[b] for b in below)]
+                    if spared:
+                        e, reason = min(spared, key=lambda x: last_rank[x][1]), "spared"
                     else:
-                        tops = [lists[r][0] for r in reg_ids if lists[r]]
-                        if not tops:
+                        cands = [e for b in below for e in lists[b] if last_rank.get(e, ("", 0))[0] == b]
+                        if not cands:
                             break
-                        e = _sort_by(tops, score, data.names)[0]
-                        lists[rl(e)].remove(e)
-                        lists[l].append(e)
+                        e = min(cands, key=lambda x: (last_rank[x][1], -score.get(x, -1), data.names.get(x, x)))
+                        reason = "next_best"
+                    frm = next(b for b in below if e in lists[b])
+                    lists[frm].remove(e)
+                    lists[l].append(e)
+                    went_down.pop(e, None)
+                    fills.append({"eva": e, "from": frm, "to": l, "reason": reason})
         sunday = week + dt.timedelta(days=6)
         complete = sunday in data.by_day
         active = [l for l in nat_ids + reg_ids if lists[l]]
         season = {"id": season_id(week), "start": week.isoformat(), "end": sunday.isoformat(),
                   "complete": complete, "matchdays": [d.isoformat() for d in days], "leagues": {},
-                  "league_order": active, "zones": {}, "moves": [], "playoffs": [], "promotion_round": []}
+                  "league_order": active, "zones": {}, "moves": [], "playoffs": [], "promotion_round": [],
+                  "fills": fills, "dropped": dropped}
         finals = {}
         for l in active:
             md_tables, prev = [], None
@@ -242,7 +254,10 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
                 for e in ups:
                     move(e, rl(e), bottom)
 
-        if complete:   # keep lists in last week's ranking order (used to fill gaps)
+        if complete:   # apply the moves; remember final places for next week's gap filling
+            last_rank = {r["eva"]: (l, r["rank"]) for l in active for r in finals[l]}
+            tier = {l: defs[l]["tier"] for l in defs}
+            went_down = {m["eva"]: m["from"] for m in season["moves"] if tier[m["to"]] > tier[m["from"]]}
             lists = {l: _sort_by(new.get(l, []), score, data.names) for l in lists}
         seasons.append(season)
         week += dt.timedelta(days=7)

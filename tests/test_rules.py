@@ -2,7 +2,7 @@ import datetime as dt
 
 import duckdb
 
-from bbl import config, forecast, ingest, league, points
+from bbl import audit, config, forecast, ingest, league, points
 
 
 def stops_con(rows):
@@ -218,3 +218,56 @@ def test_forecast_history_is_out_of_sample():
     fc = forecast.station_forecast(daily, dt.date(2026, 11, 10))
     assert fc["p_yes"] > 0.9 and fc["brier"] is not None and fc["resolved"] > 0
     assert all(h["day"] < "2026-11-10" for h in fc["history"])
+
+
+def _three_tier_history(monkeypatch):
+    regions = {"N": ("Nord", ["SN"]), "S": ("Süd", ["SS"])}
+    small_pyramid(monkeypatch, tiers=2, size=6, promoted=2, relegated=2, regions=regions)
+    monkeypatch.setattr(config, "LEAGUE_SIZES", {})
+    start = dt.date(2026, 11, 2)
+    seed = [start - dt.timedelta(days=i) for i in range(1, 8)]
+    weeks = [start + dt.timedelta(days=i) for i in range(16)]
+    n = 18
+    states = {f"{i:03d}": ("SN" if i % 2 else "SS") for i in range(n)}
+    rows = make_rows(n, seed, lambda i, d: 1 - i / 40)
+    rows += make_rows(n, weeks, lambda i, d: 0.2 + ((i * 7 + d.toordinal()) % 17) / 25)
+    for r in rows:
+        r["arrivals"], r["punctual"], r["canceled"] = 20, round(r["points"] * 20), 0
+        r["points"] = round(r["punctual"] / 20, 2)
+    return league.run(rows, states), rows, states
+
+
+def test_audit_passes_on_engine_output(monkeypatch):
+    res, rows, states = _three_tier_history(monkeypatch)
+    assert len(res["seasons"]) >= 2
+    assert audit.audit(res, rows, states) == []
+
+
+def test_audit_catches_tampering(monkeypatch):
+    res, rows, states = _three_tier_history(monkeypatch)
+    s1, s2 = res["seasons"][0], res["seasons"][1]
+    # a station silently jumps from the bottom league to the top
+    low = s2["leagues"]["RL-N"]["tables"][-1][0]
+    s2["leagues"]["1"]["tables"][-1].append(dict(low))
+    errs = audit.audit(res, rows, states)
+    assert any("jumped" in e or "is in" in e for e in errs)
+    # wrong daily points
+    res2, rows2, states2 = _three_tier_history(monkeypatch)
+    rows2[0]["points"] = 0.99
+    assert any("points" in e for e in audit.audit(res2, rows2, states2))
+    # a promotion that the rules don't allow
+    res3, rows3, states3 = _three_tier_history(monkeypatch)
+    res3["seasons"][0]["moves"].append({"eva": res3["seasons"][0]["leagues"]["2"]["tables"][-1][3]["eva"], "from": "2", "to": "1"})
+    assert any("moves differ" in e for e in audit.audit(res3, rows3, states3))
+
+
+def test_audit_real_history():
+    """The committed history must pass the audit with the current rules."""
+    import csv
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parent.parent
+    rows = list(csv.DictReader((root / "data" / "daily_points.csv").open()))
+    st = json.loads((root / "data" / "stations.json").read_text())
+    states = {e: v.get("state") for e, v in st.items()}
+    assert audit.audit(league.run(rows, states), rows, states) == []

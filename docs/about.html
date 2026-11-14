@@ -38,6 +38,10 @@ pünktlicher sind. Die Wahrscheinlichkeit ist der gewichtete Anteil der Tage üb
 Über alle Bahnhöfe erreicht es einen Brier-Score von etwa 0,18 (Münzwurf: 0,25; für alle die gleiche Quote: 0,24), es ist
 also nützlich, aber weit weg von sicher. Halten an einem Bahnhof gerade keine ICE/IC, gibt es keine Prognose.
 Keine Wetten, kein Geld.</p>
+<h2>Prüfung</h2>
+<p>Vor jeder Veröffentlichung prüft ein unabhängiges Prüfprogramm die gesamte Historie: Es rechnet alle Tagespunkte,
+Tabellen, Mitgliedschaften, Auf- und Abstiege, Relegationen und Nachrücker aus den Rohdaten nach und erklärt jeden
+Ligawechsel. Findet es auch nur einen Widerspruch, wird nichts veröffentlicht.</p>
 <h2>Aktualisierung</h2>
 <p>Die Seite wird automatisch per GitHub Actions neu gebaut, alle drei Stunden. Die Tabelle der laufenden Woche ist live
 und ändert sich nach jedem Spieltag; Auf- und Abstieg gibt es nach dem Sonntag.</p>
@@ -69,6 +73,10 @@ old counts half) and the same weekday double, because weekends are clearly more 
 share of days above the threshold, pulled slightly towards 50%. Across all stations it reaches a Brier score of about 0.18
 (coin flip: 0.25; the same odds for everyone: 0.24), so it is useful but far from certain. When no ICE/IC trains currently
 stop at a station, there is no forecast. No betting, no money.</p>
+<h2>Audit</h2>
+<p>Before every publish, an independent checker re-derives the entire history from the raw daily data: points, tables,
+memberships, promotions, relegations, playoffs and gap fills, and it requires every league change to be explained. If it
+finds a single contradiction, nothing is published.</p>
 <h2>Updates</h2>
 <p>The site is rebuilt automatically by GitHub Actions every three hours. The current week's
 table is live and will change after every matchday; promotion and relegation are applied after Sunday.</p>
@@ -77,7 +85,7 @@ table is live and will change after every matchday; promotion and relegation are
 are our own designs. No betting, no prizes, just bragging rights.</p>
 </div>
 </main>
-<script src="assets/app.js?v=3669634b76"></script>
+<script src="assets/app.js?v=b1058cd66c"></script>
 <script>chrome("about.html"); getJSON("data/meta.json").then(stamp).catch(() => {});</script>
 </body>
 </html>

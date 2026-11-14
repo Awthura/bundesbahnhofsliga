@@ -23,7 +23,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <h3 id="hist-title"></h3>
   <div id="hist"></div>
 </main>
-<script src="assets/app.js?v=3669634b76"></script>
+<script src="assets/app.js?v=b1058cd66c"></script>
 <script>
 chrome("");
 $("#chart-title").textContent = T.chart_title;
@@ -126,8 +126,9 @@ function renderPyramid(st, meta, width) {
   h.forEach((r, i) => {
     const c = r.move === "up" ? "var(--up)" : r.move === "down" ? "var(--red)" : "var(--ink)";
     const live = !r.complete;
-    g += `<circle cx="${xs(i)}" cy="${ys(r)}" r="${live ? 5 : 4.5}" fill="${live ? "var(--panel)" : c}" stroke="${c}" stroke-width="2">
-      <title>${r.season}: ${r.short}, ${r.rank}. ${LANG === "de" ? "von" : "of"} ${r.size}, ${num(r.avg, 3)}</title></circle>`;
+    const ring = r.filled ? `<circle cx="${xs(i)}" cy="${ys(r)}" r="8" fill="none" stroke="#d99a00" stroke-width="2.5"/>` : "";
+    g += `${ring}<circle cx="${xs(i)}" cy="${ys(r)}" r="${live ? 5 : 4.5}" fill="${live ? "var(--panel)" : c}" stroke="${c}" stroke-width="2">
+      <title>${r.season}: ${r.short}, ${r.rank}. ${LANG === "de" ? "von" : "of"} ${r.size}, ${num(r.avg, 3)}${r.filled ? " · " + T.filled[r.filled] : ""}</title></circle>`;
   });
   g += `<text x="${xs(0)}" y="${H - 6}" font-size="10" text-anchor="${h.length === 1 ? "middle" : "start"}" fill="var(--muted)">${h[0].season}</text>`;
   if (h.length > 1) g += `<text x="${xs(h.length - 1)}" y="${H - 6}" font-size="10" text-anchor="end" fill="var(--muted)">${h[h.length - 1].season}</text>`;
