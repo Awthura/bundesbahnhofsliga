@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meister · Bundesbahnhofsliga</title>
+<link rel="icon" href="assets/logos/favicon.svg">
+<link rel="stylesheet" href="assets/style.css?v=b9c4507881">
+<script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
+if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
+</head>
+<body>
+<main class="wrap">
+  <h1 id="ch-title" style="margin:4px 0 2px"></h1>
+  <p class="sub" id="ch-intro"></p>
+  <div class="tabs" id="tabs"></div>
+  <div class="league-head"><img id="lg-logo" alt=""><div><h2 id="lg-name"></h2></div></div>
+  <div id="record" class="badges"></div>
+  <div id="list"></div>
+</main>
+<script src="assets/app.js?v=3669634b76"></script>
+<script>
+chrome("champions.html");
+$("#ch-title").textContent = T.ch_title;
+$("#ch-intro").textContent = T.ch_intro;
+const params = new URLSearchParams(location.search);
+let data, league;
+
+function render() {
+  const c = data.leagues[league];
+  $("#tabs").innerHTML = data.order.map((l) =>
+    `<button class="tab ${l === league ? "on" : ""}" data-l="${l}"><img src="${logo(l)}" alt="">${esc(data.leagues[l].short)}</button>`).join("");
+  $("#tabs").querySelectorAll("button").forEach((b) => (b.onclick = () => {
+    league = b.dataset.l; history.replaceState(null, "", `?liga=${league}&lang=${LANG}`); render();
+  }));
+  revealActive($("#tabs"));
+  $("#lg-logo").src = logo(league);
+  $("#lg-name").textContent = c.name;
+  $("#record").innerHTML = c.record.length ? `<div class="badge" style="flex:1 1 100%"><b>${T.ch_record}</b>${
+    c.record.slice(0, 5).map((r) => `<a href="${stLink(r.eva)}">${esc(r.station)}</a> (${T.ch_titles(r.titles)})`).join(" · ")}</div>` : "";
+  const k = T.ch_cols;
+  $("#list").innerHTML = c.seasons.length ? `<div class="tablewrap"><table>
+    <thead><tr><th>${k[0]}</th><th>${k[1]}</th><th class="num">${k[2]}</th><th class="hide-sm">${k[3]}</th></tr></thead><tbody>
+    ${c.seasons.map((x) => `<tr class="${x.complete ? "" : "unranked"}">
+      <td><a href="index.html?season=${x.season}&liga=${league}&lang=${LANG}">${x.season}</a><br><span class="sub" style="font-size:12px">${dayLabel(x.start)} ${T.to} ${dayLabel(x.end)}</span></td>
+      <td class="st"><a href="${stLink(x.champion.eva)}">${esc(x.champion.station)}</a>
+        ${x.complete ? "" : `<span class="tag new">${T.ch_live}</span>`}
+        ${x.promoted ? `<span class="tag up">▲ ${T.ch_promoted}</span>` : ""}</td>
+      <td class="num"><b>${num(x.champion.avg, 3)}</b></td>
+      <td class="hide-sm">${x.runner_up ? `<a href="${stLink(x.runner_up.eva)}">${esc(x.runner_up.station)}</a> (${num(x.runner_up.avg, 3)})` : "-"}</td>
+    </tr>`).join("")}</tbody></table></div>` : `<p class="sub">${T.ch_none}</p>`;
+}
+
+(async () => {
+  const [meta, champs] = await Promise.all([getJSON("data/meta.json"), getJSON("data/champions.json")]);
+  stamp(meta);
+  data = champs;
+  league = data.order.includes(params.get("liga")) ? params.get("liga") : data.order[0];
+  render();
+})().catch((e) => { console.error(e); $("#list").innerHTML = `<p>${T.load_error(esc(e.message))}</p>`; });
+</script>
+</body>
+</html>

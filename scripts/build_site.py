@@ -64,6 +64,30 @@ def main():
                      "size": len(lg["tables"][-1]), "avg": r["avg"], "played": r["played"],
                      "complete": s["complete"], "move": moved.get(r["eva"])})
 
+    # champions history per league: winner (and runner-up) of every finished week
+    champions = {lid: {**lg, "seasons": []} for lid, lg in res["leagues"].items()}
+    for s in res["seasons"]:
+        for lid, lg in s["leagues"].items():
+            t = lg["tables"][-1] if lg["tables"] else []
+            if not t:
+                continue
+            entry = {"season": s["id"], "start": s["start"], "end": s["end"], "complete": s["complete"],
+                     "champion": {k: t[0][k] for k in ("eva", "station", "avg", "points", "played")},
+                     "runner_up": {k: t[1][k] for k in ("eva", "station", "avg")} if len(t) > 1 else None,
+                     "promoted": any(m["eva"] == t[0]["eva"] and m["from"] == lid for m in s["moves"])}
+            champions[lid]["seasons"].append(entry)
+    for lid, c in champions.items():
+        done = [x for x in c["seasons"] if x["complete"]]
+        tally = {}
+        for x in done:
+            e = x["champion"]["eva"]
+            tally.setdefault(e, {"eva": e, "station": x["champion"]["station"], "titles": 0, "last": None})
+            tally[e]["titles"] += 1
+            tally[e]["last"] = x["season"]
+        c["record"] = sorted(tally.values(), key=lambda r: (-r["titles"], r["last"]), reverse=False)
+        c["seasons"].reverse()   # newest first
+    dump(OUT / "champions.json", {"order": [l for l in res["leagues"]], "leagues": champions})
+
     members = sorted(history)
     for eva in members:
         daily = [{"day": d.isoformat(), **data.by_day[d][eva]} for d in data.days if eva in data.by_day[d]]

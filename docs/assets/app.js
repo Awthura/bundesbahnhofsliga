@@ -14,7 +14,7 @@ try { if (new URLSearchParams(location.search).get("lang")) localStorage.setItem
 
 const STR = {
   de: {
-    nav: ["Tabellen", "Regeln", "Methodik"],
+    nav: ["Tabellen", "Meister", "Regeln", "Methodik"],
     footer: `Fanprojekt, nicht mit der Deutschen Bahn verbunden. Daten: Deutsche Bahn Timetables API über
       <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>, CC BY 4.0.
       Die Tabellen zeigen die Pünktlichkeit, wie Fahrgäste sie am Bahnhof erleben; über die Ursache einer Verspätung sagen sie nichts.`,
@@ -57,10 +57,14 @@ const STR = {
     pyr_title: "Ligaverlauf",
     pyr_note: "Jeder Punkt ist eine Saison (KW): je höher, desto besser die Liga und der Platz darin. Grün: aufgestiegen, rot: abgestiegen, hohl: laufende Woche.",
     hist_title: "Saisonverlauf", hist_cols: ["Saison", "Liga", "Platz", "Spiele", "Schnitt"],
-    titles: { "index.html": "Bundesbahnhofsliga", "rules.html": "Regeln · Bundesbahnhofsliga", "about.html": "Methodik · Bundesbahnhofsliga" },
+    titles: { "index.html": "Bundesbahnhofsliga", "champions.html": "Meister · Bundesbahnhofsliga", "rules.html": "Regeln · Bundesbahnhofsliga", "about.html": "Methodik · Bundesbahnhofsliga" },
+    ch_title: "Meisterliste", ch_intro: "Wer stand am Ende der Woche ganz oben? Eine Saison ist eine Kalenderwoche.",
+    ch_cols: ["Saison", "Meister", "Schnitt", "Vizemeister"], ch_live: "läuft, führt gerade", ch_promoted: "aufgestiegen",
+    ch_record: "Rekordmeister", ch_titles: (n) => `${n} ${n === 1 ? "Titel" : "Titel"}`, ch_none: "Noch keine abgeschlossene Saison.",
+    ch_link: "Meisterliste dieser Liga",
   },
   en: {
-    nav: ["Tables", "Rules", "Methodology"],
+    nav: ["Tables", "Champions", "Rules", "Methodology"],
     footer: `Fan project, not affiliated with Deutsche Bahn. Data: Deutsche Bahn Timetables API via
       <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>, CC BY 4.0.
       Rankings describe punctuality as passengers see it at a station; they say nothing about who caused a delay.`,
@@ -103,7 +107,11 @@ const STR = {
     pyr_title: "League journey",
     pyr_note: "Each dot is one season (week): the higher, the better the league and the place in it. Green: promoted, red: relegated, hollow: current week.",
     hist_title: "Season history", hist_cols: ["Season", "League", "Pos", "Played", "Avg"],
-    titles: { "index.html": "Bundesbahnhofsliga", "rules.html": "Rules · Bundesbahnhofsliga", "about.html": "Methodology · Bundesbahnhofsliga" },
+    titles: { "index.html": "Bundesbahnhofsliga", "champions.html": "Champions · Bundesbahnhofsliga", "rules.html": "Rules · Bundesbahnhofsliga", "about.html": "Methodology · Bundesbahnhofsliga" },
+    ch_title: "Roll of champions", ch_intro: "Who finished the week on top? A season is one calendar week.",
+    ch_cols: ["Season", "Champion", "Avg", "Runner-up"], ch_live: "live, currently leading", ch_promoted: "promoted",
+    ch_record: "Most titles", ch_titles: (n) => `${n} ${n === 1 ? "title" : "titles"}`, ch_none: "No finished season yet.",
+    ch_link: "Champions of this league",
   },
 };
 const T = STR[LANG];
@@ -117,7 +125,7 @@ function langLink(l) {
 }
 
 function chrome(active) {
-  const pages = ["index.html", "rules.html", "about.html"];
+  const pages = ["index.html", "champions.html", "rules.html", "about.html"];
   if (T.titles[active]) document.title = T.titles[active];
   document.body.insertAdjacentHTML("afterbegin", `
     <header class="top"><div class="wrap">
@@ -137,7 +145,7 @@ function chrome(active) {
   // keep the language when following internal links
   document.querySelectorAll('a[href]').forEach((a) => {
     const h = a.getAttribute("href");
-    if (/^(index|rules|about|station)\.html/.test(h) && !/[?&]lang=/.test(h)) a.setAttribute("href", h + (h.includes("?") ? "&" : "?") + "lang=" + LANG);
+    if (/^(index|champions|rules|about|station)\.html/.test(h) && !/[?&]lang=/.test(h)) a.setAttribute("href", h + (h.includes("?") ? "&" : "?") + "lang=" + LANG);
   });
 }
 
