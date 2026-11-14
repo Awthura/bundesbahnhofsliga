@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,11 +7,13 @@
 <meta name="description" content="A weekly league table of German railway stations, ranked by how punctually ICE and IC trains arrive.">
 <link rel="icon" href="assets/logos/favicon.svg">
 <link rel="stylesheet" href="assets/style.css">
+<script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
+if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
 <body>
 <main class="wrap">
   <div class="matchdays" style="margin-top:0">
-    <label for="season">Saison (KW)</label> <select id="season"></select>
+    <label for="season" id="season-label"></label> <select id="season"></select>
     <span id="season-state"></span>
   </div>
   <div class="tabs" id="tabs"></div>
@@ -19,14 +21,16 @@
   <div class="badges" id="badges"></div>
   <div class="matchdays" id="matchdays"></div>
   <div id="table"></div>
-  <div class="legend"><span class="lu">Aufstieg</span><span class="lp">Relegation / Aufstiegsrunde</span><span class="ld">Abstieg</span>
-    <span>Ranked by Schnitt = average daily points (0 to 1). Grey rows played too few matchdays so far.</span></div>
-  <h2>Auf- und Abstieg</h2>
+  <div class="legend" id="legend"></div>
+  <h2 id="moves-title"></h2>
   <div id="moves" class="moves"></div>
 </main>
 <script src="assets/app.js"></script>
 <script>
 chrome("index.html");
+$("#season-label").textContent = T.season_label;
+$("#moves-title").textContent = T.moves_title;
+$("#legend").innerHTML = `<span class="lu">${T.legend[0]}</span><span class="lp">${T.legend[1]}</span><span class="ld">${T.legend[2]}</span><span>${T.legend[3]}</span>`;
 const state = { season: null, league: null, md: null, meta: null, data: null };
 const params = new URLSearchParams(location.search);
 
@@ -35,7 +39,7 @@ async function init() {
   stamp(meta);
   const sel = $("#season");
   sel.innerHTML = meta.seasons.slice().reverse().map((s) =>
-    `<option value="${s.id}">${s.id} (${s.start.slice(5)} bis ${s.end.slice(5)})${s.complete ? "" : " LIVE"}</option>`).join("");
+    `<option value="${s.id}">${s.id} (${dayLabel(s.start)} ${T.to} ${dayLabel(s.end)})${s.complete ? "" : " " + T.live}</option>`).join("");
   sel.value = params.get("season") || meta.latest;
   sel.onchange = () => loadSeason(sel.value);
   await loadSeason(sel.value);
@@ -46,8 +50,8 @@ async function loadSeason(id) {
   state.data = await getJSON(`data/season/${id}.json`);
   const s = state.data;
   $("#season-state").innerHTML = s.complete
-    ? `Saison beendet, Auf- und Abstieg vollzogen.`
-    : `<b style="color:var(--red)">LIVE</b>: Spieltag ${s.matchdays.length} von 7. Promotion and relegation after Sunday.`;
+    ? T.season_done
+    : `<b style="color:var(--red)">${T.live}</b>: ${T.season_live(s.matchdays.length)}`;
   const lids = s.league_order;
   if (!lids.includes(state.league)) state.league = params.get("liga") && lids.includes(params.get("liga")) ? params.get("liga") : lids[0];
   $("#tabs").innerHTML = lids.map((l) => {
@@ -65,8 +69,8 @@ function render() {
   const rows = L.tables[state.md] || [];
   $("#lg-logo").src = logo(lid);
   $("#lg-name").textContent = lg.name;
-  $("#lg-sub").textContent = `${rows.length} Bahnhöfe · Saison ${s.id} · Tabelle nach ${dayLabel(s.matchdays[state.md])}`;
-  $("#matchdays").innerHTML = `Spieltag: ` + s.matchdays.map((d, i) =>
+  $("#lg-sub").textContent = T.sub(rows.length, s.id, dayLabel(s.matchdays[state.md]));
+  $("#matchdays").innerHTML = `${T.matchday}: ` + s.matchdays.map((d, i) =>
     `<button class="${i === state.md ? "on" : ""}" data-i="${i}">${i + 1} · ${dayLabel(d)}</button>`).join("");
   $("#matchdays").querySelectorAll("button").forEach((b) => (b.onclick = () => { state.md = +b.dataset.i; render(); }));
   $("#table").innerHTML = tableHTML(rows, s.zones[lid] || { up: 0, down: 0 }, L.status || {});
@@ -79,9 +83,9 @@ function render() {
     if (p != null && (!dayBest || p > dayBest.p || (p === dayBest.p && r.played > dayBest.r.played))) dayBest = { p, r, l };
   }
   const b = [];
-  if (ranked[0]) b.push([lid === "1" ? "Tabellenführer" : "Spitzenreiter", `${ranked[0].station} (${fmt(ranked[0].avg, 3)})`]);
-  if (ranked.length) b.push(["Rote Laterne", `${ranked[ranked.length - 1].station} (${fmt(ranked[ranked.length - 1].avg, 3)})`]);
-  if (dayBest) b.push([`Tagessieger ${dayLabel(day)}`, `${dayBest.r.station} (${fmt(dayBest.p)})`]);
+  if (ranked[0]) b.push([lid === "1" ? T.leader_top : T.leader, `${ranked[0].station} (${num(ranked[0].avg, 3)})`]);
+  if (ranked.length) b.push([T.lantern, `${ranked[ranked.length - 1].station} (${num(ranked[ranked.length - 1].avg, 3)})`]);
+  if (dayBest) b.push([T.day_winner(dayLabel(day)), `${dayBest.r.station} (${num(dayBest.p)})`]);
   $("#badges").innerHTML = b.map(([k, v]) => `<div class="badge"><b>${k}</b>${esc(v)}</div>`).join("");
 }
 
@@ -91,7 +95,7 @@ async function renderMoves() {
   let s = state.data;
   if (!s.complete) {
     const i = seasons.findIndex((x) => x.id === s.id);
-    if (i <= 0) { $("#moves").innerHTML = `<p class="sub">First season, nothing moved yet.</p>`; return; }
+    if (i <= 0) { $("#moves").innerHTML = `<p class="sub">${T.first_season}</p>`; return; }
     s = await getJSON(`data/season/${seasons[i - 1].id}.json`);
   }
   const names = state.meta.stations;
@@ -101,24 +105,25 @@ async function renderMoves() {
   const groups = {};
   const po = (s.playoffs || []).map((p) => {
     const won = p.winner === p.lower_eva;
-    return `<li>${short(p.upper)} vs ${short(p.lower)}: <a href="station.html?eva=${p.upper_eva}">${name(p.upper_eva)}</a>
-      ${p.upper_share == null ? "abgesagt" : fmt(p.upper_share * 100, 1) + "%"} : ${p.lower_share == null ? "abgesagt" : fmt(p.lower_share * 100, 1) + "%"}
-      <a href="station.html?eva=${p.lower_eva}">${name(p.lower_eva)}</a>, <b>${won ? "goes up" : "stays up"}: ${name(p.winner)}</b></li>`;
+    const pct = (x) => (x == null ? T.called_off : num(x * 100, 1) + " %");
+    return `<li>${short(p.upper)} vs ${short(p.lower)}: <a href="${stLink(p.upper_eva)}">${name(p.upper_eva)}</a>
+      ${pct(p.upper_share)} : ${pct(p.lower_share)}
+      <a href="${stLink(p.lower_eva)}">${name(p.lower_eva)}</a>, <b>${won ? T.po_up : T.po_stays}: ${name(p.winner)}</b></li>`;
   });
   for (const m of s.moves) {
     const up = tier(m.to) < tier(m.from);
-    const key = up ? `Aufsteiger in die ${short(m.to)}` : `Absteiger aus der ${short(m.from)}`;
+    const key = up ? T.up_into(short(m.to)) : T.down_from(short(m.from));
     (groups[key] ||= []).push(m.eva);
   }
-  $("#moves").innerHTML = `<p class="sub" style="grid-column:1/-1">After season ${s.id}:</p>` +
-    (s.promotion_round?.length ? `<div class="card" style="grid-column:1/-1"><h3>Aufstiegsrunde: Regionalliga champions, ranked by Schnitt</h3><ol>${
-      s.promotion_round.map((c) => `<li><a href="station.html?eva=${c.eva}">${name(c.eva)}</a> (${esc(short(c.league))}, ${fmt(c.avg, 3)}):
-        ${c.result === "up" ? "promoted directly" : c.result === "playoff" ? "playoff vs 16th of the 3. BBL" : "stays"}</li>`).join("")}</ol></div>` : "") +
-    (po.length ? `<div class="card" style="grid-column:1/-1"><h3>Relegation playoffs (Sunday punctuality)</h3><ul>${po.join("")}</ul></div>` : "") +
+  $("#moves").innerHTML = `<p class="sub" style="grid-column:1/-1">${T.after(s.id)}</p>` +
+    (s.promotion_round?.length ? `<div class="card" style="grid-column:1/-1"><h3>${T.round_title}</h3><ol>${
+      s.promotion_round.map((c) => `<li><a href="${stLink(c.eva)}">${name(c.eva)}</a> (${esc(short(c.league))}, ${num(c.avg, 3)}):
+        ${T.round_res[c.result] || c.result}</li>`).join("")}</ol></div>` : "") +
+    (po.length ? `<div class="card" style="grid-column:1/-1"><h3>${T.po_title}</h3><ul>${po.join("")}</ul></div>` : "") +
     Object.entries(groups).map(([k, v]) => `<div class="card"><h3>${k}</h3><ul>${v.map((e) =>
-      `<li><a href="station.html?eva=${e}">${name(e)}</a></li>`).join("")}</ul></div>`).join("");
+      `<li><a href="${stLink(e)}">${name(e)}</a></li>`).join("")}</ul></div>`).join("");
 }
-init().catch((e) => { $("#table").innerHTML = `<p>Could not load data (${esc(e.message)}).</p>`; });
+init().catch((e) => { $("#table").innerHTML = `<p>${T.load_error(esc(e.message))}</p>`; });
 </script>
 </body>
 </html>

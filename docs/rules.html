@@ -1,15 +1,113 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Regeln · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
 <link rel="stylesheet" href="assets/style.css">
+<script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
+if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
 <body>
 <main class="wrap prose">
+<div class="i18n" lang="de">
 <h1>Die Regeln</h1>
+<p class="sub">Wie ein Bahnhof Punkte sammelt, wie die Tabelle sortiert wird und wie man auf- oder absteigt.</p>
+
+<h2>1. Wer spielt mit</h2>
+<p>Jeder deutsche Bahnhof ist ein Verein. Es zählt nur eines: wie pünktlich <b>ICE- und IC-Züge dort ankommen</b>.
+Abfahrten, Regionalzüge, S-Bahn, EC/ECE und Busse bleiben außen vor. Am ersten Halt eines Zuges gibt es keine Ankunft,
+deshalb zählt er dort nicht.</p>
+<p>Ein Bahnhof spielt an einem Tag nur, wenn er <b>mehr als 5 planmäßige ICE/IC-Ankünfte</b> hat. Bei 5 oder weniger ist
+sein Spieltag <i>abgesagt</i>: keine Punkte, und der Tag zählt nicht als gespieltes Spiel.</p>
+<p>Damit es fair bleibt, sind nur Bahnhöfe mit echtem ICE/IC-Verkehr überhaupt in der Liga. Mitglied für eine Woche ist
+ein Bahnhof nur, wenn er <b>an jedem einzelnen Tag der 28 Tage vor dieser Woche mehr als 5 planmäßige ICE/IC-Ankünfte</b>
+hatte. Wer die 6 Ankünfte nur an manchen Tagen schafft (Wochenende, Ferienzüge), ist kein Mitglied, auch nicht an seinen
+starken Tagen.</p>
+<p>Eine Ausnahme schützt vor Lücken in unserer Datenquelle, nicht vor Fahrplänen: Sind die Daten eines ganzen Tages
+offensichtlich unvollständig (weniger als 85 % der üblichen ICE/IC-Ankünfte in ganz Deutschland), wird dieser Tag bei der
+Mitgliedschaftsprüfung übersprungen. So fliegt niemand wegen eines Datenausfalls raus.</p>
+
+<h2>2. Tagespunkte: 0 bis 1</h2>
+<p>Jeder Tag (ein Betriebstag, nach planmäßiger Ankunftszeit) ist ein Spieltag. Die Punkte eines Bahnhofs für den Tag sind
+einfach der Anteil seiner planmäßigen ICE/IC-Ankünfte, die pünktlich waren:</p>
+<div class="example">
+<p><b>Punkte = pünktliche Ankünfte ÷ planmäßige Ankünfte</b>, gerundet auf zwei Nachkommastellen. Der Bereich reicht also
+von 0,00 (nichts pünktlich) bis 1,00 (alles pünktlich).</p>
+</div>
+<p><b>Pünktlich</b> heißt: weniger als 6 Minuten Verspätung, die Schwelle der Deutschen Bahn selbst. 5 Minuten zu spät
+ist pünktlich, 6 Minuten nicht. Eine <b>ausgefallene Ankunft zählt als unpünktlich</b>: Sie war geplant, und wer auf den
+Zug gewartet hat, hat ihn nicht bekommen.</p>
+<div class="example">
+<p><b>Beispiel (erfundene Zahlen).</b> Halle (Saale) Hbf hat am Dienstag 40 planmäßige ICE/IC-Ankünfte. 29 kommen mit
+weniger als 6 Minuten Verspätung an, 8 später, 3 fallen aus. Punkte: 29 ÷ 40 = <b>0,73</b>.</p>
+<p>Köthen hat an dem Tag 4 planmäßige Ankünfte. Das sind nicht mehr als 5, also ist der Spieltag für Köthen abgesagt.</p>
+</div>
+
+<h2>3. Die Tabelle</h2>
+<p>Eine Saison ist <b>eine Kalenderwoche (KW), Montag bis Sonntag</b>, also sieben Spieltage. Die Tabelle ist live: Sie
+wird nach jedem Spieltag neu berechnet, und die Pfeile zeigen, wie viele Plätze ein Bahnhof seit dem Vortag gutgemacht
+oder verloren hat.</p>
+<p>Die Spalten sind <b>Platz</b>, <b>Bahnhof</b>, <b>Spiele</b> (gespielte Spieltage dieser Woche), <b>Punkte</b> (Summe
+der Tagespunkte), <b>Schnitt</b> (Punkte ÷ Spiele) und <b>Form</b> (die letzten fünf Spieltage).</p>
+<p>Sortiert wird nach dem <b>Schnitt</b>, nicht nach der Summe, damit ein abgesagter Tag niemanden bestraft. Bei
+Gleichstand entscheiden die Punkte, dann das Alphabet. Um normal gewertet zu werden, muss ein Bahnhof mindestens <b>die
+Hälfte der bisherigen Spieltage</b> gespielt haben (4 von 7 am Ende einer Woche). Wer darunter liegt, steht grau am
+Tabellenende, also praktisch in der Abstiegszone.</p>
+
+<h2>4. Auf- und Abstieg, jede Woche</h2>
+<p>Nach dem Sonntagsspieltag ist die Kalenderwoche abgeschlossen, und die Bahnhöfe wechseln zwischen benachbarten Ligen.
+Zwischen zwei bundesweiten Ligen gilt: <b>Platz 17 und 18 steigen direkt ab</b>, <b>Platz 1 und 2 der Liga darunter
+steigen direkt auf</b>.</p>
+<p>Der dritte Platz wird in der <b>Relegation</b> entschieden: Der 16. der oberen Liga trifft auf den 3. der Liga darunter.
+Ein Extraspiel gibt es nicht. Es gewinnt einfach der Bahnhof mit der <b>höheren Pünktlichkeit am letzten Tag der Woche</b>
+(Sonntag): dem Anteil seiner ICE/IC-Ankünfte unter 6 Minuten Verspätung, exakt verglichen, nicht gerundet. Der Sieger
+spielt nächste Woche in der oberen Liga, der Verlierer in der unteren. Jede Relegation in der Pyramide wird so
+entschieden, auch die in die 3. BBL.</p>
+<div class="example">
+<p><b>Beispiel (erfundene Zahlen).</b> Erfurt Hbf wird 16. in der Bundesbahnhofsliga, Fulda wird 3. in der
+2. Bundesbahnhofsliga. Am Sonntag sind in Erfurt 31 von 38 Ankünften pünktlich (81,6 %) und in Fulda 27 von 32 (84,4 %).
+Fulda steigt auf, Erfurt steigt ab.</p>
+</div>
+<p>Bei exaktem Gleichstand bleibt der Bahnhof der oberen Liga oben. Ein Bahnhof, dessen Sonntag abgesagt ist (5 oder
+weniger Ankünfte), kann die Relegation nicht gewinnen; sind beide abgesagt, bleibt der Bahnhof der oberen Liga oben.</p>
+<h3>Zwischen der 3. Bundesbahnhofsliga und den Regionalligen</h3>
+<p>Platz 17 und 18 der 3. BBL steigen in die Regionalliga ihrer eigenen Region ab. Wer hochkommt, entscheidet die
+<b>Aufstiegsrunde</b>: Die fünf Regionalliga-Meister werden nach ihrem Wochenschnitt sortiert. Die besten 2 steigen
+direkt auf, der Drittbeste trifft in derselben Sonntags-Relegation auf den 16. der 3. BBL.</p>
+<p>Die neue Woche beginnt am Montag, alle wieder bei null. Fällt ein Mitglied heraus (es erfüllt die Jeden-Tag-Regel
+nicht mehr), rückt jemand aus der Liga darunter nach. Neue Mitglieder starten in der Regionalliga ihrer Region.</p>
+
+<h2>5. Die Pyramide</h2>
+<p>Wie im deutschen Fußball sind die obersten drei Ligen bundesweit (die Bundesbahnhofsliga, dann die 2. und
+3. Bundesbahnhofsliga), darunter teilt sich die Liga nach Regionen.</p>
+<div class="crests">
+  <figure><img src="assets/logos/liga-1.svg" alt=""><figcaption>Bundesbahnhofsliga (BBL)<br>18 Bahnhöfe</figcaption></figure>
+  <figure><img src="assets/logos/liga-2.svg" alt=""><figcaption>2. Bundesbahnhofsliga<br>18 Bahnhöfe</figcaption></figure>
+  <figure><img src="assets/logos/liga-3.svg" alt=""><figcaption>3. Bundesbahnhofsliga<br>18 Bahnhöfe</figcaption></figure>
+</div>
+<p>Die 4. Ebene sind fünf <b>Regionalligen</b>, mit denselben Regionen wie die Fußball-Regionalligen. Wie groß sie sind,
+hängt davon ab, wie viele Bahnhöfe der Region sich qualifizieren:</p>
+<div class="crests">
+  <figure><img src="assets/logos/liga-RL-N.svg" alt=""><figcaption>Regionalliga Nord<br>Niedersachsen, Bremen,<br>Hamburg, Schleswig-Holstein</figcaption></figure>
+  <figure><img src="assets/logos/liga-RL-NO.svg" alt=""><figcaption>Regionalliga Nordost<br>Berlin, Brandenburg, MV,<br>Sachsen, Sachsen-Anhalt, Thüringen</figcaption></figure>
+  <figure><img src="assets/logos/liga-RL-W.svg" alt=""><figcaption>Regionalliga West<br>Nordrhein-Westfalen</figcaption></figure>
+  <figure><img src="assets/logos/liga-RL-SW.svg" alt=""><figcaption>Regionalliga Südwest<br>Hessen, Rheinland-Pfalz,<br>Saarland, Baden-Württemberg</figcaption></figure>
+  <figure><img src="assets/logos/liga-RL-BY.svg" alt=""><figcaption>Regionalliga Bayern<br>Bayern</figcaption></figure>
+</div>
+<p>Blitze und Schildkröten sind eine Tempo-Skala: 3 Blitze für die BBL, 2 für die 2. BBL, 1 für die 3. BBL, danach
+Schildkröten ab der 4. Ebene (1 Schildkröte für die Regionalligen, mehr für Ligen, die später darunter dazukommen).
+Die allererste Saison wurde nach den durchschnittlichen Tagespunkten der verfügbaren Vorgeschichte gesetzt. Seitdem gilt:
+Nach oben kommt nur, wer sich hochspielt.</p>
+
+<h2>6. Kleingedrucktes</h2>
+<p>Bahnhöfe am Ende langer Strecken erben Verspätungen von weiter vorne. Für diese Liga ist das in Ordnung, denn sie misst,
+was Fahrgäste an diesem Bahnhof erleben. Ein schlechter Platz ist aber kein Urteil über den Bahnhof oder die Menschen, die
+dort arbeiten. Details zu den Daten stehen auf der <a href="about.html">Methodik-Seite</a>.</p>
+</div>
+<div class="i18n" lang="en">
+<h1>The rules</h1>
 <p class="sub">How a railway station earns points, how the table is sorted, and how it gets promoted or relegated.</p>
 
 <h2>1. Who plays</h2>
@@ -17,7 +115,7 @@
 Departures, regional trains, S-Bahn, EC/ECE and buses are ignored. A train's first stop has no arrival, so it does not
 count at that station.</p>
 <p>A station plays on a given day only if it has <b>more than 5 scheduled ICE/IC arrivals</b> that day. With 5 or fewer,
-its matchday is <i>abgesagt</i> (called off): no points, and it does not count as a played game.</p>
+its matchday is <i>called off</i> (abgesagt): no points, and it does not count as a played game.</p>
 <p>To keep it fair, only stations with a real ICE/IC service are in the league at all. To be a member for a week, a
 station must have had <b>more than 5 scheduled ICE/IC arrivals on every single day of the 28 days before that week</b>.
 A station that reaches 6 arrivals only on some days (weekends, holiday extras) is not a member, even on its busy days.</p>
@@ -38,23 +136,24 @@ and passengers waiting for it did not get it.</p>
 <div class="example">
 <p><b>Example (made-up numbers).</b> Halle (Saale) Hbf has 40 scheduled ICE/IC arrivals on Tuesday. 29 arrive less than 6 minutes late,
 8 arrive later, and 3 are cancelled. Points: 29 ÷ 40 = <b>0.73</b>.</p>
-<p>Köthen has 4 scheduled arrivals that day. That is not more than 5, so the matchday is abgesagt for Köthen.</p>
+<p>Köthen has 4 scheduled arrivals that day. That is not more than 5, so the matchday is called off for Köthen.</p>
 </div>
 
 <h2>3. The table</h2>
 <p>A season is <b>one calendar week (KW), Monday to Sunday</b>, so seven matchdays. The table is live: it is recalculated after every
 matchday, and the arrows show how many places a station moved since the previous day.</p>
-<p>The columns are <b>Platz</b>, <b>Bahnhof</b>, <b>Spiele</b> (matchdays played this week), <b>Punkte</b> (sum of daily
-points), <b>Schnitt</b> (Punkte ÷ Spiele) and <b>Form</b> (the last five matchdays).</p>
-<p>The table is sorted by <b>Schnitt</b>, not by the sum, so a station is not punished for a called-off day. Ties are
-broken by Punkte, then alphabetically. To be ranked normally a station must have played at least <b>half of the
+<p>The columns are <b>Pos</b>, <b>Station</b>, <b>Played</b> (matchdays played this week), <b>Points</b> (sum of daily
+points), <b>Avg</b> (Points ÷ Played) and <b>Form</b> (the last five matchdays). On the German page these are Platz,
+Bahnhof, Spiele, Punkte, Schnitt and Form.</p>
+<p>The table is sorted by <b>Avg</b>, not by the sum, so a station is not punished for a called-off day. Ties are
+broken by Points, then alphabetically. To be ranked normally a station must have played at least <b>half of the
 matchdays so far</b> (4 of 7 at the end of a week). Stations below that are listed at the bottom in grey, which in
 practice means they are in the relegation zone.</p>
 
 <h2>4. Promotion and relegation, every week</h2>
 <p>After Sunday's matchday the calendar week (KW) is final, and stations move between neighbouring leagues. Between two national leagues:
 <b>Places 17 and 18 go down directly</b>, and <b>places 1 and 2 of the league below go up directly</b>.</p>
-<p>The third spot is decided in the <b>Relegation</b>: the 16th of the upper league plays the 3rd of the league below.
+<p>The third spot is decided in a <b>playoff</b> (Relegation): the 16th of the upper league plays the 3rd of the league below.
 There is no extra match. The winner is simply the station with the <b>higher punctuality on the last day of that week</b>
 (Sunday): the share of its ICE/IC arrivals under 6 minutes late, compared exactly, not rounded. The winner plays in the
 upper league next week, the loser in the lower one. Every playoff in the pyramid is decided this way, including the one into the 3. BBL.</p>
@@ -62,11 +161,11 @@ upper league next week, the loser in the lower one. Every playoff in the pyramid
 <p><b>Example (made-up numbers).</b> Erfurt Hbf finishes 16th in the Bundesbahnhofsliga, Fulda finishes 3rd in the 2. Bundesbahnhofsliga.
 On Sunday, 31 of 38 arrivals at Erfurt are punctual (81.6%) and 27 of 32 at Fulda (84.4%). Fulda goes up, Erfurt goes down.</p>
 </div>
-<p>If both are exactly level, the upper league's station stays up. A station whose Sunday is abgesagt (5 or fewer
-arrivals) cannot win the playoff; if both are abgesagt, the upper league's station stays up.</p>
+<p>If both are exactly level, the upper league's station stays up. A station whose Sunday is called off (5 or fewer
+arrivals) cannot win the playoff; if both are called off, the upper league's station stays up.</p>
 <h3>Between the 3. Bundesbahnhofsliga and the Regionalligen</h3>
 <p>Places 17 and 18 of the 3. BBL go down into the Regionalliga of their own region. Coming up is decided in the
-<b>Aufstiegsrunde</b>: the five Regionalliga champions are ranked by their Schnitt for the week. The best 2 go up
+<b>promotion round</b> (Aufstiegsrunde): the five Regionalliga champions are ranked by their average for the week. The best 2 go up
 directly, and the 3rd best plays the 16th of the 3. BBL in the same Sunday-punctuality playoff.</p>
 <p>The new week starts on Monday with everyone back on zero. If a member drops out (it no longer meets the every-day
 rule), the gap is filled from the league below. New members start in the Regionalliga of their region.</p>
@@ -95,6 +194,7 @@ Since then, the only way up is to play your way up.</p>
 <p>Stations at the end of long routes inherit delays from upstream. That is fine for this league, because it measures what
 passengers at that station experience, but it means a low place is not a verdict on the station or the people working
 there. See the <a href="about.html">methodology page</a> for the data details.</p>
+</div>
 </main>
 <script src="assets/app.js"></script>
 <script>chrome("rules.html"); getJSON("data/meta.json").then(stamp).catch(() => {});</script>

@@ -1,34 +1,127 @@
-// Bundesbahnhofsliga: tiny static frontend, no build step.
+// Bundesbahnhofsliga: tiny static frontend, no build step. Bilingual (de/en).
 const $ = (s, el = document) => el.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const getJSON = (p) => fetch(p, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(p); return r.json(); });
 const fmt = (x, d = 2) => (x == null ? "-" : Number(x).toFixed(d));
-const DAYS = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
-const dayLabel = (iso) => { const d = new Date(iso + "T12:00:00"); return `${DAYS[d.getDay()]} ${d.getDate()}.${d.getMonth() + 1}.`; };
 const logo = (lid) => `assets/logos/liga-${lid}.svg`;
 
+// Language: set early by the inline snippet in each page's <head> (URL ?lang=, then saved choice, then browser).
+const LANG = document.documentElement.dataset.lang === "de" ? "de" : "en";
+try { if (new URLSearchParams(location.search).get("lang")) localStorage.setItem("bbl-lang", LANG); } catch (e) { /* storage blocked */ }
+
+const STR = {
+  de: {
+    nav: ["Tabellen", "Regeln", "Methodik"],
+    footer: `Fanprojekt, nicht mit der Deutschen Bahn verbunden. Daten: Deutsche Bahn Timetables API über
+      <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>, CC BY 4.0.
+      Die Tabellen zeigen die Pünktlichkeit, wie Fahrgäste sie am Bahnhof erleben; über die Ursache einer Verspätung sagen sie nichts.`,
+    updated: (d, g) => `Daten bis ${d}, erstellt ${g} UTC.`,
+    days: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+    cols: ["Platz", "Bahnhof", "Spiele", "Punkte", "Schnitt", "Form"],
+    called_off: "abgesagt", new_tag: "NEU", live: "LIVE",
+    season_label: "Saison (KW)", to: "bis",
+    season_done: "Saison beendet, Auf- und Abstieg vollzogen.",
+    season_live: (n) => `Spieltag ${n} von 7. Auf- und Abstieg nach dem Sonntag.`,
+    sub: (n, id, day) => `${n} Bahnhöfe · Saison ${id} · Tabelle nach ${day}`,
+    matchday: "Spieltag",
+    leader_top: "Tabellenführer", leader: "Spitzenreiter", lantern: "Rote Laterne", day_winner: (d) => `Tagessieger ${d}`,
+    legend: ["Aufstieg", "Relegation / Aufstiegsrunde", "Abstieg",
+      "Sortiert nach Schnitt = durchschnittliche Tagespunkte (0 bis 1). Graue Zeilen haben bisher zu wenige Spiele."],
+    moves_title: "Auf- und Abstieg",
+    first_season: "Erste Saison, noch keine Bewegungen.",
+    after: (id) => `Nach der Saison ${id}:`,
+    round_title: "Aufstiegsrunde: Regionalliga-Meister, sortiert nach Schnitt",
+    round_res: { up: "steigt direkt auf", playoff: "Relegation gegen den 16. der 3. BBL", stays: "bleibt" },
+    po_title: "Relegation (Pünktlichkeit am Sonntag)",
+    po_up: "steigt auf", po_stays: "bleibt oben",
+    up_into: (l) => `Aufsteiger in die ${l}`, down_from: (l) => `Absteiger aus der ${l}`,
+    load_error: (m) => `Daten konnten nicht geladen werden (${m}).`,
+    st_title: "Bahnhof", st_none: "diese Woche in keiner Liga", st_missing: "Bahnhof nicht gefunden",
+    kpi: ["Durchschnitt Tagespunkte", "gespielte Spieltage", "bester Tag", "schlechtester Tag"],
+    chart_title: "Tagespunkte (letzte 120 Tage)",
+    chart_note: "Jeder Balken ist ein Spieltag: Anteil der ICE/IC-Ankünfte mit weniger als 6 Minuten Verspätung. Grün ab 0,85, grau 0,70 bis 0,85, rot unter 0,70. Dünne Striche an der Grundlinie: abgesagt (5 oder weniger Ankünfte).",
+    arrivals: "Ankünfte",
+    hist_title: "Saisonverlauf", hist_cols: ["Saison", "Liga", "Platz", "Spiele", "Schnitt"],
+    titles: { "index.html": "Bundesbahnhofsliga", "rules.html": "Regeln · Bundesbahnhofsliga", "about.html": "Methodik · Bundesbahnhofsliga" },
+  },
+  en: {
+    nav: ["Tables", "Rules", "Methodology"],
+    footer: `Fan project, not affiliated with Deutsche Bahn. Data: Deutsche Bahn Timetables API via
+      <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>, CC BY 4.0.
+      Rankings describe punctuality as passengers see it at a station; they say nothing about who caused a delay.`,
+    updated: (d, g) => `Data through ${d}, built ${g} UTC.`,
+    days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    cols: ["Pos", "Station", "Played", "Points", "Avg", "Form"],
+    called_off: "called off", new_tag: "NEW", live: "LIVE",
+    season_label: "Season (week)", to: "to",
+    season_done: "Season finished, promotion and relegation applied.",
+    season_live: (n) => `Matchday ${n} of 7. Promotion and relegation after Sunday.`,
+    sub: (n, id, day) => `${n} stations · season ${id} · table after ${day}`,
+    matchday: "Matchday",
+    leader_top: "Top of the league", leader: "League leader", lantern: "Red lantern (last place)", day_winner: (d) => `Matchday winner ${d}`,
+    legend: ["Promotion", "Playoff / promotion round", "Relegation",
+      "Ranked by average daily points (0 to 1). Grey rows have played too few matchdays so far."],
+    moves_title: "Promotion and relegation",
+    first_season: "First season, nothing moved yet.",
+    after: (id) => `After season ${id}:`,
+    round_title: "Promotion round: Regionalliga champions, ranked by average",
+    round_res: { up: "promoted directly", playoff: "playoff vs 16th of the 3. BBL", stays: "stays" },
+    po_title: "Playoffs (Sunday punctuality)",
+    po_up: "goes up", po_stays: "stays up",
+    up_into: (l) => `Promoted to the ${l}`, down_from: (l) => `Relegated from the ${l}`,
+    load_error: (m) => `Could not load data (${m}).`,
+    st_title: "Station", st_none: "not in a league this week", st_missing: "Station not found",
+    kpi: ["average daily points", "matchdays played", "best day", "worst day"],
+    chart_title: "Daily points (last 120 days)",
+    chart_note: "Each bar is one matchday: share of ICE/IC arrivals under 6 minutes late. Green 0.85 or more, grey 0.70 to 0.85, red below 0.70. Thin ticks at the baseline: called off (5 or fewer arrivals).",
+    arrivals: "arrivals",
+    hist_title: "Season history", hist_cols: ["Season", "League", "Pos", "Played", "Avg"],
+    titles: { "index.html": "Bundesbahnhofsliga", "rules.html": "Rules · Bundesbahnhofsliga", "about.html": "Methodology · Bundesbahnhofsliga" },
+  },
+};
+const T = STR[LANG];
+const dayLabel = (iso) => { const d = new Date(iso + "T12:00:00"); return `${T.days[d.getDay()]} ${d.getDate()}.${d.getMonth() + 1}.`; };
+const num = (x, d = 2) => (LANG === "de" ? fmt(x, d).replace(".", ",") : fmt(x, d));
+
+function langLink(l) {
+  const p = new URLSearchParams(location.search);
+  p.set("lang", l);
+  return `?${p.toString()}`;
+}
+
 function chrome(active) {
-  const nav = [["index.html", "Tabellen"], ["rules.html", "Regeln"], ["about.html", "Methodik"]];
+  const pages = ["index.html", "rules.html", "about.html"];
+  if (T.titles[active]) document.title = T.titles[active];
   document.body.insertAdjacentHTML("afterbegin", `
     <header class="top"><div class="wrap">
       <img src="assets/logos/bbl.svg" alt="">
       <h1><a href="index.html">Bundesbahnhofsliga</a></h1>
-      <nav>${nav.map(([h, t]) => `<a href="${h}" class="${h === active ? "on" : ""}">${t}</a>`).join("")}</nav>
+      <nav>${pages.map((h, i) => `<a href="${h}?lang=${LANG}" class="${h === active ? "on" : ""}">${T.nav[i]}</a>`).join("")}
+        <span class="lang" role="group" aria-label="Sprache / Language">
+          <a href="${langLink("de")}" class="${LANG === "de" ? "on" : ""}" hreflang="de" lang="de">DE</a><a
+             href="${langLink("en")}" class="${LANG === "en" ? "on" : ""}" hreflang="en" lang="en">EN</a>
+        </span>
+      </nav>
     </div></header><div class="stripe"></div>`);
   document.body.insertAdjacentHTML("beforeend", `
-    <footer><div class="wrap">
-      Fan project, not affiliated with Deutsche Bahn. Data: Deutsche Bahn Timetables API via
-      <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>, CC BY 4.0.
-      Rankings describe punctuality as passengers see it at a station; they say nothing about who caused a delay.
+    <footer><div class="wrap">${T.footer}
       <span id="updated"></span> · <a href="https://github.com/Awthura/bundesbahnhofsliga">Code</a>
     </div></footer>`);
+  // keep the language when following internal links
+  document.querySelectorAll('a[href]').forEach((a) => {
+    const h = a.getAttribute("href");
+    if (/^(index|rules|about|station)\.html/.test(h) && !/[?&]lang=/.test(h)) a.setAttribute("href", h + (h.includes("?") ? "&" : "?") + "lang=" + LANG);
+  });
 }
+
+// station links built later also carry the language
+const stLink = (eva) => `station.html?eva=${encodeURIComponent(eva)}&lang=${LANG}`;
 
 function formChips(form) {
   return `<span class="form">${form.map((p) => {
-    if (p == null) return `<i class="x" title="abgesagt">–</i>`;
+    if (p == null) return `<i class="x" title="${T.called_off}">–</i>`;
     const c = p >= 0.85 ? "var(--up)" : p >= 0.7 ? "#8c8c8c" : "var(--red)";
-    return `<i style="background:${c}" title="${fmt(p)}">${fmt(p).replace(/^0/, "").replace(/^1\.00$/, "1")}</i>`;
+    return `<i style="background:${c}" title="${num(p)}">${fmt(p).replace(/^0/, "").replace(/^1\.00$/, "1")}</i>`;
   }).join("")}</span>`;
 }
 
@@ -40,22 +133,22 @@ function trendCell(t) {
 }
 
 function tableHTML(rows, zones, status) {
-  const n = rows.length;
+  const n = rows.length, c = T.cols;
   return `<div class="tablewrap"><table>
-    <thead><tr><th>Platz</th><th></th><th>Bahnhof</th><th class="num">Spiele</th><th class="num">Punkte</th>
-    <th class="num">Schnitt</th><th class="hide-sm">Form</th></tr></thead><tbody>
+    <thead><tr><th>${c[0]}</th><th></th><th>${c[1]}</th><th class="num">${c[2]}</th><th class="num">${c[3]}</th>
+    <th class="num">${c[4]}</th><th class="hide-sm">${c[5]}</th></tr></thead><tbody>
     ${rows.map((r, i) => {
       const po = (zones.po_up && i === zones.up) || (zones.po_down && i === n - zones.down - 1);
       const cls = [i < zones.up ? "up" : "", i >= n - zones.down ? "down" : "", po ? "po" : "", r.ranked ? "" : "unranked"].join(" ");
-      const tag = status[r.eva] === "new" ? `<span class="tag new">NEU</span>` : "";
+      const tag = status[r.eva] === "new" ? `<span class="tag new">${T.new_tag}</span>` : "";
       return `<tr class="${cls}"><td class="rank">${r.rank}.</td><td>${trendCell(r.trend)}</td>
-        <td class="st"><a href="station.html?eva=${r.eva}">${esc(r.station)}</a>${tag}</td>
-        <td class="num">${r.played}</td><td class="num">${fmt(r.points)}</td><td class="num"><b>${fmt(r.avg, 3)}</b></td>
+        <td class="st"><a href="${stLink(r.eva)}">${esc(r.station)}</a>${tag}</td>
+        <td class="num">${r.played}</td><td class="num">${num(r.points)}</td><td class="num"><b>${num(r.avg, 3)}</b></td>
         <td class="hide-sm">${formChips(r.form)}</td></tr>`;
     }).join("")}</tbody></table></div>`;
 }
 
 async function stamp(meta) {
   const u = $("#updated");
-  if (u && meta) u.textContent = `Data through ${meta.last_day}, built ${meta.generated.replace("T", " ")} UTC.`;
+  if (u && meta) u.textContent = T.updated(meta.last_day, meta.generated.replace("T", " "));
 }

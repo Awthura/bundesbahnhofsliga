@@ -27,7 +27,7 @@ header.top .wrap { display: flex; align-items: center; gap: 14px; padding: 14px 
 header.top img { width: 44px; height: 44px; }
 header.top h1 { margin: 0; font-size: 22px; letter-spacing: .3px; font-weight: 900; }
 header.top h1 a { color: #fff; text-decoration: none; }
-header.top nav { margin-left: auto; display: flex; gap: 16px; }
+header.top nav { margin-left: auto; display: flex; gap: 16px; align-items: center; }
 header.top nav a { color: #fff; text-decoration: none; font-weight: 600; opacity: .9; }
 header.top nav a:hover, header.top nav a.on { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
 .stripe { height: 6px; background: repeating-linear-gradient(90deg, #fff 0 24px, var(--red) 24px 48px); border-bottom: 1px solid var(--line); }
@@ -107,3 +107,9 @@ footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px
   th, td { padding: 6px 6px; }
   .hide-sm { display: none; }
 }
+
+/* language switcher and bilingual blocks */
+header.top nav .lang { display: inline-flex; border: 2px solid #fff; border-radius: 999px; overflow: hidden; margin-left: 6px; }
+header.top nav .lang a { padding: 1px 10px; font-size: 13px; opacity: 1; text-decoration: none; }
+header.top nav .lang a.on { background: #fff; color: var(--red); }
+html[data-lang="de"] .i18n[lang="en"], html[data-lang="en"] .i18n[lang="de"] { display: none; }

@@ -1,25 +1,31 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bahnhof · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
 <link rel="stylesheet" href="assets/style.css">
+<script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
+if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
 <body>
 <main class="wrap">
   <div class="league-head"><img id="logo" alt=""><div><h2 id="name">…</h2><div class="sub" id="sub"></div></div></div>
   <div class="kpis" id="kpis"></div>
-  <h3>Daily points (last 120 days)</h3>
-  <svg class="chart" id="chart" role="img" aria-label="Daily points"></svg>
-  <p class="sub">Each bar is one matchday: share of ICE/IC arrivals under 6 minutes late. Green 0.85 or more, grey 0.70 to 0.85, red below 0.70. Thin ticks at the baseline: abgesagt (5 or fewer arrivals).</p>
-  <h3>Season history</h3>
+  <h3 id="chart-title"></h3>
+  <svg class="chart" id="chart" role="img"></svg>
+  <p class="sub" id="chart-note"></p>
+  <h3 id="hist-title"></h3>
   <div id="hist"></div>
 </main>
 <script src="assets/app.js"></script>
 <script>
 chrome("");
+$("#chart-title").textContent = T.chart_title;
+$("#chart").setAttribute("aria-label", T.chart_title);
+$("#chart-note").textContent = T.chart_note;
+$("#hist-title").textContent = T.hist_title;
 (async () => {
   const eva = new URLSearchParams(location.search).get("eva");
   const [meta, st] = await Promise.all([getJSON("data/meta.json"), getJSON(`data/stations/${encodeURIComponent(eva)}.json`)]);
@@ -28,15 +34,15 @@ chrome("");
   const cur = meta.stations[eva]?.league;
   const lg = meta.leagues.find((l) => l.id === cur);
   $("#name").textContent = st.name;
-  $("#sub").textContent = [lg ? lg.name : "not in a league this week", st.state].filter(Boolean).join(" · ");
+  $("#sub").textContent = [lg ? lg.name : T.st_none, st.state].filter(Boolean).join(" · ");
   if (cur) $("#logo").src = logo(cur); else $("#logo").remove();
   const played = st.daily.filter((d) => d.plays);
   const avg = played.length ? played.reduce((a, d) => a + d.points, 0) / played.length : null;
   const k = [
-    [fmt(avg, 3), "average daily points"],
-    [played.length, "matchdays played"],
-    [st.best ? `${fmt(st.best.points)}` : "-", st.best ? `best day, ${dayLabel(st.best.day)}` : "best day"],
-    [st.worst ? `${fmt(st.worst.points)}` : "-", st.worst ? `worst day, ${dayLabel(st.worst.day)}` : "worst day"],
+    [num(avg, 3), T.kpi[0]],
+    [played.length, T.kpi[1]],
+    [st.best ? num(st.best.points) : "-", st.best ? `${T.kpi[2]}, ${dayLabel(st.best.day)}` : T.kpi[2]],
+    [st.worst ? num(st.worst.points) : "-", st.worst ? `${T.kpi[3]}, ${dayLabel(st.worst.day)}` : T.kpi[3]],
   ];
   $("#kpis").innerHTML = k.map(([v, l]) => `<div class="kpi"><b>${v}</b><span>${l}</span></div>`).join("");
 
@@ -50,22 +56,23 @@ chrome("");
   }
   st.daily.forEach((d, i) => {
     const x = pad + i * bw;
-    if (!d.plays) { g += `<rect x="${x}" y="${H - 18}" width="${Math.max(bw - 1, 1)}" height="3" fill="var(--muted)"><title>${d.day}: abgesagt</title></rect>`; return; }
+    if (!d.plays) { g += `<rect x="${x}" y="${H - 18}" width="${Math.max(bw - 1, 1)}" height="3" fill="var(--muted)"><title>${d.day}: ${T.called_off}</title></rect>`; return; }
     const h = d.points * (H - 30);
     const c = d.points >= 0.85 ? "var(--up)" : d.points >= 0.7 ? "#8c8c8c" : "var(--red)";
-    g += `<rect x="${x}" y="${H - 16 - h}" width="${Math.max(bw - 1, 1)}" height="${h}" fill="${c}"><title>${d.day}: ${fmt(d.points)} (${d.arrivals} arrivals)</title></rect>`;
+    g += `<rect x="${x}" y="${H - 16 - h}" width="${Math.max(bw - 1, 1)}" height="${h}" fill="${c}"><title>${d.day}: ${num(d.points)} (${d.arrivals} ${T.arrivals})</title></rect>`;
   });
   svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
   svg.innerHTML = g;
 
-  $("#hist").innerHTML = `<div class="tablewrap"><table><thead><tr><th>Saison</th><th>Liga</th><th class="num">Platz</th>
-    <th class="num">Spiele</th><th class="num">Schnitt</th></tr></thead><tbody>${st.history.slice().reverse().map((h) => {
+  const hc = T.hist_cols;
+  $("#hist").innerHTML = `<div class="tablewrap"><table><thead><tr><th>${hc[0]}</th><th>${hc[1]}</th><th class="num">${hc[2]}</th>
+    <th class="num">${hc[3]}</th><th class="num">${hc[4]}</th></tr></thead><tbody>${st.history.slice().reverse().map((h) => {
       const l = { short: h.short || h.league };
-      return `<tr><td><a href="index.html?season=${h.season}&liga=${h.league}">${h.season}</a>${h.complete ? "" : ' <span class="tag new">LIVE</span>'}</td>
+      return `<tr><td><a href="index.html?season=${h.season}&liga=${h.league}&lang=${LANG}">${h.season}</a>${h.complete ? "" : ` <span class="tag new">${T.live}</span>`}</td>
         <td><img src="${logo(h.league)}" alt="" style="width:16px;height:19px;vertical-align:-4px"> ${esc(l.short)}</td>
-        <td class="num">${h.rank}.</td><td class="num">${h.played}</td><td class="num">${fmt(h.avg, 3)}</td></tr>`;
+        <td class="num">${h.rank}.</td><td class="num">${h.played}</td><td class="num">${num(h.avg, 3)}</td></tr>`;
     }).join("")}</tbody></table></div>`;
-})().catch((e) => { $("#name").textContent = "Station not found"; });
+})().catch((e) => { $("#name").textContent = T.st_missing; });
 </script>
 </body>
 </html>
