@@ -78,9 +78,9 @@ function render() {
   const ranked = rows.filter((r) => r.ranked);
   const day = s.matchdays[state.md];
   let dayBest = null;
-  for (const [l, x] of Object.entries(s.leagues)) for (const r of x.tables[state.md] || []) {
+  for (const r of rows) {   // best punctuality on this matchday, within the selected league
     const p = r.form[r.form.length - 1];
-    if (p != null && (!dayBest || p > dayBest.p || (p === dayBest.p && r.played > dayBest.r.played))) dayBest = { p, r, l };
+    if (p != null && (!dayBest || p > dayBest.p || (p === dayBest.p && r.played > dayBest.r.played))) dayBest = { p, r };
   }
   const b = [];
   if (ranked[0]) b.push([lid === "1" ? T.leader_top : T.leader, `${ranked[0].station} (${num(ranked[0].avg, 3)})`]);
