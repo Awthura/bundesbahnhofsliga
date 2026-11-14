@@ -84,7 +84,10 @@ def audit(res: dict, rows: list[dict], states: dict[str, str]) -> list[str]:
         for e in {e for d in window for e in data.by_day[d]}:
             good = sum(1 for d in window if data.by_day[d].get(e, {}).get("plays"))
             share = config.STAY_DAY_SHARE if e in before_members else config.MIN_DAY_SHARE
-            if window and good >= share * len(window):
+            counts = sorted(data.by_day[d].get(e, {}).get("arrivals", 0) for d in window)
+            mid = len(counts) // 2
+            median = counts[mid] if len(counts) % 2 else (counts[mid - 1] + counts[mid]) / 2
+            if window and good >= share * len(window) and median >= config.MIN_MEDIAN_ARRIVALS:
                 mem.add(e)
         if set(where) != mem:
             extra, missing = set(where) - mem, mem - set(where)

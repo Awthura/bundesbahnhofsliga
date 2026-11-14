@@ -12,6 +12,8 @@ POINTS_DECIMALS = 2                  # daily points are 0.00 .. 1.00
 MEMBERSHIP_WINDOW_DAYS = 28          # look back this many days before each week
 MIN_DAY_SHARE = 1.0                  # to JOIN: >= MIN_ARRIVALS on EVERY day of that window
 STAY_DAY_SHARE = 0.5                 # to STAY (existing members): on at least half of the days
+MIN_MEDIAN_ARRIVALS = 10             # join AND stay: a typical day (median of the window) has at least 10 ICE/IC
+                                     # arrivals; keeps out quiet single-line stations
                                      # (hard to get in, easy to stay: a construction weekend doesn't throw anyone out)
 DATA_GAP_SHARE = 0.85                # days with < 85% of the usual total arrivals are data gaps, ignored for membership
 SEED_MIN_DAYS = 7                    # first season starts after at least this much history

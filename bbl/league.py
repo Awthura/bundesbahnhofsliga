@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import datetime as dt
 import math
+import statistics
 from collections import defaultdict
 
 from . import config
@@ -59,7 +60,7 @@ class Data:
     def members(self, week_start: dt.date, current: set[str] | None = None):
         """Members for the week starting week_start. Newcomers need at least MIN_ARRIVALS on every day
         of the window (MIN_DAY_SHARE); stations in `current` (last week's members) only need it on
-        STAY_DAY_SHARE of the days."""
+        STAY_DAY_SHARE of the days. Both need a typical (median) day of MIN_MEDIAN_ARRIVALS or more."""
         days = self.complete_days(self.window(week_start, config.MEMBERSHIP_WINDOW_DAYS))
         if len(days) < config.SEED_MIN_DAYS:
             return None, {}
@@ -69,8 +70,13 @@ class Data:
                 if r["plays"]:
                     played[eva].append(r["points"])
         current = current or set()
+
+        def typical_day(eva):   # median ICE/IC arrivals over the window (days without trains count as 0)
+            return statistics.median(self.by_day[d].get(eva, {}).get("arrivals", 0) for d in days)
+
         mem = {eva for eva, p in played.items()
-               if len(p) >= (config.STAY_DAY_SHARE if eva in current else config.MIN_DAY_SHARE) * len(days)}
+               if len(p) >= (config.STAY_DAY_SHARE if eva in current else config.MIN_DAY_SHARE) * len(days)
+               and typical_day(eva) >= config.MIN_MEDIAN_ARRIVALS}
         avg = {eva: sum(played[eva]) / len(played[eva]) for eva in mem}
         return mem, avg
 

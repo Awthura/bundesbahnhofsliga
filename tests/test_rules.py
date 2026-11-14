@@ -73,7 +73,8 @@ def make_rows(n_stations, days, score):
     out = []
     for d in days:
         for i in range(n_stations):
-            out.append({"day": d, "eva": f"{i:03d}", "station": f"S{i:03d}", "points": score(i, d), "plays": True})
+            out.append({"day": d, "eva": f"{i:03d}", "station": f"S{i:03d}", "points": score(i, d), "plays": True,
+                        "arrivals": 20})
     return out
 
 
@@ -155,15 +156,17 @@ def test_fchg_cancellation_time_counts_and_empty_snapshots_are_ignored():
     assert s["a-4"]["canceled"]
 
 
-def test_membership_needs_more_than_5_arrivals_every_day():
+def test_membership_needs_at_least_5_arrivals_every_day():
     start = dt.date(2026, 11, 9)
     rows = []
     for i in range(1, 15):
         d = start - dt.timedelta(days=i)
-        rows.append({"day": d, "eva": "a", "station": "A", "points": 0.9, "plays": True})
-        rows.append({"day": d, "eva": "b", "station": "B", "points": 0.9, "plays": i != 3})  # one thin day
+        rows.append({"day": d, "eva": "hub", "station": "Hub", "points": 0.5, "plays": True, "arrivals": 300})
+        rows.append({"day": d, "eva": "a", "station": "A", "points": 0.9, "plays": True, "arrivals": 20})
+        rows.append({"day": d, "eva": "b", "station": "B", "points": 0.9, "plays": i != 3,
+                     "arrivals": 20 if i != 3 else 3})   # one thin day
     mem, _ = league.Data(rows).members(start)
-    assert mem == {"a"}
+    assert mem == {"hub", "a"}
 
 
 def test_data_gap_day_does_not_cost_membership():
@@ -279,9 +282,25 @@ def test_membership_hard_to_join_easy_to_stay():
     rows = []
     for i in range(1, 29):
         d = start - dt.timedelta(days=i)
-        rows.append({"day": d, "eva": "a", "station": "A", "points": 0.9, "plays": i not in (3, 4)})  # 2 thin days
-        rows.append({"day": d, "eva": "b", "station": "B", "points": 0.9, "plays": i <= 10})          # 18 thin days
-        rows.append({"day": d, "eva": "c", "station": "C", "points": 0.9, "plays": True})
+        rows.append({"day": d, "eva": "a", "station": "A", "points": 0.9, "plays": i not in (3, 4),
+                     "arrivals": 20 if i not in (3, 4) else 0})                                   # 2 thin days
+        rows.append({"day": d, "eva": "b", "station": "B", "points": 0.9, "plays": i <= 10,
+                     "arrivals": 20 if i <= 10 else 0})                                           # 18 thin days
+        rows.append({"day": d, "eva": "c", "station": "C", "points": 0.9, "plays": True, "arrivals": 20})
     data = league.Data(rows)
     assert data.members(start)[0] == {"c"}                          # newcomers: every day
     assert data.members(start, {"a", "b", "c"})[0] == {"a", "c"}    # members: at least half of the days
+
+
+def test_typical_day_needs_10_arrivals():
+    start = dt.date(2026, 11, 9)
+    rows = []
+    for i in range(1, 29):
+        d = start - dt.timedelta(days=i)
+        rows.append({"day": d, "eva": "busy", "station": "Busy", "points": 0.7, "plays": True, "arrivals": 40})
+        rows.append({"day": d, "eva": "quiet", "station": "Quiet", "points": 0.9, "plays": True, "arrivals": 7})
+        rows.append({"day": d, "eva": "mixed", "station": "Mixed", "points": 0.8, "plays": True,
+                     "arrivals": 12 if i % 2 else 6})   # median 9: not enough
+    data = league.Data(rows)
+    assert data.members(start)[0] == {"busy"}
+    assert data.members(start, {"busy", "quiet", "mixed"})[0] == {"busy"}   # staying needs it too
