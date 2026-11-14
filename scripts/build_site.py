@@ -52,13 +52,17 @@ def main():
     history = {}
     index = []
     for s in res["seasons"]:
+        tier_of = {lid: lg["tier"] for lid, lg in s["leagues"].items()}
+        tier_of.update({l["id"]: l["tier"] for l in res["leagues"].values()})
+        moved = {m["eva"]: ("up" if tier_of[m["to"]] < tier_of[m["from"]] else "down") for m in s["moves"]}
         index.append({k: s[k] for k in ("id", "start", "end", "complete")} | {"matchdays": len(s["matchdays"])})
         dump(OUT / "season" / f"{s['id']}.json", s)
         for lid, lg in s["leagues"].items():
             for r in lg["tables"][-1] if lg["tables"] else []:
                 history.setdefault(r["eva"], []).append(
-                    {"season": s["id"], "league": lid, "short": lg["short"], "rank": r["rank"], "avg": r["avg"], "played": r["played"],
-                     "complete": s["complete"]})
+                    {"season": s["id"], "league": lid, "short": lg["short"], "tier": lg["tier"], "rank": r["rank"],
+                     "size": len(lg["tables"][-1]), "avg": r["avg"], "played": r["played"],
+                     "complete": s["complete"], "move": moved.get(r["eva"])})
 
     members = sorted(history)
     for eva in members:

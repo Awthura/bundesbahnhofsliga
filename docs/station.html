@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bahnhof · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=576afc6938">
+<link rel="stylesheet" href="assets/style.css?v=1d518a74c0">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -15,18 +15,23 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <div class="kpis" id="kpis"></div>
   <div id="market"></div>
   <h3 id="chart-title"></h3>
-  <svg class="chart" id="chart" role="img"></svg>
+  <div id="chart-box"><svg class="chart" id="chart" role="img"></svg></div>
   <p class="sub" id="chart-note"></p>
+  <h3 id="pyr-title"></h3>
+  <div id="pyramid" class="pyramid"></div>
+  <p class="sub" id="pyr-note"></p>
   <h3 id="hist-title"></h3>
   <div id="hist"></div>
 </main>
-<script src="assets/app.js?v=8db7a510ef"></script>
+<script src="assets/app.js?v=2f604554eb"></script>
 <script>
 chrome("");
 $("#chart-title").textContent = T.chart_title;
 $("#chart").setAttribute("aria-label", T.chart_title);
 $("#chart-note").textContent = T.chart_note;
 $("#hist-title").textContent = T.hist_title;
+$("#pyr-title").textContent = T.pyr_title;
+$("#pyr-note").textContent = T.pyr_note;
 (async () => {
   const eva = new URLSearchParams(location.search).get("eva");
   const [meta, st] = await Promise.all([getJSON("data/meta.json"), getJSON(`data/stations/${encodeURIComponent(eva)}.json`)]);
@@ -47,25 +52,30 @@ $("#hist-title").textContent = T.hist_title;
   ];
   $("#kpis").innerHTML = k.map(([v, l]) => `<div class="kpi"><b>${v}</b><span>${l}</span></div>`).join("");
 
-  renderMarket(st);
+  if (st.forecast && !st.forecast.no_service) whenSized($("#market"), (w) => renderMarket(st, w - 34));
+  else renderMarket(st, 0);
+  whenSized($("#pyramid"), (w) => renderPyramid(st, meta, w));
 
+  const drawDaily = (W) => {
   // bar chart, plain SVG
-  const svg = $("#chart"), W = innerWidth(svg.parentElement) || 800, H = 180, pad = 24, n = st.daily.length;
-  const bw = (W - pad) / Math.max(n, 1);
-  let g = "";
-  for (const y of [0, 0.5, 1]) {
-    const yy = H - 16 - y * (H - 30);
-    g += `<line x1="${pad}" x2="${W}" y1="${yy}" y2="${yy}" stroke="var(--line)"/><text x="0" y="${yy + 4}" font-size="10" fill="var(--muted)">${y}</text>`;
-  }
-  st.daily.forEach((d, i) => {
-    const x = pad + i * bw;
-    if (!d.plays) { g += `<rect x="${x}" y="${H - 18}" width="${Math.max(bw - 1, 1)}" height="3" fill="var(--muted)"><title>${d.day}: ${T.called_off}</title></rect>`; return; }
-    const h = d.points * (H - 30);
-    const c = d.points >= 0.85 ? "var(--up)" : d.points >= 0.7 ? "#8c8c8c" : "var(--red)";
-    g += `<rect x="${x}" y="${H - 16 - h}" width="${Math.max(bw - 1, 1)}" height="${h}" fill="${c}"><title>${d.day}: ${num(d.points)} (${d.arrivals} ${T.arrivals})</title></rect>`;
-  });
-  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
-  svg.innerHTML = g;
+    const svg = $("#chart"), H = 180, pad = 24, n = st.daily.length;
+    const bw = (W - pad) / Math.max(n, 1);
+    let g = "";
+    for (const y of [0, 0.5, 1]) {
+      const yy = H - 16 - y * (H - 30);
+      g += `<line x1="${pad}" x2="${W}" y1="${yy}" y2="${yy}" stroke="var(--line)"/><text x="0" y="${yy + 4}" font-size="10" fill="var(--muted)">${y}</text>`;
+    }
+    st.daily.forEach((d, i) => {
+      const x = pad + i * bw;
+      if (!d.plays) { g += `<rect x="${x}" y="${H - 18}" width="${Math.max(bw - 1, 1)}" height="3" fill="var(--muted)"><title>${d.day}: ${T.called_off}</title></rect>`; return; }
+      const h = d.points * (H - 30);
+      const c = d.points >= 0.85 ? "var(--up)" : d.points >= 0.7 ? "#8c8c8c" : "var(--red)";
+      g += `<rect x="${x}" y="${H - 16 - h}" width="${Math.max(bw - 1, 1)}" height="${h}" fill="${c}"><title>${d.day}: ${num(d.points)} (${d.arrivals} ${T.arrivals})</title></rect>`;
+    });
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.innerHTML = g;
+  };
+  whenSized($("#chart-box"), drawDaily);
 
   const hc = T.hist_cols;
   $("#hist").innerHTML = `<div class="tablewrap"><table><thead><tr><th>${hc[0]}</th><th>${hc[1]}</th><th class="num">${hc[2]}</th>
@@ -81,20 +91,57 @@ $("#hist-title").textContent = T.hist_title;
   else { $("#name").textContent = "Bundesbahnhofsliga"; $("#sub").textContent = T.st_error(e && e.message ? e.message : e); }
 });
 
-function innerWidth(el) {   // content width of a block element (SVG elements don't report it reliably)
-  const cs = getComputedStyle(el);
-  return Math.floor(el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight));
+// Charts are drawn at their box's real width. ResizeObserver tells us that width once layout is done
+// (and again on resize or phone rotation), so charts are never drawn for a wrong, intermediate size.
+function whenSized(el, draw) {
+  let last = 0;
+  const run = (w) => { w = Math.floor(w); if (w > 0 && w !== last) { last = w; draw(w); } };
+  if ("ResizeObserver" in window) new ResizeObserver((es) => run(es[0].contentRect.width)).observe(el);
+  else run(el.clientWidth);
 }
 
-function renderMarket(st) {
+function renderPyramid(st, meta, width) {
+  const h = st.history, box = $("#pyramid");
+  if (!h.length) return;
+  const W = Math.max(width, 260), band = W < 500 ? 38 : 44, tiers = 4, H = band * tiers + 22;
+  const PW = W < 500 ? 92 : 120, cx = PW / 2 - 2, x0 = PW + 14, x1 = W - 12;
+  const regional = h.slice().reverse().find((r) => r.tier === 4);
+  const names = { 1: "BBL", 2: "2. BBL", 3: "3. BL", 4: regional ? regional.short : "RBL" };
+  const cur = h[h.length - 1].tier;
+  let g = "";
+  for (let t = 1; t <= tiers; t++) {   // the pyramid: narrow at the top, wide at the bottom
+    const top = (t - 1) * band + 2, bot = t * band - 2, wt = 26 + (t - 1) * (PW - 30) / tiers, wb = 26 + t * (PW - 30) / tiers;
+    const on = t === cur;
+    g += `<path d="M${cx - wt / 2} ${top} L${cx + wt / 2} ${top} L${cx + wb / 2} ${bot} L${cx - wb / 2} ${bot} Z"
+      fill="${on ? "var(--red)" : "var(--line)"}"/>
+      <text x="${cx}" y="${(top + bot) / 2 + 4}" text-anchor="middle" font-size="${W < 500 ? 9 : 11}" font-weight="700"
+      fill="${on ? "#fff" : "var(--ink)"}">${esc(t === 4 && W < 500 ? "RBL" : names[t])}</text>`;
+    g += `<rect x="${x0}" y="${(t - 1) * band}" width="${x1 - x0}" height="${band}" fill="${t % 2 ? "var(--panel)" : "var(--bg)"}" opacity="0.9"/>
+      <line x1="${x0}" x2="${x1}" y1="${t * band}" y2="${t * band}" stroke="var(--line)"/>`;
+  }
+  const xs = (i) => (h.length === 1 ? (x0 + x1) / 2 : x0 + 10 + (i * (x1 - x0 - 20)) / (h.length - 1));
+  const ys = (r) => (r.tier - 1) * band + 5 + ((r.rank - 0.5) / Math.max(r.size, 1)) * (band - 10);
+  g += `<path d="${h.map((r, i) => `${i ? "L" : "M"}${xs(i).toFixed(1)} ${ys(r).toFixed(1)}`).join(" ")}"
+    fill="none" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round" opacity="0.75"/>`;
+  h.forEach((r, i) => {
+    const c = r.move === "up" ? "var(--up)" : r.move === "down" ? "var(--red)" : "var(--ink)";
+    const live = !r.complete;
+    g += `<circle cx="${xs(i)}" cy="${ys(r)}" r="${live ? 5 : 4.5}" fill="${live ? "var(--panel)" : c}" stroke="${c}" stroke-width="2">
+      <title>${r.season}: ${r.short}, ${r.rank}. ${LANG === "de" ? "von" : "of"} ${r.size}, ${num(r.avg, 3)}</title></circle>`;
+  });
+  g += `<text x="${xs(0)}" y="${H - 6}" font-size="10" text-anchor="${h.length === 1 ? "middle" : "start"}" fill="var(--muted)">${h[0].season}</text>`;
+  if (h.length > 1) g += `<text x="${xs(h.length - 1)}" y="${H - 6}" font-size="10" text-anchor="end" fill="var(--muted)">${h[h.length - 1].season}</text>`;
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;display:block" role="img" aria-label="${T.pyr_title}">${g}</svg>`;
+}
+
+function renderMarket(st, width) {
   const f = st.forecast, box = $("#market");
   if (!f) return;
   if (f.no_service) { box.innerHTML = `<div class="market"><h3>${T.fc_title}</h3><p class="sub">${T.fc_no_service}</p></div>`; return; }
   const yes = Math.round(f.p_yes * 100), no = 100 - yes;
   // probability history, Polymarket style: one line, 0-100 %, outcomes as dots at top (yes) and bottom (no)
   const pts = f.history.concat([{ day: f.day, p: f.p_yes, yes: null }]);
-  box.innerHTML = `<div class="market" id="mk-probe"></div>`;   // measure the card's real inner width
-  const W = Math.max(innerWidth($("#mk-probe")) || 640, 260), H = W < 500 ? 140 : 170, L = 34, R = 8, Tp = 10, B = 22;
+  const W = Math.max(width, 240), H = W < 500 ? 140 : 170, L = 34, R = 8, Tp = 10, B = 22;
   const x = (i) => L + (i * (W - L - R)) / Math.max(pts.length - 1, 1);
   const y = (p) => Tp + (1 - p) * (H - Tp - B);
   let g = "";
