@@ -3,12 +3,12 @@
 A Bundesliga-style league for German railway stations, ranked only on how punctually ICE and IC trains arrive.
 Live at **https://awthura.github.io/bundesbahnhofsliga/**
 
-Each day is a matchday. A station's points for the day are the share of its scheduled ICE/IC arrivals that were
-less than 6 minutes late (cancelled counts as late), so 0.00 to 1.00. A station plays a day only with more than 5
-arrivals, and joins the league only with more than 5 arrivals on every day of the previous 28; members stay while they reach it on at least half of those days. A season is one calendar week; the table updates after every matchday and promotion/relegation happens
+Each day is a scoring day. A station's points for the day are the share of its scheduled ICE/IC arrivals that were
+less than 6 minutes late (cancelled counts as late), so 0.00 to 1.00. A day is only scored for a station with at least 5
+arrivals, and a station joins the league only with at least 5 arrivals on every day of the previous 28; members stay while they reach it on at least half of those days. A season is one calendar week; the table updates after every matchday and promotion/relegation happens
 after Sunday. Like German football: the BBL and 2. BBL have 18 stations, the 3. BL 20, and below them are five
 Regionalbahnhofsligen by region (Nord, Nordost, West, Südwest, Bayern). Between national leagues 17th and 18th go down,
-1st and 2nd go up, and 16th vs 3rd is a playoff decided by punctuality on Sunday. From the 3. BL places 17-20 go down;
+1st and 2nd go up, and 16th vs 3rd is a decider settled by punctuality on Sunday. From the 3. BL places 17-20 go down;
 of the five regional champions the best 4 by weekly average go up (no regional rotation, unlike football). Full rules: [docs/rules.html](docs/rules.html).
 
 ## How it works

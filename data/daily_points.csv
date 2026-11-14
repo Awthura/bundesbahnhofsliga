@@ -146,7 +146,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-01,08003184,Karlsruhe-Durlach,2,2,0,1.0,False
 2026-10-01,08003200,Kassel-Wilhelmshöhe,109,69,3,0.63,True
 2026-10-01,08003218,Kehl,4,4,0,1.0,False
-2026-10-01,08003330,Köln/Bonn Flughafen,5,3,0,0.6,False
+2026-10-01,08003330,Köln/Bonn Flughafen,5,3,0,0.6,True
 2026-10-01,08003361,Köln Süd,2,1,0,0.5,False
 2026-10-01,08003400,Konstanz,1,0,0,0.0,False
 2026-10-01,08003446,Kronach,4,2,0,0.5,False
@@ -205,7 +205,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-01,08010240,Naumburg (Saale) Hbf,6,2,0,0.33,True
 2026-10-01,08010250,Neustrelitz Hbf,16,11,0,0.69,True
 2026-10-01,08010268,Pasewalk,7,5,0,0.71,True
-2026-10-01,08010282,Prenzlau,5,4,0,0.8,False
+2026-10-01,08010282,Prenzlau,5,4,0,0.8,True
 2026-10-01,08010297,Riesa,20,14,3,0.7,True
 2026-10-01,08010304,Rostock Hbf,22,16,0,0.73,True
 2026-10-01,08010306,Rudolstadt (Thür),4,2,0,0.5,False
@@ -279,7 +279,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-02,08000115,Fulda,101,47,0,0.47,True
 2026-10-02,08000116,Traunstein,8,5,0,0.62,True
 2026-10-02,08000118,Gelsenkirchen Hbf,107,28,7,0.26,True
-2026-10-02,08000122,Treuchtlingen,5,5,0,1.0,False
+2026-10-02,08000122,Treuchtlingen,5,5,0,1.0,True
 2026-10-02,08000124,Gießen,10,1,9,0.1,True
 2026-10-02,08000128,Göttingen,93,50,0,0.54,True
 2026-10-02,08000129,Treysa,10,1,8,0.1,True
@@ -379,7 +379,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-02,08003184,Karlsruhe-Durlach,2,1,1,0.5,False
 2026-10-02,08003200,Kassel-Wilhelmshöhe,93,51,0,0.55,True
 2026-10-02,08003218,Kehl,4,4,0,1.0,False
-2026-10-02,08003330,Köln/Bonn Flughafen,5,3,0,0.6,False
+2026-10-02,08003330,Köln/Bonn Flughafen,5,3,0,0.6,True
 2026-10-02,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-02,08003400,Konstanz,1,0,0,0.0,False
 2026-10-02,08003446,Kronach,4,2,0,0.5,False
@@ -439,7 +439,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-02,08010240,Naumburg (Saale) Hbf,6,4,0,0.67,True
 2026-10-02,08010250,Neustrelitz Hbf,16,11,0,0.69,True
 2026-10-02,08010268,Pasewalk,7,3,2,0.43,True
-2026-10-02,08010282,Prenzlau,5,2,1,0.4,False
+2026-10-02,08010282,Prenzlau,5,2,1,0.4,True
 2026-10-02,08010297,Riesa,23,12,5,0.52,True
 2026-10-02,08010304,Rostock Hbf,22,18,0,0.82,True
 2026-10-02,08010306,Rudolstadt (Thür),4,3,0,0.75,False
@@ -468,7 +468,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-02,08013236,Warnemünde,1,1,0,1.0,False
 2026-10-02,08013487,Oranienburg,14,11,0,0.79,True
 2026-10-02,08070003,Frankfurt am Main Flughafen Fernbahnhof,184,106,4,0.58,True
-2026-10-02,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,3,0,0.6,False
+2026-10-02,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,3,0,0.6,True
 2026-10-02,08073368,Köln Messe/Deutz,51,29,0,0.57,True
 2026-10-02,08098160,Berlin Hauptbahnhof,159,65,12,0.41,True
 2026-10-02,08098262,München Hbf,3,3,0,1.0,False
@@ -551,7 +551,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-03,08000257,Worms Hbf,1,0,0,0.0,False
 2026-10-03,08000260,Würzburg Hbf,73,60,1,0.82,True
 2026-10-03,08000261,München Hbf,112,73,2,0.65,True
-2026-10-03,08000262,München Ost,5,4,0,0.8,False
+2026-10-03,08000262,München Ost,5,4,0,0.8,True
 2026-10-03,08000263,Münster (Westf) Hbf,59,32,1,0.54,True
 2026-10-03,08000266,Wuppertal Hbf,59,35,1,0.59,True
 2026-10-03,08000271,Neumünster,18,11,0,0.61,True
@@ -643,12 +643,12 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-03,08006730,Neu-Ulm,1,1,0,1.0,False
 2026-10-03,08007768,Norddeich Mole,6,5,0,0.83,True
 2026-10-03,08010004,Angermünde,1,1,0,1.0,False
-2026-10-03,08010018,Bad Kleinen,5,4,0,0.8,False
+2026-10-03,08010018,Bad Kleinen,5,4,0,0.8,True
 2026-10-03,08010033,Bergen auf Rügen,11,9,1,0.82,True
 2026-10-03,08010036,Berlin-Lichtenberg,3,3,0,1.0,False
 2026-10-03,08010041,Berlin-Schöneweide,1,1,0,1.0,False
 2026-10-03,08010050,Bitterfeld,21,15,0,0.71,True
-2026-10-03,08010060,Brandenburg Hbf,5,3,0,0.6,False
+2026-10-03,08010060,Brandenburg Hbf,5,3,0,0.6,True
 2026-10-03,08010066,Bützow,15,13,0,0.87,True
 2026-10-03,08010085,Dresden Hbf,20,18,1,0.9,True
 2026-10-03,08010089,Dresden-Neustadt,43,39,1,0.91,True
@@ -676,7 +676,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-03,08010309,Saalfeld (Saale),6,5,0,0.83,True
 2026-10-03,08010310,Salzwedel,1,0,1,0.0,False
 2026-10-03,08010324,Schwerin Hbf,28,17,1,0.61,True
-2026-10-03,08010334,Stendal Hbf,5,1,1,0.2,False
+2026-10-03,08010334,Stendal Hbf,5,1,1,0.2,True
 2026-10-03,08010338,Stralsund Hbf,12,10,1,0.83,True
 2026-10-03,08010355,Velgast,2,2,0,1.0,False
 2026-10-03,08010368,Weißenfels,2,1,0,0.5,False
@@ -696,7 +696,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-03,08012763,Ribnitz-Damgarten West,2,2,0,1.0,False
 2026-10-03,08013236,Warnemünde,1,1,0,1.0,False
 2026-10-03,08070003,Frankfurt am Main Flughafen Fernbahnhof,173,129,1,0.75,True
-2026-10-03,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,4,0,0.8,False
+2026-10-03,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,4,0,0.8,True
 2026-10-03,08073368,Köln Messe/Deutz,47,40,1,0.85,True
 2026-10-03,08098160,Berlin Hauptbahnhof,156,112,3,0.72,True
 2026-10-03,08098262,München Hbf,3,2,0,0.67,False
@@ -779,7 +779,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-04,08000257,Worms Hbf,1,1,0,1.0,False
 2026-10-04,08000260,Würzburg Hbf,73,57,0,0.78,True
 2026-10-04,08000261,München Hbf,108,80,0,0.74,True
-2026-10-04,08000262,München Ost,5,4,0,0.8,False
+2026-10-04,08000262,München Ost,5,4,0,0.8,True
 2026-10-04,08000263,Münster (Westf) Hbf,61,33,3,0.54,True
 2026-10-04,08000266,Wuppertal Hbf,62,33,2,0.53,True
 2026-10-04,08000271,Neumünster,18,16,0,0.89,True
@@ -819,7 +819,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-04,08001055,Böblingen,29,16,1,0.55,True
 2026-10-04,08001080,Bondorf (b Herrenberg),14,5,0,0.36,True
 2026-10-04,08001338,Coburg,7,5,0,0.71,True
-2026-10-04,08001443,Diepholz,5,3,0,0.6,False
+2026-10-04,08001443,Diepholz,5,3,0,0.6,True
 2026-10-04,08001751,Ellwangen,14,7,2,0.5,True
 2026-10-04,08001768,Emden Hbf,23,15,1,0.65,True
 2026-10-04,08001773,Emmerich,7,5,0,0.71,True
@@ -840,14 +840,14 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-04,08003184,Karlsruhe-Durlach,1,1,0,1.0,False
 2026-10-04,08003200,Kassel-Wilhelmshöhe,91,72,0,0.79,True
 2026-10-04,08003218,Kehl,3,3,0,1.0,False
-2026-10-04,08003330,Köln/Bonn Flughafen,5,4,0,0.8,False
+2026-10-04,08003330,Köln/Bonn Flughafen,5,4,0,0.8,True
 2026-10-04,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-04,08003446,Kronach,4,1,2,0.25,False
 2026-10-04,08003515,Landstuhl,1,1,0,1.0,False
 2026-10-04,08003680,Limburg Süd,22,17,0,0.77,True
 2026-10-04,08003701,Lingen (Ems),11,5,0,0.45,True
 2026-10-04,08003770,Ludwigsstadt,4,2,2,0.5,False
-2026-10-04,08003866,Marienhafe,5,5,0,1.0,False
+2026-10-04,08003866,Marienhafe,5,5,0,1.0,True
 2026-10-04,08003978,Meppen,11,5,0,0.45,True
 2026-10-04,08004158,München-Pasing,62,42,0,0.68,True
 2026-10-04,08004185,Murnau,2,1,0,0.5,False
@@ -872,8 +872,8 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-04,08006369,Westerland (Sylt),4,3,1,0.75,False
 2026-10-04,08006421,Wiesloch-Walldorf,12,10,1,0.83,True
 2026-10-04,08006730,Neu-Ulm,1,1,0,1.0,False
-2026-10-04,08007768,Norddeich Mole,5,3,0,0.6,False
-2026-10-04,08010018,Bad Kleinen,5,2,2,0.4,False
+2026-10-04,08007768,Norddeich Mole,5,3,0,0.6,True
+2026-10-04,08010018,Bad Kleinen,5,2,2,0.4,True
 2026-10-04,08010033,Bergen auf Rügen,9,8,0,0.89,True
 2026-10-04,08010036,Berlin-Lichtenberg,2,2,0,1.0,False
 2026-10-04,08010050,Bitterfeld,24,21,0,0.88,True
@@ -906,7 +906,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-04,08010309,Saalfeld (Saale),6,3,2,0.5,True
 2026-10-04,08010310,Salzwedel,1,0,0,0.0,False
 2026-10-04,08010324,Schwerin Hbf,30,27,1,0.9,True
-2026-10-04,08010334,Stendal Hbf,5,2,1,0.4,False
+2026-10-04,08010334,Stendal Hbf,5,2,1,0.4,True
 2026-10-04,08010338,Stralsund Hbf,12,11,0,0.92,True
 2026-10-04,08010355,Velgast,2,2,0,1.0,False
 2026-10-04,08010368,Weißenfels,2,1,1,0.5,False
@@ -918,7 +918,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-04,08011102,Berlin Gesundbrunnen,43,26,1,0.6,True
 2026-10-04,08011113,Berlin Südkreuz,120,92,2,0.77,True
 2026-10-04,08011162,Berlin Ostkreuz,11,11,0,1.0,True
-2026-10-04,08011191,Ostseebad Binz,5,5,0,1.0,False
+2026-10-04,08011191,Ostseebad Binz,5,5,0,1.0,True
 2026-10-04,08011201,Flughafen BER,13,13,0,1.0,True
 2026-10-04,08011956,Jena Paradies,6,3,2,0.5,True
 2026-10-04,08012183,Flughafen Leipzig/Halle,15,13,1,0.87,True
@@ -926,7 +926,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-04,08012763,Ribnitz-Damgarten West,2,2,0,1.0,False
 2026-10-04,08013236,Warnemünde,1,1,0,1.0,False
 2026-10-04,08070003,Frankfurt am Main Flughafen Fernbahnhof,170,128,2,0.75,True
-2026-10-04,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,5,0,1.0,False
+2026-10-04,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,5,0,1.0,True
 2026-10-04,08073368,Köln Messe/Deutz,43,33,0,0.77,True
 2026-10-04,08098160,Berlin Hauptbahnhof,150,115,2,0.77,True
 2026-10-04,08098262,München Hbf,3,1,0,0.33,False
@@ -974,7 +974,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-05,08000124,Gießen,10,8,0,0.8,True
 2026-10-05,08000128,Göttingen,91,56,0,0.62,True
 2026-10-05,08000129,Treysa,10,7,0,0.7,True
-2026-10-05,08000139,Günzburg,5,2,1,0.4,False
+2026-10-05,08000139,Günzburg,5,2,1,0.4,True
 2026-10-05,08000142,Hagen Hbf,65,21,3,0.32,True
 2026-10-05,08000147,Hamburg-Harburg,88,41,2,0.47,True
 2026-10-05,08000149,Hamm (Westf) Hbf,73,28,3,0.38,True
@@ -1051,7 +1051,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-05,08001055,Böblingen,34,27,1,0.79,True
 2026-10-05,08001080,Bondorf (b Herrenberg),19,11,0,0.58,True
 2026-10-05,08001338,Coburg,8,2,1,0.25,True
-2026-10-05,08001443,Diepholz,5,2,0,0.4,False
+2026-10-05,08001443,Diepholz,5,2,0,0.4,True
 2026-10-05,08001751,Ellwangen,16,11,2,0.69,True
 2026-10-05,08001768,Emden Hbf,24,10,0,0.42,True
 2026-10-05,08001773,Emmerich,8,6,0,0.75,True
@@ -1070,7 +1070,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-05,08003184,Karlsruhe-Durlach,2,2,0,1.0,False
 2026-10-05,08003200,Kassel-Wilhelmshöhe,92,57,0,0.62,True
 2026-10-05,08003218,Kehl,4,4,0,1.0,False
-2026-10-05,08003330,Köln/Bonn Flughafen,5,4,0,0.8,False
+2026-10-05,08003330,Köln/Bonn Flughafen,5,4,0,0.8,True
 2026-10-05,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-05,08003400,Konstanz,1,0,0,0.0,False
 2026-10-05,08003446,Kronach,4,1,2,0.25,False
@@ -1148,7 +1148,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-05,08011102,Berlin Gesundbrunnen,46,19,4,0.41,True
 2026-10-05,08011113,Berlin Südkreuz,117,57,3,0.49,True
 2026-10-05,08011162,Berlin Ostkreuz,12,8,0,0.67,True
-2026-10-05,08011191,Ostseebad Binz,5,2,1,0.4,False
+2026-10-05,08011191,Ostseebad Binz,5,2,1,0.4,True
 2026-10-05,08011201,Flughafen BER,14,6,0,0.43,True
 2026-10-05,08011956,Jena Paradies,6,3,2,0.5,True
 2026-10-05,08012183,Flughafen Leipzig/Halle,17,13,0,0.76,True
@@ -1156,7 +1156,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-05,08012763,Ribnitz-Damgarten West,2,0,0,0.0,False
 2026-10-05,08013236,Warnemünde,1,0,0,0.0,False
 2026-10-05,08070003,Frankfurt am Main Flughafen Fernbahnhof,178,109,8,0.61,True
-2026-10-05,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,1,2,0.2,False
+2026-10-05,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,1,2,0.2,True
 2026-10-05,08073368,Köln Messe/Deutz,46,26,2,0.57,True
 2026-10-05,08098160,Berlin Hauptbahnhof,159,67,2,0.42,True
 2026-10-05,08098262,München Hbf,1,1,0,1.0,False
@@ -1281,7 +1281,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-06,08001055,Böblingen,34,26,0,0.76,True
 2026-10-06,08001080,Bondorf (b Herrenberg),19,15,0,0.79,True
 2026-10-06,08001338,Coburg,8,4,2,0.5,True
-2026-10-06,08001443,Diepholz,5,4,0,0.8,False
+2026-10-06,08001443,Diepholz,5,4,0,0.8,True
 2026-10-06,08001751,Ellwangen,16,10,1,0.62,True
 2026-10-06,08001768,Emden Hbf,24,14,2,0.58,True
 2026-10-06,08001773,Emmerich,8,2,0,0.25,True
@@ -1300,7 +1300,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-06,08003184,Karlsruhe-Durlach,2,2,0,1.0,False
 2026-10-06,08003200,Kassel-Wilhelmshöhe,92,36,20,0.39,True
 2026-10-06,08003218,Kehl,4,3,0,0.75,False
-2026-10-06,08003330,Köln/Bonn Flughafen,5,3,0,0.6,False
+2026-10-06,08003330,Köln/Bonn Flughafen,5,3,0,0.6,True
 2026-10-06,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-06,08003400,Konstanz,1,0,0,0.0,False
 2026-10-06,08003446,Kronach,4,2,1,0.5,False
@@ -1378,7 +1378,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-06,08011102,Berlin Gesundbrunnen,46,19,3,0.41,True
 2026-10-06,08011113,Berlin Südkreuz,116,81,5,0.7,True
 2026-10-06,08011162,Berlin Ostkreuz,12,8,0,0.67,True
-2026-10-06,08011191,Ostseebad Binz,5,4,0,0.8,False
+2026-10-06,08011191,Ostseebad Binz,5,4,0,0.8,True
 2026-10-06,08011201,Flughafen BER,14,9,0,0.64,True
 2026-10-06,08011956,Jena Paradies,6,3,1,0.5,True
 2026-10-06,08012183,Flughafen Leipzig/Halle,17,13,0,0.76,True
@@ -1386,7 +1386,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-06,08012763,Ribnitz-Damgarten West,2,1,0,0.5,False
 2026-10-06,08013236,Warnemünde,1,1,0,1.0,False
 2026-10-06,08070003,Frankfurt am Main Flughafen Fernbahnhof,181,110,12,0.61,True
-2026-10-06,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,1,3,0.2,False
+2026-10-06,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,1,3,0.2,True
 2026-10-06,08073368,Köln Messe/Deutz,46,30,3,0.65,True
 2026-10-06,08098160,Berlin Hauptbahnhof,159,93,6,0.58,True
 2026-10-06,08098262,München Hbf,1,0,1,0.0,False
@@ -1511,7 +1511,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-07,08001055,Böblingen,34,27,0,0.79,True
 2026-10-07,08001080,Bondorf (b Herrenberg),19,12,0,0.63,True
 2026-10-07,08001338,Coburg,8,3,0,0.38,True
-2026-10-07,08001443,Diepholz,5,3,0,0.6,False
+2026-10-07,08001443,Diepholz,5,3,0,0.6,True
 2026-10-07,08001751,Ellwangen,16,5,5,0.31,True
 2026-10-07,08001768,Emden Hbf,23,13,0,0.57,True
 2026-10-07,08001773,Emmerich,8,1,0,0.12,True
@@ -1530,7 +1530,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-07,08003184,Karlsruhe-Durlach,2,1,0,0.5,False
 2026-10-07,08003200,Kassel-Wilhelmshöhe,92,67,0,0.73,True
 2026-10-07,08003218,Kehl,4,4,0,1.0,False
-2026-10-07,08003330,Köln/Bonn Flughafen,5,5,0,1.0,False
+2026-10-07,08003330,Köln/Bonn Flughafen,5,5,0,1.0,True
 2026-10-07,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-07,08003400,Konstanz,1,0,0,0.0,False
 2026-10-07,08003446,Kronach,4,2,1,0.5,False
@@ -1606,7 +1606,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-07,08011102,Berlin Gesundbrunnen,45,20,4,0.44,True
 2026-10-07,08011113,Berlin Südkreuz,115,64,7,0.56,True
 2026-10-07,08011162,Berlin Ostkreuz,12,8,0,0.67,True
-2026-10-07,08011191,Ostseebad Binz,5,3,0,0.6,False
+2026-10-07,08011191,Ostseebad Binz,5,3,0,0.6,True
 2026-10-07,08011201,Flughafen BER,14,7,0,0.5,True
 2026-10-07,08011956,Jena Paradies,6,2,1,0.33,True
 2026-10-07,08012183,Flughafen Leipzig/Halle,17,11,1,0.65,True
@@ -1614,7 +1614,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-07,08012763,Ribnitz-Damgarten West,2,0,0,0.0,False
 2026-10-07,08013236,Warnemünde,1,1,0,1.0,False
 2026-10-07,08070003,Frankfurt am Main Flughafen Fernbahnhof,183,109,2,0.6,True
-2026-10-07,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,1,3,0.2,False
+2026-10-07,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,1,3,0.2,True
 2026-10-07,08073368,Köln Messe/Deutz,47,26,0,0.55,True
 2026-10-07,08098160,Berlin Hauptbahnhof,158,75,9,0.47,True
 2026-10-07,08098262,München Hbf,2,2,0,1.0,False
@@ -1740,7 +1740,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-08,08001055,Böblingen,34,23,0,0.68,True
 2026-10-08,08001080,Bondorf (b Herrenberg),19,8,0,0.42,True
 2026-10-08,08001338,Coburg,8,4,0,0.5,True
-2026-10-08,08001443,Diepholz,5,1,0,0.2,False
+2026-10-08,08001443,Diepholz,5,1,0,0.2,True
 2026-10-08,08001751,Ellwangen,16,6,1,0.38,True
 2026-10-08,08001768,Emden Hbf,24,14,0,0.58,True
 2026-10-08,08001773,Emmerich,8,1,0,0.12,True
@@ -1761,7 +1761,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-08,08003200,Kassel-Wilhelmshöhe,92,55,3,0.6,True
 2026-10-08,08003218,Kehl,4,3,0,0.75,False
 2026-10-08,08003302,Klais,2,1,0,0.5,False
-2026-10-08,08003330,Köln/Bonn Flughafen,5,4,0,0.8,False
+2026-10-08,08003330,Köln/Bonn Flughafen,5,4,0,0.8,True
 2026-10-08,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-08,08003400,Konstanz,2,1,0,0.5,False
 2026-10-08,08003446,Kronach,4,3,0,0.75,False
@@ -1839,7 +1839,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-08,08011102,Berlin Gesundbrunnen,46,17,1,0.37,True
 2026-10-08,08011113,Berlin Südkreuz,115,46,4,0.4,True
 2026-10-08,08011162,Berlin Ostkreuz,12,7,0,0.58,True
-2026-10-08,08011191,Ostseebad Binz,5,3,0,0.6,False
+2026-10-08,08011191,Ostseebad Binz,5,3,0,0.6,True
 2026-10-08,08011201,Flughafen BER,14,4,0,0.29,True
 2026-10-08,08011956,Jena Paradies,6,5,0,0.83,True
 2026-10-08,08012183,Flughafen Leipzig/Halle,17,9,3,0.53,True
@@ -1847,7 +1847,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-08,08012763,Ribnitz-Damgarten West,2,1,0,0.5,False
 2026-10-08,08013236,Warnemünde,1,0,0,0.0,False
 2026-10-08,08070003,Frankfurt am Main Flughafen Fernbahnhof,184,89,10,0.48,True
-2026-10-08,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,1,1,0.2,False
+2026-10-08,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,1,1,0.2,True
 2026-10-08,08073368,Köln Messe/Deutz,50,24,0,0.48,True
 2026-10-08,08098160,Berlin Hauptbahnhof,151,57,4,0.38,True
 2026-10-08,08098262,München Hbf,4,3,1,0.75,False
@@ -1882,7 +1882,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-09,08000086,Duisburg Hbf,113,42,12,0.37,True
 2026-10-09,08000087,Solingen Hbf,28,3,12,0.11,True
 2026-10-09,08000096,Stuttgart Hbf,145,70,12,0.48,True
-2026-10-09,08000098,Essen Hbf,5,0,3,0.0,False
+2026-10-09,08000098,Essen Hbf,5,0,3,0.0,True
 2026-10-09,08000101,Eutingen im Gäu,3,1,0,0.33,False
 2026-10-09,08000103,Flensburg,11,5,0,0.45,True
 2026-10-09,08000105,Frankfurt (Main) Hbf,198,84,11,0.42,True
@@ -1893,7 +1893,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-09,08000115,Fulda,101,49,3,0.49,True
 2026-10-09,08000116,Traunstein,8,2,0,0.25,True
 2026-10-09,08000118,Gelsenkirchen Hbf,88,20,9,0.23,True
-2026-10-09,08000122,Treuchtlingen,5,3,0,0.6,False
+2026-10-09,08000122,Treuchtlingen,5,3,0,0.6,True
 2026-10-09,08000124,Gießen,9,5,3,0.56,True
 2026-10-09,08000128,Göttingen,90,47,4,0.52,True
 2026-10-09,08000129,Treysa,9,4,3,0.44,True
@@ -1974,7 +1974,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-09,08001055,Böblingen,33,20,1,0.61,True
 2026-10-09,08001080,Bondorf (b Herrenberg),19,7,0,0.37,True
 2026-10-09,08001338,Coburg,8,3,4,0.38,True
-2026-10-09,08001443,Diepholz,5,2,0,0.4,False
+2026-10-09,08001443,Diepholz,5,2,0,0.4,True
 2026-10-09,08001751,Ellwangen,16,4,3,0.25,True
 2026-10-09,08001768,Emden Hbf,25,14,1,0.56,True
 2026-10-09,08001773,Emmerich,8,0,0,0.0,True
@@ -1993,7 +1993,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-09,08003184,Karlsruhe-Durlach,2,2,0,1.0,False
 2026-10-09,08003200,Kassel-Wilhelmshöhe,91,47,4,0.52,True
 2026-10-09,08003218,Kehl,4,4,0,1.0,False
-2026-10-09,08003330,Köln/Bonn Flughafen,5,5,0,1.0,False
+2026-10-09,08003330,Köln/Bonn Flughafen,5,5,0,1.0,True
 2026-10-09,08003400,Konstanz,2,1,0,0.5,False
 2026-10-09,08003446,Kronach,4,2,0,0.5,False
 2026-10-09,08003515,Landstuhl,1,1,0,1.0,False
@@ -2069,7 +2069,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-09,08011102,Berlin Gesundbrunnen,43,10,4,0.23,True
 2026-10-09,08011113,Berlin Südkreuz,116,54,7,0.47,True
 2026-10-09,08011162,Berlin Ostkreuz,12,11,0,0.92,True
-2026-10-09,08011191,Ostseebad Binz,5,3,1,0.6,False
+2026-10-09,08011191,Ostseebad Binz,5,3,1,0.6,True
 2026-10-09,08011201,Flughafen BER,14,9,0,0.64,True
 2026-10-09,08011956,Jena Paradies,6,4,0,0.67,True
 2026-10-09,08012183,Flughafen Leipzig/Halle,16,9,2,0.56,True
@@ -2077,7 +2077,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-09,08012763,Ribnitz-Damgarten West,2,0,2,0.0,False
 2026-10-09,08013236,Warnemünde,1,1,0,1.0,False
 2026-10-09,08070003,Frankfurt am Main Flughafen Fernbahnhof,183,88,13,0.48,True
-2026-10-09,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,2,1,0.4,False
+2026-10-09,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,2,1,0.4,True
 2026-10-09,08073368,Köln Messe/Deutz,49,27,1,0.55,True
 2026-10-09,08098160,Berlin Hauptbahnhof,146,44,15,0.3,True
 2026-10-09,08098262,München Hbf,3,3,0,1.0,False
@@ -2153,7 +2153,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-10,08000206,Koblenz Hbf,35,15,0,0.43,True
 2026-10-10,08000207,Köln Hbf,126,47,4,0.37,True
 2026-10-10,08000225,Leer (Ostfriesl),30,21,0,0.7,True
-2026-10-10,08000228,Lichtenfels,5,3,0,0.6,False
+2026-10-10,08000228,Lichtenfels,5,3,0,0.6,True
 2026-10-10,08000236,Ludwigshafen (Rhein) Hbf,1,1,0,1.0,False
 2026-10-10,08000238,Lüneburg,38,16,8,0.42,True
 2026-10-10,08000240,Mainz Hbf,36,18,0,0.5,True
@@ -2163,7 +2163,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-10,08000257,Worms Hbf,1,1,0,1.0,False
 2026-10-10,08000260,Würzburg Hbf,84,44,1,0.52,True
 2026-10-10,08000261,München Hbf,113,52,7,0.46,True
-2026-10-10,08000262,München Ost,5,5,0,1.0,False
+2026-10-10,08000262,München Ost,5,5,0,1.0,True
 2026-10-10,08000263,Münster (Westf) Hbf,59,25,1,0.42,True
 2026-10-10,08000266,Wuppertal Hbf,72,33,1,0.46,True
 2026-10-10,08000268,Wunstorf,1,1,0,1.0,False
@@ -2202,7 +2202,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-10,08001055,Böblingen,30,18,0,0.6,True
 2026-10-10,08001080,Bondorf (b Herrenberg),16,5,0,0.31,True
 2026-10-10,08001338,Coburg,8,7,1,0.88,True
-2026-10-10,08001443,Diepholz,5,1,0,0.2,False
+2026-10-10,08001443,Diepholz,5,1,0,0.2,True
 2026-10-10,08001751,Ellwangen,15,10,0,0.67,True
 2026-10-10,08001768,Emden Hbf,25,15,1,0.6,True
 2026-10-10,08001773,Emmerich,8,2,0,0.25,True
@@ -2255,7 +2255,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-10,08006730,Neu-Ulm,1,1,0,1.0,False
 2026-10-10,08007768,Norddeich Mole,6,2,0,0.33,True
 2026-10-10,08010004,Angermünde,1,1,0,1.0,False
-2026-10-10,08010018,Bad Kleinen,5,4,1,0.8,False
+2026-10-10,08010018,Bad Kleinen,5,4,1,0.8,True
 2026-10-10,08010033,Bergen auf Rügen,11,10,0,0.91,True
 2026-10-10,08010036,Berlin-Lichtenberg,3,2,1,0.67,False
 2026-10-10,08010041,Berlin-Schöneweide,1,0,0,0.0,False
@@ -2269,7 +2269,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-10,08010099,Elsterwerda,14,5,8,0.36,True
 2026-10-10,08010101,Erfurt Hbf,137,71,5,0.52,True
 2026-10-10,08010115,Freiberg (Sachs),4,4,0,1.0,False
-2026-10-10,08010133,Jena-Göschwitz,5,3,0,0.6,False
+2026-10-10,08010133,Jena-Göschwitz,5,3,0,0.6,True
 2026-10-10,08010136,Gotha,17,10,0,0.59,True
 2026-10-10,08010139,Greifswald,12,9,1,0.75,True
 2026-10-10,08010159,Halle (Saale) Hbf,99,57,3,0.58,True
@@ -2285,10 +2285,10 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-10,08010297,Riesa,18,14,1,0.78,True
 2026-10-10,08010304,Rostock Hbf,15,8,1,0.53,True
 2026-10-10,08010306,Rudolstadt (Thür),4,2,0,0.5,False
-2026-10-10,08010309,Saalfeld (Saale),5,3,0,0.6,False
+2026-10-10,08010309,Saalfeld (Saale),5,3,0,0.6,True
 2026-10-10,08010310,Salzwedel,1,0,0,0.0,False
 2026-10-10,08010324,Schwerin Hbf,28,20,3,0.71,True
-2026-10-10,08010334,Stendal Hbf,5,1,0,0.2,False
+2026-10-10,08010334,Stendal Hbf,5,1,0,0.2,True
 2026-10-10,08010338,Stralsund Hbf,12,10,0,0.83,True
 2026-10-10,08010355,Velgast,2,1,0,0.5,False
 2026-10-10,08010368,Weißenfels,2,1,0,0.5,False
@@ -2302,13 +2302,13 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-10,08011162,Berlin Ostkreuz,12,5,2,0.42,True
 2026-10-10,08011191,Ostseebad Binz,6,6,0,1.0,True
 2026-10-10,08011201,Flughafen BER,13,7,1,0.54,True
-2026-10-10,08011956,Jena Paradies,5,3,0,0.6,False
+2026-10-10,08011956,Jena Paradies,5,3,0,0.6,True
 2026-10-10,08012183,Flughafen Leipzig/Halle,15,13,0,0.87,True
 2026-10-10,08012666,Potsdam Hbf,22,15,1,0.68,True
 2026-10-10,08012763,Ribnitz-Damgarten West,2,1,0,0.5,False
 2026-10-10,08013236,Warnemünde,1,1,0,1.0,False
 2026-10-10,08070003,Frankfurt am Main Flughafen Fernbahnhof,175,95,1,0.54,True
-2026-10-10,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,2,1,0.4,False
+2026-10-10,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,2,1,0.4,True
 2026-10-10,08073368,Köln Messe/Deutz,47,30,0,0.64,True
 2026-10-10,08098160,Berlin Hauptbahnhof,148,78,4,0.53,True
 2026-10-10,08098262,München Hbf,3,1,0,0.33,False
@@ -2392,7 +2392,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-11,08000257,Worms Hbf,1,1,0,1.0,False
 2026-10-11,08000260,Würzburg Hbf,82,60,0,0.73,True
 2026-10-11,08000261,München Hbf,109,73,1,0.67,True
-2026-10-11,08000262,München Ost,5,3,0,0.6,False
+2026-10-11,08000262,München Ost,5,3,0,0.6,True
 2026-10-11,08000263,Münster (Westf) Hbf,58,24,0,0.41,True
 2026-10-11,08000266,Wuppertal Hbf,71,31,2,0.44,True
 2026-10-11,08000271,Neumünster,18,12,1,0.67,True
@@ -2430,7 +2430,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-11,08001055,Böblingen,29,17,0,0.59,True
 2026-10-11,08001080,Bondorf (b Herrenberg),14,5,0,0.36,True
 2026-10-11,08001338,Coburg,7,4,0,0.57,True
-2026-10-11,08001443,Diepholz,5,1,0,0.2,False
+2026-10-11,08001443,Diepholz,5,1,0,0.2,True
 2026-10-11,08001751,Ellwangen,14,9,1,0.64,True
 2026-10-11,08001768,Emden Hbf,23,14,0,0.61,True
 2026-10-11,08001773,Emmerich,8,3,0,0.38,True
@@ -2448,7 +2448,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-11,08003184,Karlsruhe-Durlach,1,1,0,1.0,False
 2026-10-11,08003200,Kassel-Wilhelmshöhe,92,69,3,0.75,True
 2026-10-11,08003218,Kehl,2,1,0,0.5,False
-2026-10-11,08003330,Köln/Bonn Flughafen,5,5,0,1.0,False
+2026-10-11,08003330,Köln/Bonn Flughafen,5,5,0,1.0,True
 2026-10-11,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-11,08003400,Konstanz,1,1,0,1.0,False
 2026-10-11,08003446,Kronach,4,3,1,0.75,False
@@ -2456,7 +2456,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-11,08003680,Limburg Süd,22,14,1,0.64,True
 2026-10-11,08003701,Lingen (Ems),11,4,0,0.36,True
 2026-10-11,08003770,Ludwigsstadt,4,3,1,0.75,False
-2026-10-11,08003866,Marienhafe,5,3,0,0.6,False
+2026-10-11,08003866,Marienhafe,5,3,0,0.6,True
 2026-10-11,08003978,Meppen,11,4,0,0.36,True
 2026-10-11,08004158,München-Pasing,55,37,2,0.67,True
 2026-10-11,08004343,Niebüll,6,5,0,0.83,True
@@ -2479,8 +2479,8 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-11,08006369,Westerland (Sylt),3,3,0,1.0,False
 2026-10-11,08006421,Wiesloch-Walldorf,10,9,1,0.9,True
 2026-10-11,08006730,Neu-Ulm,1,1,0,1.0,False
-2026-10-11,08007768,Norddeich Mole,5,2,0,0.4,False
-2026-10-11,08010018,Bad Kleinen,5,4,0,0.8,False
+2026-10-11,08007768,Norddeich Mole,5,2,0,0.4,True
+2026-10-11,08010018,Bad Kleinen,5,4,0,0.8,True
 2026-10-11,08010033,Bergen auf Rügen,9,7,0,0.78,True
 2026-10-11,08010036,Berlin-Lichtenberg,2,2,0,1.0,False
 2026-10-11,08010050,Bitterfeld,24,18,0,0.75,True
@@ -2513,7 +2513,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-11,08010309,Saalfeld (Saale),6,5,1,0.83,True
 2026-10-11,08010310,Salzwedel,1,0,1,0.0,False
 2026-10-11,08010324,Schwerin Hbf,30,25,0,0.83,True
-2026-10-11,08010334,Stendal Hbf,5,3,1,0.6,False
+2026-10-11,08010334,Stendal Hbf,5,3,1,0.6,True
 2026-10-11,08010338,Stralsund Hbf,12,11,0,0.92,True
 2026-10-11,08010355,Velgast,2,2,0,1.0,False
 2026-10-11,08010368,Weißenfels,2,1,1,0.5,False
@@ -2525,7 +2525,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-11,08011102,Berlin Gesundbrunnen,41,26,3,0.63,True
 2026-10-11,08011113,Berlin Südkreuz,112,80,2,0.71,True
 2026-10-11,08011162,Berlin Ostkreuz,11,7,0,0.64,True
-2026-10-11,08011191,Ostseebad Binz,5,3,0,0.6,False
+2026-10-11,08011191,Ostseebad Binz,5,3,0,0.6,True
 2026-10-11,08011201,Flughafen BER,13,10,0,0.77,True
 2026-10-11,08011956,Jena Paradies,6,5,1,0.83,True
 2026-10-11,08012183,Flughafen Leipzig/Halle,15,13,0,0.87,True
@@ -2533,7 +2533,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-11,08012763,Ribnitz-Damgarten West,2,2,0,1.0,False
 2026-10-11,08013236,Warnemünde,1,1,0,1.0,False
 2026-10-11,08070003,Frankfurt am Main Flughafen Fernbahnhof,170,100,3,0.59,True
-2026-10-11,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,2,0,0.4,False
+2026-10-11,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,2,0,0.4,True
 2026-10-11,08073368,Köln Messe/Deutz,44,29,1,0.66,True
 2026-10-11,08098160,Berlin Hauptbahnhof,148,90,4,0.61,True
 2026-10-11,08098262,München Hbf,3,3,0,1.0,False
@@ -2658,7 +2658,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-12,08001055,Böblingen,33,17,3,0.52,True
 2026-10-12,08001080,Bondorf (b Herrenberg),19,4,3,0.21,True
 2026-10-12,08001338,Coburg,8,5,0,0.62,True
-2026-10-12,08001443,Diepholz,5,1,0,0.2,False
+2026-10-12,08001443,Diepholz,5,1,0,0.2,True
 2026-10-12,08001751,Ellwangen,16,8,1,0.5,True
 2026-10-12,08001768,Emden Hbf,24,9,1,0.38,True
 2026-10-12,08001773,Emmerich,8,7,0,0.88,True
@@ -2756,7 +2756,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-12,08011102,Berlin Gesundbrunnen,43,22,0,0.51,True
 2026-10-12,08011113,Berlin Südkreuz,100,49,2,0.49,True
 2026-10-12,08011162,Berlin Ostkreuz,12,10,0,0.83,True
-2026-10-12,08011191,Ostseebad Binz,5,5,0,1.0,False
+2026-10-12,08011191,Ostseebad Binz,5,5,0,1.0,True
 2026-10-12,08011201,Flughafen BER,14,11,0,0.79,True
 2026-10-12,08011956,Jena Paradies,6,3,1,0.5,True
 2026-10-12,08012183,Flughafen Leipzig/Halle,17,15,0,0.88,True
@@ -2889,7 +2889,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-13,08001055,Böblingen,31,21,3,0.68,True
 2026-10-13,08001080,Bondorf (b Herrenberg),19,9,3,0.47,True
 2026-10-13,08001338,Coburg,8,5,0,0.62,True
-2026-10-13,08001443,Diepholz,5,2,0,0.4,False
+2026-10-13,08001443,Diepholz,5,2,0,0.4,True
 2026-10-13,08001751,Ellwangen,16,11,0,0.69,True
 2026-10-13,08001768,Emden Hbf,24,11,1,0.46,True
 2026-10-13,08001773,Emmerich,8,3,0,0.38,True
@@ -2987,7 +2987,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-13,08011102,Berlin Gesundbrunnen,41,15,0,0.37,True
 2026-10-13,08011113,Berlin Südkreuz,98,44,2,0.45,True
 2026-10-13,08011162,Berlin Ostkreuz,12,8,0,0.67,True
-2026-10-13,08011191,Ostseebad Binz,5,5,0,1.0,False
+2026-10-13,08011191,Ostseebad Binz,5,5,0,1.0,True
 2026-10-13,08011201,Flughafen BER,14,7,0,0.5,True
 2026-10-13,08011956,Jena Paradies,6,5,0,0.83,True
 2026-10-13,08012183,Flughafen Leipzig/Halle,17,15,0,0.88,True
@@ -3120,7 +3120,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-14,08001055,Böblingen,33,24,0,0.73,True
 2026-10-14,08001080,Bondorf (b Herrenberg),18,12,0,0.67,True
 2026-10-14,08001338,Coburg,8,4,0,0.5,True
-2026-10-14,08001443,Diepholz,5,4,0,0.8,False
+2026-10-14,08001443,Diepholz,5,4,0,0.8,True
 2026-10-14,08001751,Ellwangen,16,9,0,0.56,True
 2026-10-14,08001768,Emden Hbf,24,14,0,0.58,True
 2026-10-14,08001773,Emmerich,8,3,0,0.38,True
@@ -3218,7 +3218,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-14,08011102,Berlin Gesundbrunnen,42,19,1,0.45,True
 2026-10-14,08011113,Berlin Südkreuz,98,41,1,0.42,True
 2026-10-14,08011162,Berlin Ostkreuz,12,9,0,0.75,True
-2026-10-14,08011191,Ostseebad Binz,5,4,1,0.8,False
+2026-10-14,08011191,Ostseebad Binz,5,4,1,0.8,True
 2026-10-14,08011201,Flughafen BER,14,8,0,0.57,True
 2026-10-14,08011956,Jena Paradies,6,3,0,0.5,True
 2026-10-14,08012183,Flughafen Leipzig/Halle,17,13,0,0.76,True
@@ -3351,7 +3351,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-15,08001055,Böblingen,33,25,0,0.76,True
 2026-10-15,08001080,Bondorf (b Herrenberg),19,9,0,0.47,True
 2026-10-15,08001338,Coburg,8,3,0,0.38,True
-2026-10-15,08001443,Diepholz,5,1,0,0.2,False
+2026-10-15,08001443,Diepholz,5,1,0,0.2,True
 2026-10-15,08001751,Ellwangen,16,8,2,0.5,True
 2026-10-15,08001768,Emden Hbf,24,10,3,0.42,True
 2026-10-15,08001773,Emmerich,8,3,0,0.38,True
@@ -3448,7 +3448,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-15,08011102,Berlin Gesundbrunnen,42,18,1,0.43,True
 2026-10-15,08011113,Berlin Südkreuz,98,47,0,0.48,True
 2026-10-15,08011162,Berlin Ostkreuz,12,9,1,0.75,True
-2026-10-15,08011191,Ostseebad Binz,5,5,0,1.0,False
+2026-10-15,08011191,Ostseebad Binz,5,5,0,1.0,True
 2026-10-15,08011201,Flughafen BER,14,10,0,0.71,True
 2026-10-15,08011956,Jena Paradies,6,4,0,0.67,True
 2026-10-15,08012183,Flughafen Leipzig/Halle,17,11,0,0.65,True
@@ -3502,7 +3502,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-16,08000115,Fulda,101,57,2,0.56,True
 2026-10-16,08000116,Traunstein,8,3,0,0.38,True
 2026-10-16,08000118,Gelsenkirchen Hbf,27,1,5,0.04,True
-2026-10-16,08000122,Treuchtlingen,5,3,1,0.6,False
+2026-10-16,08000122,Treuchtlingen,5,3,1,0.6,True
 2026-10-16,08000124,Gießen,10,6,1,0.6,True
 2026-10-16,08000128,Göttingen,92,50,3,0.54,True
 2026-10-16,08000129,Treysa,10,5,1,0.5,True
@@ -3581,7 +3581,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-16,08001055,Böblingen,33,17,0,0.52,True
 2026-10-16,08001080,Bondorf (b Herrenberg),19,11,0,0.58,True
 2026-10-16,08001338,Coburg,8,6,0,0.75,True
-2026-10-16,08001443,Diepholz,5,0,0,0.0,False
+2026-10-16,08001443,Diepholz,5,0,0,0.0,True
 2026-10-16,08001751,Ellwangen,17,12,0,0.71,True
 2026-10-16,08001768,Emden Hbf,25,11,1,0.44,True
 2026-10-16,08001773,Emmerich,8,5,0,0.62,True
@@ -3600,7 +3600,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-16,08003184,Karlsruhe-Durlach,2,1,0,0.5,False
 2026-10-16,08003200,Kassel-Wilhelmshöhe,93,56,3,0.6,True
 2026-10-16,08003218,Kehl,4,2,0,0.5,False
-2026-10-16,08003330,Köln/Bonn Flughafen,5,4,0,0.8,False
+2026-10-16,08003330,Köln/Bonn Flughafen,5,4,0,0.8,True
 2026-10-16,08003400,Konstanz,2,1,0,0.5,False
 2026-10-16,08003446,Kronach,4,3,0,0.75,False
 2026-10-16,08003515,Landstuhl,1,1,0,1.0,False
@@ -3678,7 +3678,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-16,08011102,Berlin Gesundbrunnen,42,21,4,0.5,True
 2026-10-16,08011113,Berlin Südkreuz,98,56,1,0.57,True
 2026-10-16,08011162,Berlin Ostkreuz,12,9,0,0.75,True
-2026-10-16,08011191,Ostseebad Binz,5,5,0,1.0,False
+2026-10-16,08011191,Ostseebad Binz,5,5,0,1.0,True
 2026-10-16,08011201,Flughafen BER,14,7,0,0.5,True
 2026-10-16,08011956,Jena Paradies,6,5,0,0.83,True
 2026-10-16,08012183,Flughafen Leipzig/Halle,17,17,0,1.0,True
@@ -3772,7 +3772,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-17,08000257,Worms Hbf,1,0,1,0.0,False
 2026-10-17,08000260,Würzburg Hbf,83,62,0,0.75,True
 2026-10-17,08000261,München Hbf,111,74,2,0.67,True
-2026-10-17,08000262,München Ost,5,4,0,0.8,False
+2026-10-17,08000262,München Ost,5,4,0,0.8,True
 2026-10-17,08000263,Münster (Westf) Hbf,63,28,0,0.44,True
 2026-10-17,08000266,Wuppertal Hbf,67,30,3,0.45,True
 2026-10-17,08000271,Neumünster,18,5,7,0.28,True
@@ -3808,7 +3808,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-17,08001055,Böblingen,30,22,0,0.73,True
 2026-10-17,08001080,Bondorf (b Herrenberg),16,10,0,0.62,True
 2026-10-17,08001338,Coburg,8,5,0,0.62,True
-2026-10-17,08001443,Diepholz,5,1,0,0.2,False
+2026-10-17,08001443,Diepholz,5,1,0,0.2,True
 2026-10-17,08001751,Ellwangen,15,11,0,0.73,True
 2026-10-17,08001768,Emden Hbf,25,13,0,0.52,True
 2026-10-17,08001773,Emmerich,20,13,2,0.65,True
@@ -3860,12 +3860,12 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-17,08006730,Neu-Ulm,1,1,0,1.0,False
 2026-10-17,08007768,Norddeich Mole,6,3,0,0.5,True
 2026-10-17,08010004,Angermünde,1,1,0,1.0,False
-2026-10-17,08010018,Bad Kleinen,5,4,0,0.8,False
+2026-10-17,08010018,Bad Kleinen,5,4,0,0.8,True
 2026-10-17,08010033,Bergen auf Rügen,18,18,0,1.0,True
 2026-10-17,08010036,Berlin-Lichtenberg,2,2,0,1.0,False
 2026-10-17,08010041,Berlin-Schöneweide,1,1,0,1.0,False
 2026-10-17,08010050,Bitterfeld,21,15,0,0.71,True
-2026-10-17,08010060,Brandenburg Hbf,5,3,0,0.6,False
+2026-10-17,08010060,Brandenburg Hbf,5,3,0,0.6,True
 2026-10-17,08010066,Bützow,15,13,0,0.87,True
 2026-10-17,08010085,Dresden Hbf,19,9,0,0.47,True
 2026-10-17,08010089,Dresden-Neustadt,42,31,0,0.74,True
@@ -3893,7 +3893,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-17,08010309,Saalfeld (Saale),6,5,0,0.83,True
 2026-10-17,08010310,Salzwedel,1,0,0,0.0,False
 2026-10-17,08010324,Schwerin Hbf,26,20,0,0.77,True
-2026-10-17,08010334,Stendal Hbf,5,2,0,0.4,False
+2026-10-17,08010334,Stendal Hbf,5,2,0,0.4,True
 2026-10-17,08010338,Stralsund Hbf,20,18,0,0.9,True
 2026-10-17,08010355,Velgast,10,9,0,0.9,True
 2026-10-17,08010368,Weißenfels,2,2,0,1.0,False
@@ -3913,7 +3913,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-17,08012763,Ribnitz-Damgarten West,10,9,0,0.9,True
 2026-10-17,08013236,Warnemünde,1,1,0,1.0,False
 2026-10-17,08070003,Frankfurt am Main Flughafen Fernbahnhof,167,119,4,0.71,True
-2026-10-17,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,3,0,0.6,False
+2026-10-17,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,3,0,0.6,True
 2026-10-17,08073368,Köln Messe/Deutz,47,35,1,0.74,True
 2026-10-17,08098160,Berlin Hauptbahnhof,148,82,3,0.55,True
 2026-10-17,08098262,München Hbf,3,2,0,0.67,False
@@ -3976,7 +3976,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-18,08000168,Uelzen,20,13,0,0.65,True
 2026-10-18,08000169,Hildesheim Hbf,16,12,2,0.75,True
 2026-10-18,08000170,Ulm Hbf,79,49,5,0.62,True
-2026-10-18,08000176,Homburg (Saar) Hbf,5,4,0,0.8,False
+2026-10-18,08000176,Homburg (Saar) Hbf,5,4,0,0.8,True
 2026-10-18,08000177,Horb,28,15,0,0.54,True
 2026-10-18,08000181,Husum,6,4,2,0.67,True
 2026-10-18,08000183,Ingolstadt Hbf,41,28,1,0.68,True
@@ -3998,11 +3998,11 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-18,08000257,Worms Hbf,1,1,0,1.0,False
 2026-10-18,08000260,Würzburg Hbf,82,67,1,0.82,True
 2026-10-18,08000261,München Hbf,110,68,7,0.62,True
-2026-10-18,08000262,München Ost,5,2,0,0.4,False
+2026-10-18,08000262,München Ost,5,2,0,0.4,True
 2026-10-18,08000263,Münster (Westf) Hbf,62,28,4,0.45,True
 2026-10-18,08000266,Wuppertal Hbf,70,36,1,0.51,True
 2026-10-18,08000271,Neumünster,18,12,1,0.67,True
-2026-10-18,08000275,Neustadt (Weinstr) Hbf,5,4,0,0.8,False
+2026-10-18,08000275,Neustadt (Weinstr) Hbf,5,4,0,0.8,True
 2026-10-18,08000279,Nienburg (Weser),17,16,0,0.94,True
 2026-10-18,08000284,Nürnberg Hbf,153,108,4,0.71,True
 2026-10-18,08000286,Oberhausen Hbf,7,0,7,0.0,True
@@ -4034,7 +4034,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-18,08001055,Böblingen,28,20,0,0.71,True
 2026-10-18,08001080,Bondorf (b Herrenberg),14,8,0,0.57,True
 2026-10-18,08001338,Coburg,7,3,1,0.43,True
-2026-10-18,08001443,Diepholz,5,2,0,0.4,False
+2026-10-18,08001443,Diepholz,5,2,0,0.4,True
 2026-10-18,08001751,Ellwangen,14,9,0,0.64,True
 2026-10-18,08001768,Emden Hbf,23,15,1,0.65,True
 2026-10-18,08001773,Emmerich,19,5,9,0.26,True
@@ -4061,7 +4061,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-18,08003680,Limburg Süd,20,12,1,0.6,True
 2026-10-18,08003701,Lingen (Ems),11,5,1,0.45,True
 2026-10-18,08003770,Ludwigsstadt,4,2,0,0.5,False
-2026-10-18,08003866,Marienhafe,5,4,0,0.8,False
+2026-10-18,08003866,Marienhafe,5,4,0,0.8,True
 2026-10-18,08003978,Meppen,11,5,1,0.45,True
 2026-10-18,08004124,Müllheim im Markgräflerland,1,1,0,1.0,False
 2026-10-18,08004158,München-Pasing,54,36,7,0.67,True
@@ -4086,7 +4086,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-18,08006369,Westerland (Sylt),3,2,1,0.67,False
 2026-10-18,08006421,Wiesloch-Walldorf,12,8,2,0.67,True
 2026-10-18,08006730,Neu-Ulm,1,1,0,1.0,False
-2026-10-18,08007768,Norddeich Mole,5,3,1,0.6,False
+2026-10-18,08007768,Norddeich Mole,5,3,1,0.6,True
 2026-10-18,08010018,Bad Kleinen,6,4,0,0.67,True
 2026-10-18,08010033,Bergen auf Rügen,16,15,0,0.94,True
 2026-10-18,08010036,Berlin-Lichtenberg,2,2,0,1.0,False
@@ -4120,7 +4120,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-18,08010309,Saalfeld (Saale),6,4,0,0.67,True
 2026-10-18,08010310,Salzwedel,1,1,0,1.0,False
 2026-10-18,08010324,Schwerin Hbf,26,20,0,0.77,True
-2026-10-18,08010334,Stendal Hbf,5,3,0,0.6,False
+2026-10-18,08010334,Stendal Hbf,5,3,0,0.6,True
 2026-10-18,08010338,Stralsund Hbf,20,17,0,0.85,True
 2026-10-18,08010355,Velgast,10,8,0,0.8,True
 2026-10-18,08010368,Weißenfels,2,0,0,0.0,False
@@ -4140,7 +4140,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-18,08012763,Ribnitz-Damgarten West,10,8,0,0.8,True
 2026-10-18,08013236,Warnemünde,1,0,0,0.0,False
 2026-10-18,08070003,Frankfurt am Main Flughafen Fernbahnhof,168,103,5,0.61,True
-2026-10-18,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,3,1,0.6,False
+2026-10-18,08070004,Frankfurt (Main) Flughafen Regionalbahnhof,5,3,1,0.6,True
 2026-10-18,08073368,Köln Messe/Deutz,44,29,1,0.66,True
 2026-10-18,08098160,Berlin Hauptbahnhof,144,97,3,0.67,True
 2026-10-18,08098262,München Hbf,3,2,1,0.67,False
@@ -4167,7 +4167,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-19,08000068,Darmstadt Hbf,31,24,2,0.77,True
 2026-10-19,08000070,Delmenhorst,20,15,1,0.75,True
 2026-10-19,08000073,Singen (Hohentwiel),33,28,1,0.85,True
-2026-10-19,08000076,Soest,5,3,0,0.6,False
+2026-10-19,08000076,Soest,5,3,0,0.6,True
 2026-10-19,08000078,Donauwörth,20,11,3,0.55,True
 2026-10-19,08000080,Dortmund Hbf,98,44,0,0.45,True
 2026-10-19,08000082,Düsseldorf Flughafen,1,0,1,0.0,False
@@ -4204,7 +4204,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-19,08000168,Uelzen,22,12,0,0.55,True
 2026-10-19,08000169,Hildesheim Hbf,14,9,1,0.64,True
 2026-10-19,08000170,Ulm Hbf,85,54,4,0.64,True
-2026-10-19,08000176,Homburg (Saar) Hbf,5,5,0,1.0,False
+2026-10-19,08000176,Homburg (Saar) Hbf,5,5,0,1.0,True
 2026-10-19,08000177,Horb,33,20,0,0.61,True
 2026-10-19,08000181,Husum,6,4,1,0.67,True
 2026-10-19,08000183,Ingolstadt Hbf,42,22,1,0.52,True
@@ -4231,7 +4231,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-19,08000263,Münster (Westf) Hbf,59,18,0,0.31,True
 2026-10-19,08000266,Wuppertal Hbf,69,29,1,0.42,True
 2026-10-19,08000271,Neumünster,18,10,0,0.56,True
-2026-10-19,08000275,Neustadt (Weinstr) Hbf,5,5,0,1.0,False
+2026-10-19,08000275,Neustadt (Weinstr) Hbf,5,5,0,1.0,True
 2026-10-19,08000279,Nienburg (Weser),16,11,1,0.69,True
 2026-10-19,08000284,Nürnberg Hbf,158,64,9,0.41,True
 2026-10-19,08000290,Offenburg,38,21,1,0.55,True
@@ -4263,7 +4263,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-19,08001055,Böblingen,33,26,1,0.79,True
 2026-10-19,08001080,Bondorf (b Herrenberg),18,10,0,0.56,True
 2026-10-19,08001338,Coburg,8,5,0,0.62,True
-2026-10-19,08001443,Diepholz,5,4,0,0.8,False
+2026-10-19,08001443,Diepholz,5,4,0,0.8,True
 2026-10-19,08001751,Ellwangen,16,9,2,0.56,True
 2026-10-19,08001768,Emden Hbf,24,10,0,0.42,True
 2026-10-19,08001773,Emmerich,7,3,1,0.43,True
@@ -4282,7 +4282,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-19,08003184,Karlsruhe-Durlach,2,2,0,1.0,False
 2026-10-19,08003200,Kassel-Wilhelmshöhe,90,55,1,0.61,True
 2026-10-19,08003218,Kehl,4,3,0,0.75,False
-2026-10-19,08003330,Köln/Bonn Flughafen,5,4,0,0.8,False
+2026-10-19,08003330,Köln/Bonn Flughafen,5,4,0,0.8,True
 2026-10-19,08003361,Köln Süd,1,0,0,0.0,False
 2026-10-19,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-19,08003400,Konstanz,1,1,0,1.0,False
@@ -4396,7 +4396,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-20,08000068,Darmstadt Hbf,32,21,2,0.66,True
 2026-10-20,08000070,Delmenhorst,20,16,1,0.8,True
 2026-10-20,08000073,Singen (Hohentwiel),34,25,1,0.74,True
-2026-10-20,08000076,Soest,5,2,1,0.4,False
+2026-10-20,08000076,Soest,5,2,1,0.4,True
 2026-10-20,08000078,Donauwörth,20,9,2,0.45,True
 2026-10-20,08000080,Dortmund Hbf,98,19,4,0.19,True
 2026-10-20,08000082,Düsseldorf Flughafen,1,0,0,0.0,False
@@ -4493,7 +4493,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-20,08001055,Böblingen,34,20,3,0.59,True
 2026-10-20,08001080,Bondorf (b Herrenberg),19,6,3,0.32,True
 2026-10-20,08001338,Coburg,8,4,1,0.5,True
-2026-10-20,08001443,Diepholz,5,1,0,0.2,False
+2026-10-20,08001443,Diepholz,5,1,0,0.2,True
 2026-10-20,08001751,Ellwangen,16,6,0,0.38,True
 2026-10-20,08001768,Emden Hbf,24,12,0,0.5,True
 2026-10-20,08001773,Emmerich,7,2,0,0.29,True
@@ -4512,7 +4512,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-20,08003184,Karlsruhe-Durlach,2,2,0,1.0,False
 2026-10-20,08003200,Kassel-Wilhelmshöhe,94,65,3,0.69,True
 2026-10-20,08003218,Kehl,4,3,0,0.75,False
-2026-10-20,08003330,Köln/Bonn Flughafen,5,4,0,0.8,False
+2026-10-20,08003330,Köln/Bonn Flughafen,5,4,0,0.8,True
 2026-10-20,08003361,Köln Süd,1,0,0,0.0,False
 2026-10-20,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-20,08003400,Konstanz,2,1,0,0.5,False
@@ -4664,7 +4664,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-21,08000168,Uelzen,22,12,0,0.55,True
 2026-10-21,08000169,Hildesheim Hbf,14,5,0,0.36,True
 2026-10-21,08000170,Ulm Hbf,86,48,2,0.56,True
-2026-10-21,08000176,Homburg (Saar) Hbf,5,5,0,1.0,False
+2026-10-21,08000176,Homburg (Saar) Hbf,5,5,0,1.0,True
 2026-10-21,08000177,Horb,34,18,2,0.53,True
 2026-10-21,08000181,Husum,6,5,0,0.83,True
 2026-10-21,08000183,Ingolstadt Hbf,45,24,1,0.53,True
@@ -4690,7 +4690,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-21,08000263,Münster (Westf) Hbf,59,19,1,0.32,True
 2026-10-21,08000266,Wuppertal Hbf,67,18,2,0.27,True
 2026-10-21,08000271,Neumünster,18,6,3,0.33,True
-2026-10-21,08000275,Neustadt (Weinstr) Hbf,5,4,0,0.8,False
+2026-10-21,08000275,Neustadt (Weinstr) Hbf,5,4,0,0.8,True
 2026-10-21,08000279,Nienburg (Weser),16,12,0,0.75,True
 2026-10-21,08000284,Nürnberg Hbf,157,73,2,0.46,True
 2026-10-21,08000290,Offenburg,38,23,0,0.61,True
@@ -4724,7 +4724,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-21,08001055,Böblingen,34,21,2,0.62,True
 2026-10-21,08001080,Bondorf (b Herrenberg),19,12,2,0.63,True
 2026-10-21,08001338,Coburg,8,4,1,0.5,True
-2026-10-21,08001443,Diepholz,5,2,0,0.4,False
+2026-10-21,08001443,Diepholz,5,2,0,0.4,True
 2026-10-21,08001751,Ellwangen,16,4,1,0.25,True
 2026-10-21,08001768,Emden Hbf,24,15,1,0.62,True
 2026-10-21,08001773,Emmerich,7,2,3,0.29,True
@@ -4743,7 +4743,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-21,08003184,Karlsruhe-Durlach,2,2,0,1.0,False
 2026-10-21,08003200,Kassel-Wilhelmshöhe,93,52,1,0.56,True
 2026-10-21,08003218,Kehl,4,4,0,1.0,False
-2026-10-21,08003330,Köln/Bonn Flughafen,5,4,1,0.8,False
+2026-10-21,08003330,Köln/Bonn Flughafen,5,4,1,0.8,True
 2026-10-21,08003361,Köln Süd,1,0,0,0.0,False
 2026-10-21,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-21,08003400,Konstanz,2,1,0,0.5,False
@@ -4894,7 +4894,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-22,08000168,Uelzen,23,14,0,0.61,True
 2026-10-22,08000169,Hildesheim Hbf,14,6,0,0.43,True
 2026-10-22,08000170,Ulm Hbf,86,36,1,0.42,True
-2026-10-22,08000176,Homburg (Saar) Hbf,5,5,0,1.0,False
+2026-10-22,08000176,Homburg (Saar) Hbf,5,5,0,1.0,True
 2026-10-22,08000177,Horb,34,14,1,0.41,True
 2026-10-22,08000181,Husum,6,3,0,0.5,True
 2026-10-22,08000183,Ingolstadt Hbf,45,34,1,0.76,True
@@ -4920,7 +4920,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-22,08000263,Münster (Westf) Hbf,56,13,0,0.23,True
 2026-10-22,08000266,Wuppertal Hbf,70,11,1,0.16,True
 2026-10-22,08000271,Neumünster,18,6,1,0.33,True
-2026-10-22,08000275,Neustadt (Weinstr) Hbf,5,4,0,0.8,False
+2026-10-22,08000275,Neustadt (Weinstr) Hbf,5,4,0,0.8,True
 2026-10-22,08000279,Nienburg (Weser),16,10,0,0.62,True
 2026-10-22,08000284,Nürnberg Hbf,156,99,1,0.63,True
 2026-10-22,08000290,Offenburg,39,19,2,0.49,True
@@ -4954,7 +4954,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-22,08001055,Böblingen,34,21,1,0.62,True
 2026-10-22,08001080,Bondorf (b Herrenberg),19,6,1,0.32,True
 2026-10-22,08001338,Coburg,8,5,0,0.62,True
-2026-10-22,08001443,Diepholz,5,3,0,0.6,False
+2026-10-22,08001443,Diepholz,5,3,0,0.6,True
 2026-10-22,08001751,Ellwangen,16,10,0,0.62,True
 2026-10-22,08001768,Emden Hbf,24,11,1,0.46,True
 2026-10-22,08001773,Emmerich,8,1,3,0.12,True
@@ -4973,7 +4973,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-22,08003184,Karlsruhe-Durlach,2,1,1,0.5,False
 2026-10-22,08003200,Kassel-Wilhelmshöhe,94,57,1,0.61,True
 2026-10-22,08003218,Kehl,4,4,0,1.0,False
-2026-10-22,08003330,Köln/Bonn Flughafen,5,4,0,0.8,False
+2026-10-22,08003330,Köln/Bonn Flughafen,5,4,0,0.8,True
 2026-10-22,08003361,Köln Süd,1,0,0,0.0,False
 2026-10-22,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-22,08003400,Konstanz,2,1,0,0.5,False
@@ -5106,7 +5106,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-23,08000115,Fulda,100,55,1,0.55,True
 2026-10-23,08000116,Traunstein,8,2,0,0.25,True
 2026-10-23,08000118,Gelsenkirchen Hbf,27,4,4,0.15,True
-2026-10-23,08000122,Treuchtlingen,5,5,0,1.0,False
+2026-10-23,08000122,Treuchtlingen,5,5,0,1.0,True
 2026-10-23,08000124,Gießen,10,5,0,0.5,True
 2026-10-23,08000128,Göttingen,92,63,1,0.68,True
 2026-10-23,08000129,Treysa,10,4,0,0.4,True
@@ -5124,7 +5124,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-23,08000168,Uelzen,23,14,0,0.61,True
 2026-10-23,08000169,Hildesheim Hbf,14,10,0,0.71,True
 2026-10-23,08000170,Ulm Hbf,86,49,2,0.57,True
-2026-10-23,08000176,Homburg (Saar) Hbf,5,4,0,0.8,False
+2026-10-23,08000176,Homburg (Saar) Hbf,5,4,0,0.8,True
 2026-10-23,08000177,Horb,34,18,1,0.53,True
 2026-10-23,08000181,Husum,6,4,0,0.67,True
 2026-10-23,08000183,Ingolstadt Hbf,46,32,1,0.7,True
@@ -5150,7 +5150,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-23,08000263,Münster (Westf) Hbf,57,11,1,0.19,True
 2026-10-23,08000266,Wuppertal Hbf,70,6,2,0.09,True
 2026-10-23,08000271,Neumünster,16,11,0,0.69,True
-2026-10-23,08000275,Neustadt (Weinstr) Hbf,5,2,0,0.4,False
+2026-10-23,08000275,Neustadt (Weinstr) Hbf,5,2,0,0.4,True
 2026-10-23,08000279,Nienburg (Weser),16,13,0,0.81,True
 2026-10-23,08000284,Nürnberg Hbf,155,97,2,0.63,True
 2026-10-23,08000290,Offenburg,40,19,0,0.47,True
@@ -5184,7 +5184,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-23,08001055,Böblingen,33,28,1,0.85,True
 2026-10-23,08001080,Bondorf (b Herrenberg),19,11,1,0.58,True
 2026-10-23,08001338,Coburg,8,5,0,0.62,True
-2026-10-23,08001443,Diepholz,5,2,0,0.4,False
+2026-10-23,08001443,Diepholz,5,2,0,0.4,True
 2026-10-23,08001751,Ellwangen,17,7,3,0.41,True
 2026-10-23,08001768,Emden Hbf,25,5,3,0.2,True
 2026-10-23,08001773,Emmerich,8,1,0,0.12,True
@@ -5203,7 +5203,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-23,08003184,Karlsruhe-Durlach,2,1,0,0.5,False
 2026-10-23,08003200,Kassel-Wilhelmshöhe,93,67,0,0.72,True
 2026-10-23,08003218,Kehl,4,3,1,0.75,False
-2026-10-23,08003330,Köln/Bonn Flughafen,5,2,1,0.4,False
+2026-10-23,08003330,Köln/Bonn Flughafen,5,2,1,0.4,True
 2026-10-23,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-23,08003400,Konstanz,1,1,0,1.0,False
 2026-10-23,08003446,Kronach,4,2,0,0.5,False
@@ -5410,7 +5410,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-24,08001055,Böblingen,30,20,0,0.67,True
 2026-10-24,08001080,Bondorf (b Herrenberg),16,11,0,0.69,True
 2026-10-24,08001338,Coburg,7,3,0,0.43,True
-2026-10-24,08001443,Diepholz,5,2,0,0.4,False
+2026-10-24,08001443,Diepholz,5,2,0,0.4,True
 2026-10-24,08001751,Ellwangen,15,6,2,0.4,True
 2026-10-24,08001768,Emden Hbf,25,13,2,0.52,True
 2026-10-24,08001773,Emmerich,19,4,5,0.21,True
@@ -5444,7 +5444,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-24,08004563,Oberndorf (Neckar),17,6,0,0.35,True
 2026-10-24,08004610,Westerstede-Ocholt,17,15,0,0.88,True
 2026-10-24,08004751,Papenburg (Ems),12,3,1,0.25,True
-2026-10-24,08004885,Prien am Chiemsee,5,3,0,0.6,False
+2026-10-24,08004885,Prien am Chiemsee,5,3,0,0.6,True
 2026-10-24,08004965,Ravensburg,2,1,0,0.5,False
 2026-10-24,08005424,Schorndorf,2,1,0,0.5,False
 2026-10-24,08005556,Siegburg/Bonn,49,21,3,0.43,True
@@ -5459,12 +5459,12 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-24,08006730,Neu-Ulm,1,1,0,1.0,False
 2026-10-24,08007768,Norddeich Mole,6,1,2,0.17,True
 2026-10-24,08010004,Angermünde,1,1,0,1.0,False
-2026-10-24,08010018,Bad Kleinen,5,4,0,0.8,False
+2026-10-24,08010018,Bad Kleinen,5,4,0,0.8,True
 2026-10-24,08010033,Bergen auf Rügen,18,12,2,0.67,True
 2026-10-24,08010036,Berlin-Lichtenberg,2,1,1,0.5,False
 2026-10-24,08010041,Berlin-Schöneweide,1,1,0,1.0,False
 2026-10-24,08010050,Bitterfeld,21,16,0,0.76,True
-2026-10-24,08010060,Brandenburg Hbf,5,2,1,0.4,False
+2026-10-24,08010060,Brandenburg Hbf,5,2,1,0.4,True
 2026-10-24,08010066,Bützow,15,10,0,0.67,True
 2026-10-24,08010085,Dresden Hbf,20,10,1,0.5,True
 2026-10-24,08010089,Dresden-Neustadt,43,31,1,0.72,True
@@ -5492,7 +5492,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-24,08010309,Saalfeld (Saale),7,3,0,0.43,True
 2026-10-24,08010310,Salzwedel,1,0,0,0.0,False
 2026-10-24,08010324,Schwerin Hbf,26,18,0,0.69,True
-2026-10-24,08010334,Stendal Hbf,5,3,0,0.6,False
+2026-10-24,08010334,Stendal Hbf,5,3,0,0.6,True
 2026-10-24,08010338,Stralsund Hbf,20,9,1,0.45,True
 2026-10-24,08010355,Velgast,10,3,0,0.3,True
 2026-10-24,08010368,Weißenfels,2,1,0,0.5,False
@@ -5631,7 +5631,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-25,08001055,Böblingen,29,17,1,0.59,True
 2026-10-25,08001080,Bondorf (b Herrenberg),14,7,0,0.5,True
 2026-10-25,08001338,Coburg,6,5,0,0.83,True
-2026-10-25,08001443,Diepholz,5,2,0,0.4,False
+2026-10-25,08001443,Diepholz,5,2,0,0.4,True
 2026-10-25,08001751,Ellwangen,14,9,0,0.64,True
 2026-10-25,08001768,Emden Hbf,22,10,4,0.45,True
 2026-10-25,08001773,Emmerich,19,1,3,0.05,True
@@ -5679,7 +5679,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-25,08006369,Westerland (Sylt),1,0,0,0.0,False
 2026-10-25,08006421,Wiesloch-Walldorf,1,0,1,0.0,False
 2026-10-25,08006730,Neu-Ulm,1,1,0,1.0,False
-2026-10-25,08007768,Norddeich Mole,5,2,2,0.4,False
+2026-10-25,08007768,Norddeich Mole,5,2,2,0.4,True
 2026-10-25,08010018,Bad Kleinen,6,4,0,0.67,True
 2026-10-25,08010033,Bergen auf Rügen,16,12,0,0.75,True
 2026-10-25,08010036,Berlin-Lichtenberg,2,1,0,0.5,False
@@ -5713,7 +5713,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-25,08010309,Saalfeld (Saale),4,3,0,0.75,False
 2026-10-25,08010310,Salzwedel,1,0,0,0.0,False
 2026-10-25,08010324,Schwerin Hbf,26,17,0,0.65,True
-2026-10-25,08010334,Stendal Hbf,5,2,0,0.4,False
+2026-10-25,08010334,Stendal Hbf,5,2,0,0.4,True
 2026-10-25,08010338,Stralsund Hbf,20,15,0,0.75,True
 2026-10-25,08010355,Velgast,10,6,0,0.6,True
 2026-10-25,08010368,Weißenfels,2,2,0,1.0,False
@@ -5854,7 +5854,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-26,08001055,Böblingen,34,23,0,0.68,True
 2026-10-26,08001080,Bondorf (b Herrenberg),19,10,0,0.53,True
 2026-10-26,08001338,Coburg,8,5,1,0.62,True
-2026-10-26,08001443,Diepholz,5,1,0,0.2,False
+2026-10-26,08001443,Diepholz,5,1,0,0.2,True
 2026-10-26,08001751,Ellwangen,16,10,0,0.62,True
 2026-10-26,08001768,Emden Hbf,24,16,4,0.67,True
 2026-10-26,08001773,Emmerich,8,4,0,0.5,True
@@ -5873,7 +5873,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-26,08003184,Karlsruhe-Durlach,2,2,0,1.0,False
 2026-10-26,08003200,Kassel-Wilhelmshöhe,79,46,3,0.58,True
 2026-10-26,08003218,Kehl,3,3,0,1.0,False
-2026-10-26,08003330,Köln/Bonn Flughafen,5,3,0,0.6,False
+2026-10-26,08003330,Köln/Bonn Flughafen,5,3,0,0.6,True
 2026-10-26,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-26,08003400,Konstanz,2,1,0,0.5,False
 2026-10-26,08003446,Kronach,4,2,0,0.5,False
@@ -6072,7 +6072,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-27,08001055,Böblingen,34,25,0,0.74,True
 2026-10-27,08001080,Bondorf (b Herrenberg),19,9,0,0.47,True
 2026-10-27,08001338,Coburg,8,7,0,0.88,True
-2026-10-27,08001443,Diepholz,5,1,0,0.2,False
+2026-10-27,08001443,Diepholz,5,1,0,0.2,True
 2026-10-27,08001751,Ellwangen,16,9,0,0.56,True
 2026-10-27,08001768,Emden Hbf,24,13,1,0.54,True
 2026-10-27,08001773,Emmerich,8,2,0,0.25,True
@@ -6290,7 +6290,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-28,08001055,Böblingen,34,27,0,0.79,True
 2026-10-28,08001080,Bondorf (b Herrenberg),19,11,0,0.58,True
 2026-10-28,08001338,Coburg,8,6,0,0.75,True
-2026-10-28,08001443,Diepholz,5,2,0,0.4,False
+2026-10-28,08001443,Diepholz,5,2,0,0.4,True
 2026-10-28,08001751,Ellwangen,16,7,0,0.44,True
 2026-10-28,08001768,Emden Hbf,24,10,1,0.42,True
 2026-10-28,08001773,Emmerich,8,3,0,0.38,True
@@ -6308,7 +6308,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-28,08003184,Karlsruhe-Durlach,2,1,1,0.5,False
 2026-10-28,08003200,Kassel-Wilhelmshöhe,78,45,0,0.58,True
 2026-10-28,08003218,Kehl,3,2,0,0.67,False
-2026-10-28,08003330,Köln/Bonn Flughafen,5,3,0,0.6,False
+2026-10-28,08003330,Köln/Bonn Flughafen,5,3,0,0.6,True
 2026-10-28,08003361,Köln Süd,1,0,0,0.0,False
 2026-10-28,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-28,08003400,Konstanz,2,0,0,0.0,False
@@ -6527,7 +6527,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-29,08003184,Karlsruhe-Durlach,2,2,0,1.0,False
 2026-10-29,08003200,Kassel-Wilhelmshöhe,77,34,2,0.44,True
 2026-10-29,08003218,Kehl,3,3,0,1.0,False
-2026-10-29,08003330,Köln/Bonn Flughafen,5,5,0,1.0,False
+2026-10-29,08003330,Köln/Bonn Flughafen,5,5,0,1.0,True
 2026-10-29,08003361,Köln Süd,1,0,0,0.0,False
 2026-10-29,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-10-29,08003400,Konstanz,2,1,0,0.5,False
@@ -6657,7 +6657,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-30,08000115,Fulda,100,40,1,0.4,True
 2026-10-30,08000116,Traunstein,8,1,0,0.12,True
 2026-10-30,08000118,Gelsenkirchen Hbf,23,2,8,0.09,True
-2026-10-30,08000122,Treuchtlingen,5,3,0,0.6,False
+2026-10-30,08000122,Treuchtlingen,5,3,0,0.6,True
 2026-10-30,08000124,Gießen,10,8,1,0.8,True
 2026-10-30,08000128,Göttingen,90,44,2,0.49,True
 2026-10-30,08000129,Treysa,10,8,1,0.8,True
@@ -6674,7 +6674,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-30,08000168,Uelzen,23,9,0,0.39,True
 2026-10-30,08000169,Hildesheim Hbf,14,7,1,0.5,True
 2026-10-30,08000170,Ulm Hbf,86,41,2,0.48,True
-2026-10-30,08000176,Homburg (Saar) Hbf,5,5,0,1.0,False
+2026-10-30,08000176,Homburg (Saar) Hbf,5,5,0,1.0,True
 2026-10-30,08000177,Horb,34,13,0,0.38,True
 2026-10-30,08000183,Ingolstadt Hbf,38,16,4,0.42,True
 2026-10-30,08000189,Kaiserslautern Hbf,11,9,0,0.82,True
@@ -6700,7 +6700,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-30,08000266,Wuppertal Hbf,63,18,2,0.29,True
 2026-10-30,08000268,Wunstorf,1,0,0,0.0,False
 2026-10-30,08000271,Neumünster,18,10,0,0.56,True
-2026-10-30,08000275,Neustadt (Weinstr) Hbf,5,5,0,1.0,False
+2026-10-30,08000275,Neustadt (Weinstr) Hbf,5,5,0,1.0,True
 2026-10-30,08000279,Nienburg (Weser),15,8,0,0.53,True
 2026-10-30,08000284,Nürnberg Hbf,152,48,25,0.32,True
 2026-10-30,08000286,Oberhausen Hbf,3,0,0,0.0,False
@@ -6752,7 +6752,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-30,08003184,Karlsruhe-Durlach,2,2,0,1.0,False
 2026-10-30,08003200,Kassel-Wilhelmshöhe,92,47,2,0.51,True
 2026-10-30,08003218,Kehl,3,2,0,0.67,False
-2026-10-30,08003330,Köln/Bonn Flughafen,5,3,1,0.6,False
+2026-10-30,08003330,Köln/Bonn Flughafen,5,3,1,0.6,True
 2026-10-30,08003400,Konstanz,2,1,0,0.5,False
 2026-10-30,08003446,Kronach,4,1,1,0.25,False
 2026-10-30,08003487,Hannover-Messe / Laatzen,1,0,0,0.0,False
@@ -6922,7 +6922,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-31,08000257,Worms Hbf,1,0,0,0.0,False
 2026-10-31,08000260,Würzburg Hbf,65,42,1,0.65,True
 2026-10-31,08000261,München Hbf,82,56,0,0.68,True
-2026-10-31,08000262,München Ost,5,5,0,1.0,False
+2026-10-31,08000262,München Ost,5,5,0,1.0,True
 2026-10-31,08000263,Münster (Westf) Hbf,50,19,0,0.38,True
 2026-10-31,08000266,Wuppertal Hbf,57,22,1,0.39,True
 2026-10-31,08000268,Wunstorf,1,0,0,0.0,False
@@ -7008,12 +7008,12 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-31,08006730,Neu-Ulm,1,1,0,1.0,False
 2026-10-31,08007768,Norddeich Mole,2,2,0,1.0,False
 2026-10-31,08010004,Angermünde,1,1,0,1.0,False
-2026-10-31,08010018,Bad Kleinen,5,4,0,0.8,False
+2026-10-31,08010018,Bad Kleinen,5,4,0,0.8,True
 2026-10-31,08010033,Bergen auf Rügen,9,9,0,1.0,True
 2026-10-31,08010036,Berlin-Lichtenberg,2,1,0,0.5,False
 2026-10-31,08010041,Berlin-Schöneweide,1,1,0,1.0,False
 2026-10-31,08010050,Bitterfeld,21,16,0,0.76,True
-2026-10-31,08010060,Brandenburg Hbf,5,2,0,0.4,False
+2026-10-31,08010060,Brandenburg Hbf,5,2,0,0.4,True
 2026-10-31,08010066,Bützow,13,12,0,0.92,True
 2026-10-31,08010085,Dresden Hbf,19,13,0,0.68,True
 2026-10-31,08010089,Dresden-Neustadt,42,34,0,0.81,True
@@ -7041,7 +7041,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-10-31,08010309,Saalfeld (Saale),6,4,0,0.67,True
 2026-10-31,08010310,Salzwedel,1,1,0,1.0,False
 2026-10-31,08010324,Schwerin Hbf,24,19,0,0.79,True
-2026-10-31,08010334,Stendal Hbf,5,4,0,0.8,False
+2026-10-31,08010334,Stendal Hbf,5,4,0,0.8,True
 2026-10-31,08010338,Stralsund Hbf,10,9,0,0.9,True
 2026-10-31,08010368,Weißenfels,2,0,0,0.0,False
 2026-10-31,08010382,Wittenberge,25,17,0,0.68,True
@@ -7143,7 +7143,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-01,08000257,Worms Hbf,1,1,0,1.0,False
 2026-11-01,08000260,Würzburg Hbf,64,42,0,0.66,True
 2026-11-01,08000261,München Hbf,78,54,1,0.69,True
-2026-11-01,08000262,München Ost,5,4,0,0.8,False
+2026-11-01,08000262,München Ost,5,4,0,0.8,True
 2026-11-01,08000263,Münster(Westf)Hbf,51,25,1,0.49,True
 2026-11-01,08000266,Wuppertal Hbf,60,26,4,0.43,True
 2026-11-01,08000268,Wunstorf,1,0,0,0.0,False
@@ -7177,14 +7177,14 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-01,08000732,Bad Oeynhausen,17,5,1,0.29,True
 2026-11-01,08000770,Bad Zwischenahn,13,12,0,0.92,True
 2026-11-01,08000774,Baden-Baden,22,13,1,0.59,True
-2026-11-01,08000800,Norden,5,4,0,0.8,False
+2026-11-01,08000800,Norden,5,4,0,0.8,True
 2026-11-01,08000879,Bad Bentheim,14,11,0,0.79,True
 2026-11-01,08000880,Radolfzell,1,1,0,1.0,False
 2026-11-01,08000943,Biberach(Riß),2,2,0,1.0,False
 2026-11-01,08001055,Böblingen,29,12,1,0.41,True
 2026-11-01,08001080,Bondorf(b Herrenberg),14,4,0,0.29,True
 2026-11-01,08001338,Coburg,6,3,0,0.5,True
-2026-11-01,08001443,Diepholz,5,2,0,0.4,False
+2026-11-01,08001443,Diepholz,5,2,0,0.4,True
 2026-11-01,08001751,Ellwangen,14,10,0,0.71,True
 2026-11-01,08001768,Emden Hbf,10,6,0,0.6,True
 2026-11-01,08001773,Emmerich,7,0,0,0.0,True
@@ -7203,7 +7203,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-01,08003184,Karlsruhe-Durlach,1,1,0,1.0,False
 2026-11-01,08003200,Kassel-Wilhelmshöhe,90,65,1,0.72,True
 2026-11-01,08003218,Kehl,2,2,0,1.0,False
-2026-11-01,08003330,Köln/Bonn Flughafen,5,4,0,0.8,False
+2026-11-01,08003330,Köln/Bonn Flughafen,5,4,0,0.8,True
 2026-11-01,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-11-01,08003400,Konstanz,1,1,0,1.0,False
 2026-11-01,08003446,Kronach,4,2,2,0.5,False
@@ -7211,10 +7211,10 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-01,08003515,Landstuhl,1,1,0,1.0,False
 2026-11-01,08003680,Limburg Süd,22,12,0,0.55,True
 2026-11-01,08003770,Ludwigsstadt,4,2,2,0.5,False
-2026-11-01,08003866,Marienhafe,5,5,0,1.0,False
+2026-11-01,08003866,Marienhafe,5,5,0,1.0,True
 2026-11-01,08004124,Müllheim im Markgräflerland,2,2,0,1.0,False
 2026-11-01,08004158,München-Pasing,55,45,3,0.82,True
-2026-11-01,08004449,Norddeich,5,4,0,0.8,False
+2026-11-01,08004449,Norddeich,5,4,0,0.8,True
 2026-11-01,08004563,Oberndorf(Neckar),15,4,0,0.27,True
 2026-11-01,08004610,Westerstede-Ocholt,13,12,0,0.92,True
 2026-11-01,08004689,Osnabrück Altstadt,8,6,0,0.75,True
@@ -7265,7 +7265,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-01,08010309,Saalfeld(Saale),6,3,2,0.5,True
 2026-11-01,08010310,Salzwedel,1,1,0,1.0,False
 2026-11-01,08010324,Schwerin Hbf,24,19,0,0.79,True
-2026-11-01,08010334,Stendal Hbf,5,5,0,1.0,False
+2026-11-01,08010334,Stendal Hbf,5,5,0,1.0,True
 2026-11-01,08010338,Stralsund Hbf,9,9,0,1.0,True
 2026-11-01,08010368,Weißenfels,2,1,1,0.5,False
 2026-11-01,08010382,Wittenberge,25,18,0,0.72,True
@@ -7323,7 +7323,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-02,08000103,Flensburg,10,9,0,0.9,True
 2026-11-02,08000105,Frankfurt(Main)Hbf,169,79,4,0.47,True
 2026-11-02,08000107,Freiburg(Breisgau) Hbf,49,30,0,0.61,True
-2026-11-02,08000108,Freilassing,5,3,0,0.6,False
+2026-11-02,08000108,Freilassing,5,3,0,0.6,True
 2026-11-02,08000111,Friedberg(Hess),3,0,1,0.0,False
 2026-11-02,08000112,Friedrichshafen Stadt,1,1,0,1.0,False
 2026-11-02,08000115,Fulda,97,57,2,0.59,True
@@ -7407,7 +7407,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-02,08001055,Böblingen,32,11,0,0.34,True
 2026-11-02,08001080,Bondorf(b Herrenberg),18,4,0,0.22,True
 2026-11-02,08001338,Coburg,8,3,0,0.38,True
-2026-11-02,08001443,Diepholz,5,4,0,0.8,False
+2026-11-02,08001443,Diepholz,5,4,0,0.8,True
 2026-11-02,08001751,Ellwangen,15,7,1,0.47,True
 2026-11-02,08001768,Emden Hbf,7,5,0,0.71,True
 2026-11-02,08001773,Emmerich,8,6,0,0.75,True
@@ -7425,7 +7425,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-02,08003184,Karlsruhe-Durlach,2,1,1,0.5,False
 2026-11-02,08003200,Kassel-Wilhelmshöhe,89,52,1,0.58,True
 2026-11-02,08003218,Kehl,3,2,0,0.67,False
-2026-11-02,08003330,Köln/Bonn Flughafen,5,4,0,0.8,False
+2026-11-02,08003330,Köln/Bonn Flughafen,5,4,0,0.8,True
 2026-11-02,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-11-02,08003400,Konstanz,2,1,0,0.5,False
 2026-11-02,08003446,Kronach,4,2,0,0.5,False
@@ -7435,7 +7435,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-02,08003866,Marienhafe,6,6,0,1.0,True
 2026-11-02,08004124,Müllheim im Markgräflerland,3,2,0,0.67,False
 2026-11-02,08004158,München-Pasing,60,49,0,0.82,True
-2026-11-02,08004449,Norddeich,5,5,0,1.0,False
+2026-11-02,08004449,Norddeich,5,5,0,1.0,True
 2026-11-02,08004563,Oberndorf(Neckar),20,7,0,0.35,True
 2026-11-02,08004610,Westerstede-Ocholt,8,4,0,0.5,True
 2026-11-02,08004689,Osnabrück Altstadt,7,4,0,0.57,True
@@ -7478,7 +7478,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-02,08010224,Magdeburg Hbf,68,28,4,0.41,True
 2026-11-02,08010240,Naumburg(Saale)Hbf,6,3,0,0.5,True
 2026-11-02,08010268,Pasewalk,7,6,0,0.86,True
-2026-11-02,08010282,Prenzlau,5,4,0,0.8,False
+2026-11-02,08010282,Prenzlau,5,4,0,0.8,True
 2026-11-02,08010297,Riesa,21,13,2,0.62,True
 2026-11-02,08010304,Rostock Hbf,11,7,0,0.64,True
 2026-11-02,08010306,Rudolstadt(Thür),4,2,0,0.5,False
@@ -7538,7 +7538,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-03,08000086,Duisburg Hbf,88,16,5,0.18,True
 2026-11-03,08000087,Solingen Hbf,34,6,4,0.18,True
 2026-11-03,08000096,Stuttgart Hbf,141,66,4,0.47,True
-2026-11-03,08000098,Essen Hbf,5,2,0,0.4,False
+2026-11-03,08000098,Essen Hbf,5,2,0,0.4,True
 2026-11-03,08000101,Eutingen im Gäu,2,2,0,1.0,False
 2026-11-03,08000103,Flensburg,10,8,0,0.8,True
 2026-11-03,08000105,Frankfurt(Main)Hbf,170,81,7,0.48,True
@@ -7579,7 +7579,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-03,08000206,Koblenz Hbf,33,6,2,0.18,True
 2026-11-03,08000207,Köln Hbf,127,30,11,0.24,True
 2026-11-03,08000225,Leer(Ostfriesl),8,6,0,0.75,True
-2026-11-03,08000228,Lichtenfels,5,0,1,0.0,False
+2026-11-03,08000228,Lichtenfels,5,0,1,0.0,True
 2026-11-03,08000236,Ludwigshafen(Rh)Hbf,1,1,0,1.0,False
 2026-11-03,08000238,Lüneburg,43,33,0,0.77,True
 2026-11-03,08000240,Mainz Hbf,40,6,4,0.15,True
@@ -7627,7 +7627,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-03,08001055,Böblingen,34,8,0,0.24,True
 2026-11-03,08001080,Bondorf(b Herrenberg),18,4,0,0.22,True
 2026-11-03,08001338,Coburg,8,5,0,0.62,True
-2026-11-03,08001443,Diepholz,5,1,0,0.2,False
+2026-11-03,08001443,Diepholz,5,1,0,0.2,True
 2026-11-03,08001751,Ellwangen,16,8,1,0.5,True
 2026-11-03,08001768,Emden Hbf,7,6,0,0.86,True
 2026-11-03,08001773,Emmerich,8,5,0,0.62,True
@@ -7658,7 +7658,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-03,08004124,Müllheim im Markgräflerland,3,3,0,1.0,False
 2026-11-03,08004158,München-Pasing,62,47,1,0.76,True
 2026-11-03,08004343,Niebüll,4,2,2,0.5,False
-2026-11-03,08004449,Norddeich,5,4,0,0.8,False
+2026-11-03,08004449,Norddeich,5,4,0,0.8,True
 2026-11-03,08004563,Oberndorf(Neckar),20,3,0,0.15,True
 2026-11-03,08004610,Westerstede-Ocholt,8,7,0,0.88,True
 2026-11-03,08004689,Osnabrück Altstadt,8,6,0,0.75,True
@@ -7690,7 +7690,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-03,08010099,Elsterwerda,14,11,0,0.79,True
 2026-11-03,08010101,Erfurt Hbf,135,84,1,0.62,True
 2026-11-03,08010115,Freiberg(Sachs),4,4,0,1.0,False
-2026-11-03,08010133,Jena-Göschwitz,5,2,1,0.4,False
+2026-11-03,08010133,Jena-Göschwitz,5,2,1,0.4,True
 2026-11-03,08010136,Gotha,17,11,1,0.65,True
 2026-11-03,08010139,Greifswald,10,7,0,0.7,True
 2026-11-03,08010159,Halle(Saale)Hbf,99,61,2,0.62,True
@@ -7700,13 +7700,13 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-03,08010216,Ludwigslust,26,18,0,0.69,True
 2026-11-03,08010222,Lutherstadt Wittenberg Hbf,42,24,0,0.57,True
 2026-11-03,08010224,Magdeburg Hbf,65,35,4,0.54,True
-2026-11-03,08010240,Naumburg(Saale)Hbf,5,2,1,0.4,False
+2026-11-03,08010240,Naumburg(Saale)Hbf,5,2,1,0.4,True
 2026-11-03,08010268,Pasewalk,8,5,0,0.62,True
 2026-11-03,08010282,Prenzlau,6,4,0,0.67,True
 2026-11-03,08010297,Riesa,22,17,3,0.77,True
 2026-11-03,08010304,Rostock Hbf,13,6,0,0.46,True
 2026-11-03,08010306,Rudolstadt(Thür),4,1,1,0.25,False
-2026-11-03,08010309,Saalfeld(Saale),5,2,1,0.4,False
+2026-11-03,08010309,Saalfeld(Saale),5,2,1,0.4,True
 2026-11-03,08010310,Salzwedel,2,0,0,0.0,False
 2026-11-03,08010324,Schwerin Hbf,26,16,0,0.62,True
 2026-11-03,08010334,Stendal Hbf,6,3,0,0.5,True
@@ -7722,12 +7722,12 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-03,08011162,Berlin Ostkreuz,12,8,0,0.67,True
 2026-11-03,08011191,Ostseebad Binz,2,1,0,0.5,False
 2026-11-03,08011201,Flughafen BER,12,7,0,0.58,True
-2026-11-03,08011956,Jena Paradies,5,2,1,0.4,False
+2026-11-03,08011956,Jena Paradies,5,2,1,0.4,True
 2026-11-03,08012183,Leipzig/Halle Flughafen,17,12,2,0.71,True
 2026-11-03,08012666,Potsdam Hbf,25,14,0,0.56,True
 2026-11-03,08013236,Warnemünde,1,1,0,1.0,False
 2026-11-03,08070003,Frankfurt(M) Flughafen Fernbf,175,81,10,0.46,True
-2026-11-03,08070004,Frankfurt(M) Flughafen Regionalbf,5,2,1,0.4,False
+2026-11-03,08070004,Frankfurt(M) Flughafen Regionalbf,5,2,1,0.4,True
 2026-11-03,08073368,Köln Messe/Deutz Gl.11-12,65,21,8,0.32,True
 2026-11-03,08098160,Berlin Hbf,155,83,1,0.54,True
 2026-11-03,08098262,München Hbf Gl.5-10,3,1,0,0.33,False
@@ -7777,7 +7777,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-04,08000124,Gießen,8,5,1,0.62,True
 2026-11-04,08000128,Göttingen,90,58,1,0.64,True
 2026-11-04,08000129,Treysa,8,5,1,0.62,True
-2026-11-04,08000139,Günzburg,5,4,0,0.8,False
+2026-11-04,08000139,Günzburg,5,4,0,0.8,True
 2026-11-04,08000140,Baunatal-Guntershausen,1,0,1,0.0,False
 2026-11-04,08000142,Hagen Hbf,63,19,1,0.3,True
 2026-11-04,08000147,Hamburg-Harburg,101,44,3,0.44,True
@@ -7792,7 +7792,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-04,08000168,Uelzen,23,11,1,0.48,True
 2026-11-04,08000169,Hildesheim Hbf,15,10,0,0.67,True
 2026-11-04,08000170,Ulm Hbf,42,27,2,0.64,True
-2026-11-04,08000176,Homburg(Saar)Hbf,5,5,0,1.0,False
+2026-11-04,08000176,Homburg(Saar)Hbf,5,5,0,1.0,True
 2026-11-04,08000177,Horb,34,6,0,0.18,True
 2026-11-04,08000181,Husum,6,5,1,0.83,True
 2026-11-04,08000183,Ingolstadt Hbf,39,21,0,0.54,True
@@ -7820,7 +7820,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-04,08000266,Wuppertal Hbf,63,23,1,0.37,True
 2026-11-04,08000271,Neumünster,18,7,1,0.39,True
 2026-11-04,08000274,Neuss Hbf,1,0,0,0.0,False
-2026-11-04,08000275,Neustadt(Weinstr)Hbf,5,5,0,1.0,False
+2026-11-04,08000275,Neustadt(Weinstr)Hbf,5,5,0,1.0,True
 2026-11-04,08000279,Nienburg(Weser),16,7,1,0.44,True
 2026-11-04,08000284,Nürnberg Hbf,105,41,2,0.39,True
 2026-11-04,08000286,Oberhausen Hbf,20,2,1,0.1,True
@@ -7854,7 +7854,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-04,08001055,Böblingen,31,12,0,0.39,True
 2026-11-04,08001080,Bondorf(b Herrenberg),19,3,0,0.16,True
 2026-11-04,08001338,Coburg,8,5,0,0.62,True
-2026-11-04,08001443,Diepholz,5,1,0,0.2,False
+2026-11-04,08001443,Diepholz,5,1,0,0.2,True
 2026-11-04,08001751,Ellwangen,16,8,1,0.5,True
 2026-11-04,08001768,Emden Hbf,7,4,0,0.57,True
 2026-11-04,08001773,Emmerich,8,5,0,0.62,True
@@ -7885,7 +7885,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-04,08004124,Müllheim im Markgräflerland,3,3,0,1.0,False
 2026-11-04,08004158,München-Pasing,43,35,0,0.81,True
 2026-11-04,08004343,Niebüll,6,4,1,0.67,True
-2026-11-04,08004449,Norddeich,5,2,0,0.4,False
+2026-11-04,08004449,Norddeich,5,2,0,0.4,True
 2026-11-04,08004563,Oberndorf(Neckar),21,7,0,0.33,True
 2026-11-04,08004610,Westerstede-Ocholt,8,4,0,0.5,True
 2026-11-04,08004689,Osnabrück Altstadt,8,4,0,0.5,True
@@ -7953,7 +7953,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-04,08012666,Potsdam Hbf,27,13,1,0.48,True
 2026-11-04,08013236,Warnemünde,1,1,0,1.0,False
 2026-11-04,08070003,Frankfurt(M) Flughafen Fernbf,179,117,1,0.65,True
-2026-11-04,08070004,Frankfurt(M) Flughafen Regionalbf,5,1,1,0.2,False
+2026-11-04,08070004,Frankfurt(M) Flughafen Regionalbf,5,1,1,0.2,True
 2026-11-04,08073368,Köln Messe/Deutz Gl.11-12,64,42,1,0.66,True
 2026-11-04,08098160,Berlin Hbf,159,79,4,0.5,True
 2026-11-04,08098262,München Hbf Gl.5-10,1,1,0,1.0,False
@@ -8003,7 +8003,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-05,08000124,Gießen,8,3,0,0.38,True
 2026-11-05,08000128,Göttingen,89,64,1,0.72,True
 2026-11-05,08000129,Treysa,8,4,0,0.5,True
-2026-11-05,08000139,Günzburg,5,4,0,0.8,False
+2026-11-05,08000139,Günzburg,5,4,0,0.8,True
 2026-11-05,08000142,Hagen Hbf,63,15,1,0.24,True
 2026-11-05,08000147,Hamburg-Harburg,101,59,1,0.58,True
 2026-11-05,08000149,Hamm(Westf)Hbf,56,10,1,0.18,True
@@ -8017,7 +8017,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-05,08000168,Uelzen,22,14,0,0.64,True
 2026-11-05,08000169,Hildesheim Hbf,15,9,0,0.6,True
 2026-11-05,08000170,Ulm Hbf,40,26,0,0.65,True
-2026-11-05,08000176,Homburg(Saar)Hbf,5,4,0,0.8,False
+2026-11-05,08000176,Homburg(Saar)Hbf,5,4,0,0.8,True
 2026-11-05,08000177,Horb,33,11,0,0.33,True
 2026-11-05,08000181,Husum,6,5,0,0.83,True
 2026-11-05,08000183,Ingolstadt Hbf,38,20,0,0.53,True
@@ -8045,7 +8045,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-05,08000266,Wuppertal Hbf,64,20,1,0.31,True
 2026-11-05,08000271,Neumünster,18,10,0,0.56,True
 2026-11-05,08000274,Neuss Hbf,1,0,0,0.0,False
-2026-11-05,08000275,Neustadt(Weinstr)Hbf,5,4,0,0.8,False
+2026-11-05,08000275,Neustadt(Weinstr)Hbf,5,4,0,0.8,True
 2026-11-05,08000279,Nienburg(Weser),16,14,0,0.88,True
 2026-11-05,08000284,Nürnberg Hbf,103,45,6,0.44,True
 2026-11-05,08000286,Oberhausen Hbf,21,1,1,0.05,True
@@ -8079,7 +8079,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-05,08001055,Böblingen,31,14,0,0.45,True
 2026-11-05,08001080,Bondorf(b Herrenberg),18,7,0,0.39,True
 2026-11-05,08001338,Coburg,8,5,1,0.62,True
-2026-11-05,08001443,Diepholz,5,1,0,0.2,False
+2026-11-05,08001443,Diepholz,5,1,0,0.2,True
 2026-11-05,08001751,Ellwangen,16,6,6,0.38,True
 2026-11-05,08001768,Emden Hbf,7,3,0,0.43,True
 2026-11-05,08001773,Emmerich,8,2,0,0.25,True
@@ -8110,7 +8110,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-05,08004124,Müllheim im Markgräflerland,3,3,0,1.0,False
 2026-11-05,08004158,München-Pasing,43,35,0,0.81,True
 2026-11-05,08004343,Niebüll,6,5,0,0.83,True
-2026-11-05,08004449,Norddeich,5,2,0,0.4,False
+2026-11-05,08004449,Norddeich,5,2,0,0.4,True
 2026-11-05,08004563,Oberndorf(Neckar),20,7,0,0.35,True
 2026-11-05,08004610,Westerstede-Ocholt,8,4,0,0.5,True
 2026-11-05,08004689,Osnabrück Altstadt,8,3,0,0.38,True
@@ -8151,7 +8151,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-05,08010216,Ludwigslust,26,11,0,0.42,True
 2026-11-05,08010222,Lutherstadt Wittenberg Hbf,42,25,2,0.6,True
 2026-11-05,08010224,Magdeburg Hbf,59,32,4,0.54,True
-2026-11-05,08010240,Naumburg(Saale)Hbf,5,3,2,0.6,False
+2026-11-05,08010240,Naumburg(Saale)Hbf,5,3,2,0.6,True
 2026-11-05,08010268,Pasewalk,8,6,0,0.75,True
 2026-11-05,08010282,Prenzlau,6,4,0,0.67,True
 2026-11-05,08010297,Riesa,22,13,0,0.59,True
@@ -8178,7 +8178,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-05,08012666,Potsdam Hbf,23,12,0,0.52,True
 2026-11-05,08013236,Warnemünde,1,1,0,1.0,False
 2026-11-05,08070003,Frankfurt(M) Flughafen Fernbf,178,102,13,0.57,True
-2026-11-05,08070004,Frankfurt(M) Flughafen Regionalbf,5,2,0,0.4,False
+2026-11-05,08070004,Frankfurt(M) Flughafen Regionalbf,5,2,0,0.4,True
 2026-11-05,08073368,Köln Messe/Deutz Gl.11-12,66,34,13,0.52,True
 2026-11-05,08098160,Berlin Hbf,151,77,6,0.51,True
 2026-11-05,08098262,München Hbf Gl.5-10,1,1,0,1.0,False
@@ -8224,7 +8224,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-06,08000115,Fulda,100,63,0,0.63,True
 2026-11-06,08000116,Traunstein,8,6,0,0.75,True
 2026-11-06,08000118,Gelsenkirchen Hbf,93,5,76,0.05,True
-2026-11-06,08000122,Treuchtlingen,5,3,0,0.6,False
+2026-11-06,08000122,Treuchtlingen,5,3,0,0.6,True
 2026-11-06,08000124,Gießen,8,7,0,0.88,True
 2026-11-06,08000128,Göttingen,89,52,0,0.58,True
 2026-11-06,08000129,Treysa,8,6,0,0.75,True
@@ -8242,7 +8242,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-06,08000168,Uelzen,22,15,0,0.68,True
 2026-11-06,08000169,Hildesheim Hbf,15,6,0,0.4,True
 2026-11-06,08000170,Ulm Hbf,42,23,1,0.55,True
-2026-11-06,08000176,Homburg(Saar)Hbf,5,4,0,0.8,False
+2026-11-06,08000176,Homburg(Saar)Hbf,5,4,0,0.8,True
 2026-11-06,08000177,Horb,33,11,0,0.33,True
 2026-11-06,08000181,Husum,6,4,0,0.67,True
 2026-11-06,08000183,Ingolstadt Hbf,38,25,1,0.66,True
@@ -8272,7 +8272,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-06,08000266,Wuppertal Hbf,67,22,4,0.33,True
 2026-11-06,08000271,Neumünster,18,5,2,0.28,True
 2026-11-06,08000274,Neuss Hbf,1,0,0,0.0,False
-2026-11-06,08000275,Neustadt(Weinstr)Hbf,5,4,0,0.8,False
+2026-11-06,08000275,Neustadt(Weinstr)Hbf,5,4,0,0.8,True
 2026-11-06,08000279,Nienburg(Weser),16,9,0,0.56,True
 2026-11-06,08000284,Nürnberg Hbf,102,41,3,0.4,True
 2026-11-06,08000286,Oberhausen Hbf,23,5,0,0.22,True
@@ -8306,7 +8306,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-06,08001055,Böblingen,33,15,0,0.45,True
 2026-11-06,08001080,Bondorf(b Herrenberg),18,6,0,0.33,True
 2026-11-06,08001338,Coburg,8,3,1,0.38,True
-2026-11-06,08001443,Diepholz,5,3,0,0.6,False
+2026-11-06,08001443,Diepholz,5,3,0,0.6,True
 2026-11-06,08001751,Ellwangen,16,7,0,0.44,True
 2026-11-06,08001768,Emden Hbf,9,3,1,0.33,True
 2026-11-06,08001773,Emmerich,8,7,0,0.88,True
@@ -8338,7 +8338,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-06,08004124,Müllheim im Markgräflerland,3,2,0,0.67,False
 2026-11-06,08004158,München-Pasing,41,30,0,0.73,True
 2026-11-06,08004343,Niebüll,6,4,0,0.67,True
-2026-11-06,08004449,Norddeich,5,4,0,0.8,False
+2026-11-06,08004449,Norddeich,5,4,0,0.8,True
 2026-11-06,08004563,Oberndorf(Neckar),20,6,0,0.3,True
 2026-11-06,08004585,Oberstdorf,1,0,0,0.0,False
 2026-11-06,08004610,Westerstede-Ocholt,10,3,0,0.3,True
@@ -8382,7 +8382,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-06,08010216,Ludwigslust,26,15,2,0.58,True
 2026-11-06,08010222,Lutherstadt Wittenberg Hbf,42,21,2,0.5,True
 2026-11-06,08010224,Magdeburg Hbf,61,28,2,0.46,True
-2026-11-06,08010240,Naumburg(Saale)Hbf,5,2,0,0.4,False
+2026-11-06,08010240,Naumburg(Saale)Hbf,5,2,0,0.4,True
 2026-11-06,08010268,Pasewalk,8,6,0,0.75,True
 2026-11-06,08010282,Prenzlau,6,4,0,0.67,True
 2026-11-06,08010297,Riesa,23,16,2,0.7,True
@@ -8411,7 +8411,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-06,08012763,Ribnitz-Damgarten West,9,6,0,0.67,True
 2026-11-06,08013236,Warnemünde,1,0,0,0.0,False
 2026-11-06,08070003,Frankfurt(M) Flughafen Fernbf,179,92,12,0.51,True
-2026-11-06,08070004,Frankfurt(M) Flughafen Regionalbf,5,3,0,0.6,False
+2026-11-06,08070004,Frankfurt(M) Flughafen Regionalbf,5,3,0,0.6,True
 2026-11-06,08073368,Köln Messe/Deutz Gl.11-12,64,24,10,0.38,True
 2026-11-06,08098160,Berlin Hbf,150,65,4,0.43,True
 2026-11-06,08098262,München Hbf Gl.5-10,1,1,0,1.0,False
@@ -8475,7 +8475,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-07,08000168,Uelzen,21,14,0,0.67,True
 2026-11-07,08000169,Hildesheim Hbf,15,10,0,0.67,True
 2026-11-07,08000170,Ulm Hbf,44,33,0,0.75,True
-2026-11-07,08000176,Homburg(Saar)Hbf,5,3,0,0.6,False
+2026-11-07,08000176,Homburg(Saar)Hbf,5,3,0,0.6,True
 2026-11-07,08000177,Horb,30,5,0,0.17,True
 2026-11-07,08000181,Husum,6,3,2,0.5,True
 2026-11-07,08000183,Ingolstadt Hbf,38,29,0,0.76,True
@@ -8505,7 +8505,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-07,08000266,Wuppertal Hbf,62,23,0,0.37,True
 2026-11-07,08000271,Neumünster,16,8,0,0.5,True
 2026-11-07,08000274,Neuss Hbf,1,1,0,1.0,False
-2026-11-07,08000275,Neustadt(Weinstr)Hbf,5,4,0,0.8,False
+2026-11-07,08000275,Neustadt(Weinstr)Hbf,5,4,0,0.8,True
 2026-11-07,08000279,Nienburg(Weser),16,14,0,0.88,True
 2026-11-07,08000284,Nürnberg Hbf,100,59,1,0.59,True
 2026-11-07,08000286,Oberhausen Hbf,22,3,0,0.14,True
@@ -8539,7 +8539,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-07,08001055,Böblingen,30,11,0,0.37,True
 2026-11-07,08001080,Bondorf(b Herrenberg),16,4,0,0.25,True
 2026-11-07,08001338,Coburg,8,5,1,0.62,True
-2026-11-07,08001443,Diepholz,5,4,0,0.8,False
+2026-11-07,08001443,Diepholz,5,4,0,0.8,True
 2026-11-07,08001751,Ellwangen,15,8,0,0.53,True
 2026-11-07,08001768,Emden Hbf,13,11,1,0.85,True
 2026-11-07,08001773,Emmerich,8,4,0,0.5,True
@@ -8592,7 +8592,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-07,08006369,Westerland(Sylt),3,1,1,0.33,False
 2026-11-07,08006421,Wiesloch-Walldorf,9,7,0,0.78,True
 2026-11-07,08007768,Norddeich Mole,2,2,0,1.0,False
-2026-11-07,08010018,Bad Kleinen,5,5,0,1.0,False
+2026-11-07,08010018,Bad Kleinen,5,5,0,1.0,True
 2026-11-07,08010033,Bergen auf Rügen,14,14,0,1.0,True
 2026-11-07,08010036,Berlin-Lichtenberg,2,2,0,1.0,False
 2026-11-07,08010050,Bitterfeld,21,12,0,0.57,True
@@ -8615,14 +8615,14 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-07,08010224,Magdeburg Hbf,61,30,2,0.49,True
 2026-11-07,08010240,Naumburg(Saale)Hbf,6,4,0,0.67,True
 2026-11-07,08010268,Pasewalk,7,7,0,1.0,True
-2026-11-07,08010282,Prenzlau,5,4,0,0.8,False
+2026-11-07,08010282,Prenzlau,5,4,0,0.8,True
 2026-11-07,08010297,Riesa,18,15,0,0.83,True
 2026-11-07,08010304,Rostock Hbf,18,14,0,0.78,True
 2026-11-07,08010306,Rudolstadt(Thür),4,3,0,0.75,False
 2026-11-07,08010309,Saalfeld(Saale),6,4,0,0.67,True
 2026-11-07,08010310,Salzwedel,1,1,0,1.0,False
 2026-11-07,08010324,Schwerin Hbf,26,17,0,0.65,True
-2026-11-07,08010334,Stendal Hbf,5,5,0,1.0,False
+2026-11-07,08010334,Stendal Hbf,5,5,0,1.0,True
 2026-11-07,08010338,Stralsund Hbf,17,15,0,0.88,True
 2026-11-07,08010355,Velgast,10,8,0,0.8,True
 2026-11-07,08010368,Weißenfels,2,1,0,0.5,False
@@ -8691,7 +8691,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-08,08000124,Gießen,2,0,2,0.0,False
 2026-11-08,08000128,Göttingen,88,60,0,0.68,True
 2026-11-08,08000129,Treysa,2,0,2,0.0,False
-2026-11-08,08000139,Günzburg,5,4,0,0.8,False
+2026-11-08,08000139,Günzburg,5,4,0,0.8,True
 2026-11-08,08000142,Hagen Hbf,60,17,2,0.28,True
 2026-11-08,08000147,Hamburg-Harburg,96,59,1,0.61,True
 2026-11-08,08000149,Hamm(Westf)Hbf,52,24,2,0.46,True
@@ -8763,7 +8763,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-08,08000732,Bad Oeynhausen,19,10,1,0.53,True
 2026-11-08,08000770,Bad Zwischenahn,14,13,0,0.93,True
 2026-11-08,08000774,Baden-Baden,19,7,0,0.37,True
-2026-11-08,08000800,Norden,5,5,0,1.0,False
+2026-11-08,08000800,Norden,5,5,0,1.0,True
 2026-11-08,08000879,Bad Bentheim,14,10,0,0.71,True
 2026-11-08,08000880,Radolfzell,1,1,0,1.0,False
 2026-11-08,08000943,Biberach(Riß),2,2,0,1.0,False
@@ -8793,7 +8793,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-08,08003184,Karlsruhe-Durlach,1,1,0,1.0,False
 2026-11-08,08003200,Kassel-Wilhelmshöhe,88,62,1,0.7,True
 2026-11-08,08003218,Kehl,2,1,0,0.5,False
-2026-11-08,08003330,Köln/Bonn Flughafen,5,1,3,0.2,False
+2026-11-08,08003330,Köln/Bonn Flughafen,5,1,3,0.2,True
 2026-11-08,08003368,Köln Messe/Deutz,1,1,0,1.0,False
 2026-11-08,08003400,Konstanz,1,1,0,1.0,False
 2026-11-08,08003446,Kronach,4,2,0,0.5,False
@@ -8801,11 +8801,11 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-08,08003680,Limburg Süd,22,5,13,0.23,True
 2026-11-08,08003693,Lindau-Reutin,2,2,0,1.0,False
 2026-11-08,08003770,Ludwigsstadt,4,3,0,0.75,False
-2026-11-08,08003866,Marienhafe,5,5,0,1.0,False
+2026-11-08,08003866,Marienhafe,5,5,0,1.0,True
 2026-11-08,08004124,Müllheim im Markgräflerland,1,1,0,1.0,False
 2026-11-08,08004158,München-Pasing,40,25,0,0.62,True
 2026-11-08,08004343,Niebüll,6,6,0,1.0,True
-2026-11-08,08004449,Norddeich,5,5,0,1.0,False
+2026-11-08,08004449,Norddeich,5,5,0,1.0,True
 2026-11-08,08004563,Oberndorf(Neckar),15,7,0,0.47,True
 2026-11-08,08004585,Oberstdorf,1,0,0,0.0,False
 2026-11-08,08004610,Westerstede-Ocholt,14,13,0,0.93,True
@@ -8855,7 +8855,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-08,08010309,Saalfeld(Saale),6,3,0,0.5,True
 2026-11-08,08010310,Salzwedel,1,1,0,1.0,False
 2026-11-08,08010324,Schwerin Hbf,26,22,0,0.85,True
-2026-11-08,08010334,Stendal Hbf,5,4,0,0.8,False
+2026-11-08,08010334,Stendal Hbf,5,4,0,0.8,True
 2026-11-08,08010338,Stralsund Hbf,19,14,1,0.74,True
 2026-11-08,08010355,Velgast,10,8,1,0.8,True
 2026-11-08,08010368,Weißenfels,2,1,0,0.5,False
@@ -8875,7 +8875,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-08,08012763,Ribnitz-Damgarten West,10,9,1,0.9,True
 2026-11-08,08013236,Warnemünde,1,1,0,1.0,False
 2026-11-08,08070003,Frankfurt(M) Flughafen Fernbf,171,52,30,0.3,True
-2026-11-08,08070004,Frankfurt(M) Flughafen Regionalbf,5,1,0,0.2,False
+2026-11-08,08070004,Frankfurt(M) Flughafen Regionalbf,5,1,0,0.2,True
 2026-11-08,08073368,Köln Messe/Deutz Gl.11-12,60,1,53,0.02,True
 2026-11-08,08098160,Berlin Hbf,149,88,0,0.59,True
 2026-11-08,08098262,München Hbf Gl.5-10,1,1,0,1.0,False
@@ -8895,7 +8895,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-09,08000050,Bremen Hbf,42,34,0,0.81,True
 2026-11-09,08000055,Bruchsal,17,15,0,0.88,True
 2026-11-09,08000058,Büchen,11,9,0,0.82,True
-2026-11-09,08000059,Bünde(Westf),5,5,0,1.0,False
+2026-11-09,08000059,Bünde(Westf),5,5,0,1.0,True
 2026-11-09,08000064,Celle,14,12,0,0.86,True
 2026-11-09,08000067,Crailsheim,11,9,0,0.82,True
 2026-11-09,08000068,Darmstadt Hbf,23,17,0,0.74,True
@@ -8914,7 +8914,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-09,08000103,Flensburg,6,6,0,1.0,True
 2026-11-09,08000105,Frankfurt(Main)Hbf,97,57,4,0.59,True
 2026-11-09,08000107,Freiburg(Breisgau) Hbf,31,12,2,0.39,True
-2026-11-09,08000108,Freilassing,5,2,0,0.4,False
+2026-11-09,08000108,Freilassing,5,2,0,0.4,True
 2026-11-09,08000111,Friedberg(Hess),1,1,0,1.0,False
 2026-11-09,08000112,Friedrichshafen Stadt,2,2,0,1.0,False
 2026-11-09,08000115,Fulda,67,43,0,0.64,True
@@ -8997,11 +8997,11 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-09,08000943,Biberach(Riß),2,2,0,1.0,False
 2026-11-09,08001055,Böblingen,22,20,0,0.91,True
 2026-11-09,08001080,Bondorf(b Herrenberg),13,9,0,0.69,True
-2026-11-09,08001338,Coburg,5,5,0,1.0,False
+2026-11-09,08001338,Coburg,5,5,0,1.0,True
 2026-11-09,08001443,Diepholz,3,2,1,0.67,False
 2026-11-09,08001751,Ellwangen,11,9,0,0.82,True
 2026-11-09,08001768,Emden Hbf,15,9,5,0.6,True
-2026-11-09,08001773,Emmerich,5,4,0,0.8,False
+2026-11-09,08001773,Emmerich,5,4,0,0.8,True
 2026-11-09,08001790,Engen,11,8,0,0.73,True
 2026-11-09,08001833,Ergenzingen,2,2,0,1.0,False
 2026-11-09,08001844,Erlangen,16,13,0,0.81,True
@@ -9074,9 +9074,9 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-09,08010216,Ludwigslust,17,15,0,0.88,True
 2026-11-09,08010222,Lutherstadt Wittenberg Hbf,28,24,0,0.86,True
 2026-11-09,08010224,Magdeburg Hbf,49,26,2,0.53,True
-2026-11-09,08010240,Naumburg(Saale)Hbf,5,3,0,0.6,False
+2026-11-09,08010240,Naumburg(Saale)Hbf,5,3,0,0.6,True
 2026-11-09,08010268,Pasewalk,6,6,0,1.0,True
-2026-11-09,08010282,Prenzlau,5,5,0,1.0,False
+2026-11-09,08010282,Prenzlau,5,5,0,1.0,True
 2026-11-09,08010297,Riesa,13,12,0,0.92,True
 2026-11-09,08010304,Rostock Hbf,13,13,0,1.0,True
 2026-11-09,08010306,Rudolstadt(Thür),2,1,0,0.5,False
@@ -9097,7 +9097,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-09,08011162,Berlin Ostkreuz,9,6,0,0.67,True
 2026-11-09,08011191,Ostseebad Binz,4,4,0,1.0,False
 2026-11-09,08011201,Flughafen BER,9,5,0,0.56,True
-2026-11-09,08011956,Jena Paradies,5,3,0,0.6,False
+2026-11-09,08011956,Jena Paradies,5,3,0,0.6,True
 2026-11-09,08012183,Leipzig/Halle Flughafen,12,10,1,0.83,True
 2026-11-09,08012666,Potsdam Hbf,19,11,0,0.58,True
 2026-11-09,08012763,Ribnitz-Damgarten West,8,8,0,1.0,True
@@ -9232,7 +9232,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-10,08001055,Böblingen,31,19,0,0.61,True
 2026-11-10,08001080,Bondorf(b Herrenberg),19,7,0,0.37,True
 2026-11-10,08001338,Coburg,8,6,0,0.75,True
-2026-11-10,08001443,Diepholz,5,3,0,0.6,False
+2026-11-10,08001443,Diepholz,5,3,0,0.6,True
 2026-11-10,08001751,Ellwangen,16,11,0,0.69,True
 2026-11-10,08001768,Emden Hbf,23,8,9,0.35,True
 2026-11-10,08001790,Engen,16,7,0,0.44,True
@@ -9467,7 +9467,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-11,08001055,Böblingen,31,15,0,0.48,True
 2026-11-11,08001080,Bondorf(b Herrenberg),18,6,0,0.33,True
 2026-11-11,08001338,Coburg,8,6,0,0.75,True
-2026-11-11,08001443,Diepholz,5,1,1,0.2,False
+2026-11-11,08001443,Diepholz,5,1,1,0.2,True
 2026-11-11,08001751,Ellwangen,16,7,1,0.44,True
 2026-11-11,08001768,Emden Hbf,23,12,1,0.52,True
 2026-11-11,08001790,Engen,16,11,0,0.69,True
@@ -9652,7 +9652,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-12,08000207,Köln Hbf,130,39,7,0.3,True
 2026-11-12,08000208,Köln-Ehrenfeld,2,1,0,0.5,False
 2026-11-12,08000225,Leer(Ostfriesl),29,18,1,0.62,True
-2026-11-12,08000228,Lichtenfels,5,4,0,0.8,False
+2026-11-12,08000228,Lichtenfels,5,4,0,0.8,True
 2026-11-12,08000236,Ludwigshafen(Rh)Hbf,1,1,0,1.0,False
 2026-11-12,08000238,Lüneburg,43,20,3,0.47,True
 2026-11-12,08000240,Mainz Hbf,40,16,1,0.4,True
@@ -9703,7 +9703,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-12,08001055,Böblingen,31,19,2,0.61,True
 2026-11-12,08001080,Bondorf(b Herrenberg),18,9,1,0.5,True
 2026-11-12,08001338,Coburg,7,3,0,0.43,True
-2026-11-12,08001443,Diepholz,5,1,0,0.2,False
+2026-11-12,08001443,Diepholz,5,1,0,0.2,True
 2026-11-12,08001751,Ellwangen,16,7,1,0.44,True
 2026-11-12,08001768,Emden Hbf,22,11,0,0.5,True
 2026-11-12,08001790,Engen,17,8,1,0.47,True
@@ -9771,7 +9771,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-12,08010097,Eisenach Hbf,35,11,0,0.31,True
 2026-11-12,08010099,Elsterwerda,14,7,1,0.5,True
 2026-11-12,08010101,Erfurt Hbf,121,44,0,0.36,True
-2026-11-12,08010133,Jena-Göschwitz,5,4,0,0.8,False
+2026-11-12,08010133,Jena-Göschwitz,5,4,0,0.8,True
 2026-11-12,08010136,Gotha,17,5,0,0.29,True
 2026-11-12,08010139,Greifswald,11,6,0,0.55,True
 2026-11-12,08010159,Halle(Saale)Hbf,84,32,0,0.38,True
@@ -9780,13 +9780,13 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-12,08010216,Ludwigslust,26,10,0,0.38,True
 2026-11-12,08010222,Lutherstadt Wittenberg Hbf,42,21,0,0.5,True
 2026-11-12,08010224,Magdeburg Hbf,66,25,2,0.38,True
-2026-11-12,08010240,Naumburg(Saale)Hbf,5,4,0,0.8,False
+2026-11-12,08010240,Naumburg(Saale)Hbf,5,4,0,0.8,True
 2026-11-12,08010268,Pasewalk,8,4,0,0.5,True
 2026-11-12,08010282,Prenzlau,6,3,0,0.5,True
 2026-11-12,08010297,Riesa,21,7,0,0.33,True
 2026-11-12,08010304,Rostock Hbf,19,9,0,0.47,True
 2026-11-12,08010306,Rudolstadt(Thür),4,3,0,0.75,False
-2026-11-12,08010309,Saalfeld(Saale),5,3,0,0.6,False
+2026-11-12,08010309,Saalfeld(Saale),5,3,0,0.6,True
 2026-11-12,08010310,Salzwedel,2,1,0,0.5,False
 2026-11-12,08010324,Schwerin Hbf,28,14,1,0.5,True
 2026-11-12,08010334,Stendal Hbf,6,2,0,0.33,True
@@ -9803,7 +9803,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-12,08011162,Berlin Ostkreuz,12,8,0,0.67,True
 2026-11-12,08011191,Ostseebad Binz,6,3,0,0.5,True
 2026-11-12,08011201,Flughafen BER,12,6,0,0.5,True
-2026-11-12,08011956,Jena Paradies,5,4,0,0.8,False
+2026-11-12,08011956,Jena Paradies,5,4,0,0.8,True
 2026-11-12,08012183,Leipzig/Halle Flughafen,17,7,0,0.41,True
 2026-11-12,08012666,Potsdam Hbf,25,12,1,0.48,True
 2026-11-12,08012763,Ribnitz-Damgarten West,10,4,0,0.4,True
@@ -9854,7 +9854,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-13,08000115,Fulda,100,42,1,0.42,True
 2026-11-13,08000116,Traunstein,8,6,0,0.75,True
 2026-11-13,08000118,Gelsenkirchen Hbf,19,3,0,0.16,True
-2026-11-13,08000122,Treuchtlingen,5,1,0,0.2,False
+2026-11-13,08000122,Treuchtlingen,5,1,0,0.2,True
 2026-11-13,08000124,Gießen,10,7,0,0.7,True
 2026-11-13,08000128,Göttingen,91,41,3,0.45,True
 2026-11-13,08000129,Treysa,10,5,0,0.5,True
@@ -9931,7 +9931,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-13,08001055,Böblingen,33,22,0,0.67,True
 2026-11-13,08001080,Bondorf(b Herrenberg),18,10,0,0.56,True
 2026-11-13,08001338,Coburg,7,2,1,0.29,True
-2026-11-13,08001443,Diepholz,5,1,0,0.2,False
+2026-11-13,08001443,Diepholz,5,1,0,0.2,True
 2026-11-13,08001751,Ellwangen,17,9,2,0.53,True
 2026-11-13,08001768,Emden Hbf,23,11,0,0.48,True
 2026-11-13,08001790,Engen,17,7,0,0.41,True
@@ -9948,7 +9948,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-13,08003184,Karlsruhe-Durlach,2,2,0,1.0,False
 2026-11-13,08003200,Kassel-Wilhelmshöhe,94,44,2,0.47,True
 2026-11-13,08003218,Kehl,3,3,0,1.0,False
-2026-11-13,08003330,Köln/Bonn Flughafen,5,5,0,1.0,False
+2026-11-13,08003330,Köln/Bonn Flughafen,5,5,0,1.0,True
 2026-11-13,08003400,Konstanz,2,1,0,0.5,False
 2026-11-13,08003446,Kronach,4,3,0,0.75,False
 2026-11-13,08003487,Hannover Messe/Laatzen,21,9,1,0.43,True
@@ -10001,7 +10001,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-13,08010216,Ludwigslust,26,16,0,0.62,True
 2026-11-13,08010222,Lutherstadt Wittenberg Hbf,42,17,0,0.4,True
 2026-11-13,08010224,Magdeburg Hbf,66,25,0,0.38,True
-2026-11-13,08010240,Naumburg(Saale)Hbf,5,4,0,0.8,False
+2026-11-13,08010240,Naumburg(Saale)Hbf,5,4,0,0.8,True
 2026-11-13,08010268,Pasewalk,8,3,0,0.38,True
 2026-11-13,08010282,Prenzlau,6,2,0,0.33,True
 2026-11-13,08010297,Riesa,23,13,0,0.57,True
@@ -10092,7 +10092,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-14,08000168,Uelzen,21,15,0,0.71,True
 2026-11-14,08000169,Hildesheim Hbf,15,13,0,0.87,True
 2026-11-14,08000170,Ulm Hbf,78,64,2,0.82,True
-2026-11-14,08000176,Homburg(Saar)Hbf,5,5,0,1.0,False
+2026-11-14,08000176,Homburg(Saar)Hbf,5,5,0,1.0,True
 2026-11-14,08000177,Horb,30,22,0,0.73,True
 2026-11-14,08000183,Ingolstadt Hbf,36,27,1,0.75,True
 2026-11-14,08000189,Kaiserslautern Hbf,10,10,0,1.0,True
@@ -10152,7 +10152,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-14,08001055,Böblingen,30,26,0,0.87,True
 2026-11-14,08001080,Bondorf(b Herrenberg),16,13,0,0.81,True
 2026-11-14,08001338,Coburg,8,6,0,0.75,True
-2026-11-14,08001443,Diepholz,5,4,0,0.8,False
+2026-11-14,08001443,Diepholz,5,4,0,0.8,True
 2026-11-14,08001751,Ellwangen,15,9,0,0.6,True
 2026-11-14,08001768,Emden Hbf,22,9,3,0.41,True
 2026-11-14,08001790,Engen,14,8,0,0.57,True
@@ -10196,7 +10196,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-14,08006421,Wiesloch-Walldorf,12,8,1,0.67,True
 2026-11-14,08006730,Neu-Ulm,1,1,0,1.0,False
 2026-11-14,08007768,Norddeich Mole,10,4,2,0.4,True
-2026-11-14,08010018,Bad Kleinen,5,4,0,0.8,False
+2026-11-14,08010018,Bad Kleinen,5,4,0,0.8,True
 2026-11-14,08010033,Bergen auf Rügen,14,14,0,1.0,True
 2026-11-14,08010036,Berlin-Lichtenberg,2,2,0,1.0,False
 2026-11-14,08010050,Bitterfeld,19,16,0,0.84,True
@@ -10217,16 +10217,16 @@ day,eva,station,arrivals,punctual,canceled,points,plays
 2026-11-14,08010216,Ludwigslust,25,16,0,0.64,True
 2026-11-14,08010222,Lutherstadt Wittenberg Hbf,39,31,0,0.79,True
 2026-11-14,08010224,Magdeburg Hbf,52,19,0,0.37,True
-2026-11-14,08010240,Naumburg(Saale)Hbf,5,3,0,0.6,False
+2026-11-14,08010240,Naumburg(Saale)Hbf,5,3,0,0.6,True
 2026-11-14,08010268,Pasewalk,7,6,0,0.86,True
-2026-11-14,08010282,Prenzlau,5,5,0,1.0,False
+2026-11-14,08010282,Prenzlau,5,5,0,1.0,True
 2026-11-14,08010297,Riesa,17,15,0,0.88,True
 2026-11-14,08010304,Rostock Hbf,19,15,0,0.79,True
 2026-11-14,08010306,Rudolstadt(Thür),4,2,0,0.5,False
 2026-11-14,08010309,Saalfeld(Saale),6,3,0,0.5,True
 2026-11-14,08010310,Salzwedel,1,0,0,0.0,False
 2026-11-14,08010324,Schwerin Hbf,26,20,0,0.77,True
-2026-11-14,08010334,Stendal Hbf,5,2,0,0.4,False
+2026-11-14,08010334,Stendal Hbf,5,2,0,0.4,True
 2026-11-14,08010338,Stralsund Hbf,17,15,0,0.88,True
 2026-11-14,08010355,Velgast,10,9,0,0.9,True
 2026-11-14,08010368,Weißenfels,2,1,0,0.5,False

@@ -32,7 +32,7 @@ def audit(res: dict, rows: list[dict], states: dict[str, str]) -> list[str]:
             err(f"{r['day']} {name(r['eva'])}: impossible counts arrivals={a} punctual={p} canceled={c}")
         if a and abs(float(r["points"]) - round(p / a, config.POINTS_DECIMALS)) > 1e-9:
             err(f"{r['day']} {name(r['eva'])}: points {r['points']} != {p}/{a}")
-        if plays != (a > config.MIN_ARRIVALS):
+        if plays != (a >= config.MIN_ARRIVALS):
             err(f"{r['day']} {name(r['eva'])}: plays={plays} but arrivals={a}")
 
     prev = None
@@ -73,7 +73,7 @@ def audit(res: dict, rows: list[dict], states: dict[str, str]) -> list[str]:
                     if region_league(r["eva"]) != l:
                         err(f"{sid} {l}: {name(r['eva'])} belongs to {region_league(r['eva'])}")
 
-        # C. membership, recomputed here: newcomers need > MIN_ARRIVALS on every day of the window,
+        # C. membership, recomputed here: newcomers need >= MIN_ARRIVALS on every day of the window,
         #    last week's members on at least STAY_DAY_SHARE of the days (data-gap days ignored)
         window = data.window(week, config.MEMBERSHIP_WINDOW_DAYS)
         totals = sorted(sum(r["arrivals"] for r in data.by_day[d].values()) for d in window)

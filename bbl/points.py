@@ -6,8 +6,8 @@ from . import config
 
 def score_day(arrivals: int, punctual: int) -> tuple[float | None, bool]:
     """Return (points, plays). Points are the punctual share, 0.00 .. 1.00.
-    A station only plays with MORE than MIN_ARRIVALS arrivals; otherwise the day is 'abgesagt'."""
-    plays = arrivals > config.MIN_ARRIVALS
+    A day is scored only with AT LEAST MIN_ARRIVALS arrivals; otherwise it is not scored ("plays" = scored)."""
+    plays = arrivals >= config.MIN_ARRIVALS
     if arrivals == 0:
         return None, False
     return round(punctual / arrivals, config.POINTS_DECIMALS), plays

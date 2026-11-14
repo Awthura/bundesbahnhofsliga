@@ -5,12 +5,12 @@ TRAIN_TYPES = ("ICE", "IC")          # EC/ECE excluded (M0 decision, revisit lat
 PUNCTUAL_LIMIT_MIN = 6               # punctual = arrival delay < 6 min (DB threshold)
 
 # Daily qualification ("Spieltag")
-MIN_ARRIVALS = 5                     # a station plays a day only with MORE than 5 ICE/IC arrivals
+MIN_ARRIVALS = 5                     # a day is scored for a station only with AT LEAST 5 ICE/IC arrivals
 POINTS_DECIMALS = 2                  # daily points are 0.00 .. 1.00
 
 # League membership
 MEMBERSHIP_WINDOW_DAYS = 28          # look back this many days before each week
-MIN_DAY_SHARE = 1.0                  # to JOIN: > MIN_ARRIVALS on EVERY day of that window
+MIN_DAY_SHARE = 1.0                  # to JOIN: >= MIN_ARRIVALS on EVERY day of that window
 STAY_DAY_SHARE = 0.5                 # to STAY (existing members): on at least half of the days
                                      # (hard to get in, easy to stay: a construction weekend doesn't throw anyone out)
 DATA_GAP_SHARE = 0.85                # days with < 85% of the usual total arrivals are data gaps, ignored for membership

@@ -32,7 +32,7 @@ Ursachen stehen nicht in den Daten, eine Platzierung ist also nie eine Schuldzuw
 "Heimleistung", die nur die am Bahnhof selbst entstandene Verspätung wertet.</p>
 <h2>Prognose für morgen</h2>
 <p>Jede Bahnhofsseite zeigt eine Prognose im Stil eines Vorhersagemarkts: Wie wahrscheinlich schafft der Bahnhof morgen
-mindestens 0,60 Punkte? Das Modell ist bewusst einfach: Es nimmt die gespielten Tage der letzten 8 Wochen, gewichtet
+mindestens 0,60 Punkte? Das Modell ist bewusst einfach: Es nimmt die gewerteten Tage der letzten 8 Wochen, gewichtet
 jüngere Tage stärker (ein zwei Wochen alter Tag zählt halb) und den gleichen Wochentag doppelt, weil Wochenenden deutlich
 pünktlicher sind. Die Wahrscheinlichkeit ist der gewichtete Anteil der Tage über der Schwelle, leicht Richtung 50 % gezogen.
 Über alle Bahnhöfe erreicht es einen Brier-Score von etwa 0,18 (Münzwurf: 0,25; für alle die gleiche Quote: 0,24), es ist
@@ -44,7 +44,7 @@ Tabellen, Mitgliedschaften, Auf- und Abstiege, Relegationen und Nachrücker aus 
 Ligawechsel. Findet es auch nur einen Widerspruch, wird nichts veröffentlicht.</p>
 <h2>Aktualisierung</h2>
 <p>Die Seite wird automatisch per GitHub Actions neu gebaut, alle drei Stunden. Die Tabelle der laufenden Woche ist live
-und ändert sich nach jedem Spieltag; Auf- und Abstieg gibt es nach dem Sonntag.</p>
+und ändert sich nach jedem Wertungstag; Auf- und Abstieg gibt es nach dem Sonntag.</p>
 <h2>Keine Verbindung zur DB</h2>
 <p>Dies ist ein unabhängiges Fanprojekt, nicht verbunden mit der Deutschen Bahn AG und nicht von ihr unterstützt. Alle
 Wappen auf dieser Seite sind eigene Entwürfe. Keine Wetten, keine Preise, nur Ehre.</p>
@@ -67,25 +67,25 @@ This league deliberately measures what a passenger standing on the platform expe
 causes are unknown in this data, so a ranking is never blame. A possible later addition is a "Heimleistung" table that
 scores only the delay added at the station itself.</p>
 <h2>Forecast for tomorrow</h2>
-<p>Every station page shows a prediction-market style forecast: how likely is the station to score at least 0.60 tomorrow?
-The model is deliberately simple. It takes the played days of the last 8 weeks, weights recent days more (a day two weeks
+<p>Every station page shows a forecast: how likely is the station to score at least 0.60 tomorrow?
+The model is deliberately simple. It takes the scored days of the last 8 weeks, weights recent days more (a day two weeks
 old counts half) and the same weekday double, because weekends are clearly more punctual. The probability is the weighted
 share of days above the threshold, pulled slightly towards 50%. Across all stations it reaches a Brier score of about 0.18
 (coin flip: 0.25; the same odds for everyone: 0.24), so it is useful but far from certain. When no ICE/IC trains currently
 stop at a station, there is no forecast. No betting, no money.</p>
 <h2>Audit</h2>
 <p>Before every publish, an independent checker re-derives the entire history from the raw daily data: points, tables,
-memberships, promotions, relegations, playoffs and gap fills, and it requires every league change to be explained. If it
+memberships, promotions, relegations, deciders and gap fills, and it requires every league change to be explained. If it
 finds a single contradiction, nothing is published.</p>
 <h2>Updates</h2>
 <p>The site is rebuilt automatically by GitHub Actions every three hours. The current week's
-table is live and will change after every matchday; promotion and relegation are applied after Sunday.</p>
+table is live and will change after every scoring day; promotion and relegation are applied after Sunday.</p>
 <h2>Not affiliated</h2>
 <p>This is an independent fan project. It is not affiliated with or endorsed by Deutsche Bahn AG. All crests on this site
 are our own designs. No betting, no prizes, just bragging rights.</p>
 </div>
 </main>
-<script src="assets/app.js?v=eefb64d4ad"></script>
+<script src="assets/app.js?v=9e1d0529eb"></script>
 <script>chrome("about.html"); getJSON("data/meta.json").then(stamp).catch(() => {});</script>
 </body>
 </html>

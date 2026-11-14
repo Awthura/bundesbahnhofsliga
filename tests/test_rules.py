@@ -20,13 +20,14 @@ def stop(i, delay=0, canceled=False, eva="1", day="2026-11-09 10:00"):
 
 def test_points_are_share_between_0_and_1_and_rounded():
     assert points.score_day(3, 2) == (0.67, False)
+    assert points.score_day(5, 3) == (0.6, True)
     assert points.score_day(7, 7) == (1.0, True)
     assert points.score_day(7, 0) == (0.0, True)
 
 
-def test_more_than_five_arrivals_needed_to_play():
-    assert points.score_day(5, 5)[1] is False
-    assert points.score_day(6, 5)[1] is True
+def test_at_least_five_arrivals_needed_to_be_scored():
+    assert points.score_day(4, 4)[1] is False
+    assert points.score_day(5, 5)[1] is True
 
 
 def test_cancelled_counts_as_not_punctual_and_six_minutes_is_late():

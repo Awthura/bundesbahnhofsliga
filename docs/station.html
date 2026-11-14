@@ -23,7 +23,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <h3 id="hist-title"></h3>
   <div id="hist"></div>
 </main>
-<script src="assets/app.js?v=eefb64d4ad"></script>
+<script src="assets/app.js?v=9e1d0529eb"></script>
 <script>
 chrome("");
 $("#chart-title").textContent = T.chart_title;
@@ -140,7 +140,7 @@ function renderMarket(st, width) {
   if (!f) return;
   if (f.no_service) { box.innerHTML = `<div class="market"><h3>${T.fc_title}</h3><p class="sub">${T.fc_no_service}</p></div>`; return; }
   const yes = Math.round(f.p_yes * 100), no = 100 - yes;
-  // probability history, Polymarket style: one line, 0-100 %, outcomes as dots at top (yes) and bottom (no)
+  // probability history: one line, 0-100 %, outcomes as dots at top (yes) and bottom (no)
   const pts = f.history.concat([{ day: f.day, p: f.p_yes, yes: null }]);
   const W = Math.max(width, 240), H = W < 500 ? 140 : 170, L = 34, R = 8, Tp = 10, B = 22;
   const x = (i) => L + (i * (W - L - R)) / Math.max(pts.length - 1, 1);

@@ -57,7 +57,7 @@ class Data:
         return [d for d in days if sum(r["arrivals"] for r in self.by_day[d].values()) >= config.DATA_GAP_SHARE * median]
 
     def members(self, week_start: dt.date, current: set[str] | None = None):
-        """Members for the week starting week_start. Newcomers need more than MIN_ARRIVALS on every day
+        """Members for the week starting week_start. Newcomers need at least MIN_ARRIVALS on every day
         of the window (MIN_DAY_SHARE); stations in `current` (last week's members) only need it on
         STAY_DAY_SHARE of the days."""
         days = self.complete_days(self.window(week_start, config.MEMBERSHIP_WINDOW_DAYS))

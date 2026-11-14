@@ -25,4 +25,9 @@ a Bayesian average against luck (about 11 average trains added), showing binomia
 ranking by delay added on the section into the station (previous stop is known for 97% of arrivals).
 Decision on 2026-11-14: keep the current scoring.
 
+**At least 2 separate ICE/IC lines per member.** Idea from 2026-11-15. DB's data has no line numbers for ICE/IC,
+so lines must be derived. Counting compass directions (rough estimate: about 45 of 161 stations would go) is not a
+valid method, because one track often carries several lines (e.g. Hamburg to Berlin) and termini like Dresden Hbf have
+two lines but only one direction. A proper version would group trains into lines by their routes.
+
 **Forecast threshold.** 0.60 (42% of station-days reach it). 0.55 would be an exact coin flip.
