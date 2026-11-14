@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bahnhof · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=1d518a74c0">
+<link rel="stylesheet" href="assets/style.css?v=79be733668">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -13,10 +13,10 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
 <main class="wrap">
   <div class="league-head"><img id="logo" alt=""><div><h2 id="name">…</h2><div class="sub" id="sub"></div></div></div>
   <div class="kpis" id="kpis"></div>
-  <div id="market"></div>
   <h3 id="chart-title"></h3>
   <div id="chart-box"><svg class="chart" id="chart" role="img"></svg></div>
   <p class="sub" id="chart-note"></p>
+  <div id="market"></div>
   <h3 id="pyr-title"></h3>
   <div id="pyramid" class="pyramid"></div>
   <p class="sub" id="pyr-note"></p>
@@ -161,13 +161,19 @@ function renderMarket(st, width) {
   g += `<text x="${L}" y="${H - 4}" font-size="10" fill="var(--muted)">${dayLabel(pts[0].day)}</text>
     <text x="${W - R}" y="${H - 4}" font-size="10" text-anchor="end" fill="var(--muted)">${dayLabel(f.day)}</text>`;
   box.innerHTML = `<div class="market">
-    <h3>${T.fc_title}</h3>
-    <div class="mk-q">${T.fc_q(esc(st.name), dayLabel(f.day), num(f.threshold))}</div>
-    <div class="mk-odds">
-      <div class="mk-yes"><span>${T.yes}</span><b>${yes}%</b></div>
-      <div class="mk-no"><span>${T.no}</span><b>${no}%</b></div>
+    <div class="mk-head">
+      <div>
+        <h3>${T.fc_title}</h3>
+        <div class="mk-q">${T.fc_q(esc(st.name), dayLabel(f.day), num(f.threshold))}</div>
+      </div>
+      <div>
+        <div class="mk-odds">
+          <div class="mk-yes"><span>${T.yes}</span><b>${yes}%</b></div>
+          <div class="mk-no"><span>${T.no}</span><b>${no}%</b></div>
+        </div>
+        <div class="mk-bar" role="img" aria-label="${T.yes} ${yes}%, ${T.no} ${no}%"><i style="width:${yes}%"></i></div>
+      </div>
     </div>
-    <div class="mk-bar" role="img" aria-label="${T.yes} ${yes}%, ${T.no} ${no}%"><i style="width:${yes}%"></i></div>
     <svg class="mk-chart" viewBox="0 0 ${W} ${H}" style="height:${H}px" role="img" aria-label="${T.fc_legend}">${g}</svg>
     <p class="sub">${T.fc_expected(num(f.expected), num(f.low), num(f.high))}${f.brier != null ? "<br>" + T.fc_brier(num(f.brier, 3), f.resolved) : ""}</p>
     <p class="sub mk-small">${T.fc_legend} ${T.fc_note}</p>
