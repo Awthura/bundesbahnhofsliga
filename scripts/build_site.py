@@ -124,7 +124,7 @@ def main():
                            "lat": stations_meta.get(eva, {}).get("lat"),
                            "lon": stations_meta.get(eva, {}).get("lon")} for eva in members},
         "rules": {"min_arrivals": config.MIN_ARRIVALS, "punctual_limit": config.PUNCTUAL_LIMIT_MIN,
-                  "types": config.TRAIN_TYPES, "direct_movers": config.DIRECT_MOVERS, "league_sizes": config.LEAGUE_SIZES, "rl_relegated": config.RL_RELEGATED, "min_day_share": config.MIN_DAY_SHARE,
+                  "types": config.TRAIN_TYPES, "direct_movers": config.DIRECT_MOVERS, "league_sizes": config.LEAGUE_SIZES, "rl_relegated": config.RL_RELEGATED, "min_day_share": config.MIN_DAY_SHARE, "stay_day_share": config.STAY_DAY_SHARE,
                   "window": config.MEMBERSHIP_WINDOW_DAYS, "min_played_share": config.MIN_PLAYED_SHARE},
     })
     # crests are generated from bbl/config.py (regions)

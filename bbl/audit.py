@@ -73,9 +73,20 @@ def audit(res: dict, rows: list[dict], states: dict[str, str]) -> list[str]:
                     if region_league(r["eva"]) != l:
                         err(f"{sid} {l}: {name(r['eva'])} belongs to {region_league(r['eva'])}")
 
-        # C. membership: exactly the stations that meet the every-day rule
-        mem, _ = data.members(week)
-        if mem is not None and set(where) != mem:
+        # C. membership, recomputed here: newcomers need > MIN_ARRIVALS on every day of the window,
+        #    last week's members on at least STAY_DAY_SHARE of the days (data-gap days ignored)
+        window = data.window(week, config.MEMBERSHIP_WINDOW_DAYS)
+        totals = sorted(sum(r["arrivals"] for r in data.by_day[d].values()) for d in window)
+        median = totals[len(totals) // 2] if totals else 0
+        window = [d for d in window if sum(r["arrivals"] for r in data.by_day[d].values()) >= config.DATA_GAP_SHARE * median]
+        before_members = {r["eva"] for lg in prev["leagues"].values() for r in lg["tables"][-1]} if prev else set()
+        mem = set()
+        for e in {e for d in window for e in data.by_day[d]}:
+            good = sum(1 for d in window if data.by_day[d].get(e, {}).get("plays"))
+            share = config.STAY_DAY_SHARE if e in before_members else config.MIN_DAY_SHARE
+            if window and good >= share * len(window):
+                mem.add(e)
+        if set(where) != mem:
             extra, missing = set(where) - mem, mem - set(where)
             err(f"{sid}: membership mismatch, extra {sorted(map(name, extra))[:5]}, missing {sorted(map(name, missing))[:5]}")
 

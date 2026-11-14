@@ -271,3 +271,16 @@ def test_audit_real_history():
     st = json.loads((root / "data" / "stations.json").read_text())
     states = {e: v.get("state") for e, v in st.items()}
     assert audit.audit(league.run(rows, states), rows, states) == []
+
+
+def test_membership_hard_to_join_easy_to_stay():
+    start = dt.date(2026, 11, 9)
+    rows = []
+    for i in range(1, 29):
+        d = start - dt.timedelta(days=i)
+        rows.append({"day": d, "eva": "a", "station": "A", "points": 0.9, "plays": i not in (3, 4)})  # 2 thin days
+        rows.append({"day": d, "eva": "b", "station": "B", "points": 0.9, "plays": i <= 10})          # 18 thin days
+        rows.append({"day": d, "eva": "c", "station": "C", "points": 0.9, "plays": True})
+    data = league.Data(rows)
+    assert data.members(start)[0] == {"c"}                          # newcomers: every day
+    assert data.members(start, {"a", "b", "c"})[0] == {"a", "c"}    # members: at least half of the days

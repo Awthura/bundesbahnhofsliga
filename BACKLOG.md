@@ -15,9 +15,10 @@ server, so the league keeps running if the Hugging Face archive stops. Code and 
 
 ## Rules, decided to keep as is for now
 
-**Construction pause.** Stations without ICE/IC service because of a planned closure (e.g. Aschaffenburg, Gemünden to
-Aschaffenburg closed 9 Nov to 12 Dec 2026) currently drop out of the league and return at the bottom. Option: pause
-them and keep their place.
+**Construction pause.** Since 2026-11-15 members stay while they play on at least half of the last 28 days, so short
+closures no longer cost membership. Long closures (e.g. Aschaffenburg, Gemünden to Aschaffenburg closed 9 Nov to
+12 Dec 2026) still end membership after about two weeks. Option if that still feels harsh: days with zero ICE/IC
+arrivals don't count against a member for up to 6 weeks ("paused").
 
 **Scoring.** The weekly Schnitt averages the daily scores. Options discussed: pool the week (each train counts once),
 a Bayesian average against luck (about 11 average trains added), showing binomial intervals, and a "Heimleistung"

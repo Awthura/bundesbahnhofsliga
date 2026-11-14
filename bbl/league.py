@@ -56,7 +56,10 @@ class Data:
         median = totals[len(totals) // 2]
         return [d for d in days if sum(r["arrivals"] for r in self.by_day[d].values()) >= config.DATA_GAP_SHARE * median]
 
-    def members(self, week_start: dt.date):
+    def members(self, week_start: dt.date, current: set[str] | None = None):
+        """Members for the week starting week_start. Newcomers need more than MIN_ARRIVALS on every day
+        of the window (MIN_DAY_SHARE); stations in `current` (last week's members) only need it on
+        STAY_DAY_SHARE of the days."""
         days = self.complete_days(self.window(week_start, config.MEMBERSHIP_WINDOW_DAYS))
         if len(days) < config.SEED_MIN_DAYS:
             return None, {}
@@ -65,8 +68,9 @@ class Data:
             for eva, r in self.by_day[d].items():
                 if r["plays"]:
                     played[eva].append(r["points"])
-        need = config.MIN_DAY_SHARE * len(days)
-        mem = {eva for eva, p in played.items() if len(p) >= need}
+        current = current or set()
+        mem = {eva for eva, p in played.items()
+               if len(p) >= (config.STAY_DAY_SHARE if eva in current else config.MIN_DAY_SHARE) * len(days)}
         avg = {eva: sum(played[eva]) / len(played[eva]) for eva in mem}
         return mem, avg
 
@@ -142,7 +146,8 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
     week = monday(data.days[0]) + dt.timedelta(days=7)
     last = data.days[-1]
     while week <= last:
-        mem, win_avg = data.members(week)
+        current = {e for l in lists.values() for e in l} if lists else None
+        mem, win_avg = data.members(week, current)
         days = [week + dt.timedelta(days=i) for i in range(7) if week + dt.timedelta(days=i) in data.by_day]
         if mem is None or not days:
             week += dt.timedelta(days=7)
