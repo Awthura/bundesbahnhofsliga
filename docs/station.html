@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bahnhof · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=b9c4507881">
+<link rel="stylesheet" href="assets/style.css?v=8475e2ab82">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -13,17 +13,23 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
 <main class="wrap">
   <div class="league-head"><img id="logo" alt=""><div><h2 id="name">…</h2><div class="sub" id="sub"></div></div></div>
   <div class="kpis" id="kpis"></div>
+  <div class="kpis" id="kpis2"></div>
   <h3 id="chart-title"></h3>
   <div id="chart-box"><svg class="chart" id="chart" role="img"></svg></div>
   <p class="sub" id="chart-note"></p>
   <div id="market"></div>
+  <h3 id="wd-title"></h3>
+  <div id="weekdays" class="pyramid"></div>
+  <p class="sub" id="wd-note"></p>
   <h3 id="pyr-title"></h3>
   <div id="pyramid" class="pyramid"></div>
   <p class="sub" id="pyr-note"></p>
+  <h3 id="rec-title"></h3>
+  <div class="kpis" id="records"></div>
   <h3 id="hist-title"></h3>
   <div id="hist"></div>
 </main>
-<script src="assets/app.js?v=9e1d0529eb"></script>
+<script src="assets/app.js?v=d9f2e3d8b8"></script>
 <script>
 chrome("");
 $("#chart-title").textContent = T.chart_title;
@@ -31,6 +37,9 @@ $("#chart").setAttribute("aria-label", T.chart_title);
 $("#chart-note").textContent = T.chart_note;
 $("#hist-title").textContent = T.hist_title;
 $("#pyr-title").textContent = T.pyr_title;
+$("#wd-title").textContent = T.wd_title;
+$("#wd-note").textContent = T.wd_note;
+$("#rec-title").textContent = T.rec_title;
 $("#pyr-note").textContent = T.pyr_note;
 (async () => {
   const eva = new URLSearchParams(location.search).get("eva");
@@ -55,6 +64,8 @@ $("#pyr-note").textContent = T.pyr_note;
   if (st.forecast && !st.forecast.no_service) whenSized($("#market"), (w) => renderMarket(st, w - 34));
   else renderMarket(st, 0);
   whenSized($("#pyramid"), (w) => renderPyramid(st, meta, w));
+  renderStats(st);
+  whenSized($("#weekdays"), (w) => renderWeekdays(st, w));
 
   const drawDaily = (W) => {
   // bar chart, plain SVG
@@ -98,6 +109,48 @@ function whenSized(el, draw) {
   const run = (w) => { w = Math.floor(w); if (w > 0 && w !== last) { last = w; draw(w); } };
   if ("ResizeObserver" in window) new ResizeObserver((es) => run(es[0].contentRect.width)).observe(el);
   else run(el.clientWidth);
+}
+
+function renderStats(st) {
+  const x = st.stats; if (!x) return;
+  const n = x.national, v = x.volume;
+  const cards = [];
+  if (n) {
+    cards.push([`<a href="ranking.html?lang=${LANG}">${T.st_rank(n.rank, n.of)}</a>`, T.st_rank_note]);
+    if (n.state) cards.push([T.st_state(n.state_rank, n.state_of, esc(n.state)), T.st_rank_note]);
+  }
+  if (v.avg_per_day != null) cards.push([num(v.avg_per_day, 1), T.vol_avg]);
+  if (v.busiest) cards.push([v.busiest.arrivals, T.vol_busiest(dayLabel(v.busiest.day))]);
+  $("#kpis2").innerHTML = cards.map(([a, b]) => `<div class="kpi"><b class="kpi-small">${a}</b><span>${b}</span></div>`).join("");
+  const r = x.records, s = x.streaks;
+  const wk = (w) => (w ? `${num(w.avg, 3)}<span>${w.season} · ${T.place(w.rank, esc(w.short))}</span>` : "-");
+  const rec = [
+    [T.rec.best, wk(r.best_week)], [T.rec.worst, wk(r.worst_week)],
+    [T.rec.highest, r.highest ? `${esc(r.highest.short)}<span>${r.highest.season} · ${r.highest.rank}.</span>` : "-"],
+    [T.rec.titles, `${r.titles}`], [T.rec.moves, `${r.promotions} / ${r.relegations}`],
+    [T.rec.longest, `${T.n_days(s.longest)}${s.longest ? `<span>${dayLabel(s.longest_from)} ${T.to} ${dayLabel(s.longest_to)}</span>` : ""}`],
+    [T.rec.current, T.n_days(s.current)],
+  ];
+  $("#records").innerHTML = rec.map(([k, v]) => `<div class="kpi"><span>${k}</span><b class="kpi-small">${v}</b></div>`).join("");
+}
+
+function renderWeekdays(st, W) {
+  const wd = st.stats?.weekdays; if (!wd) return;
+  const vals = wd.filter((d) => d.avg != null).map((d) => d.avg);
+  const hi = Math.max(...vals), lo = Math.min(...vals);
+  const H = 150, B = 22, top = 18, bw = W / 7;
+  const names = [1, 2, 3, 4, 5, 6, 0].map((i) => T.days[i]);
+  let g = "";
+  wd.forEach((d, i) => {
+    const x = i * bw + bw * 0.18, w = bw * 0.64;
+    if (d.avg == null) return;
+    const h = d.avg * (H - B - top), y = H - B - h;
+    const c = d.avg === hi ? "var(--up)" : d.avg === lo ? "var(--red)" : "#8c8c8c";
+    g += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${c}"><title>${names[i]}: ${num(d.avg, 3)} (${T.n_days(d.days)})</title></rect>
+      <text x="${x + w / 2}" y="${y - 5}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)">${num(d.avg, 2)}</text>`;
+  });
+  g += names.map((nm, i) => `<text x="${i * bw + bw / 2}" y="${H - 6}" text-anchor="middle" font-size="11" fill="var(--muted)">${nm}</text>`).join("");
+  $("#weekdays").innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;display:block" role="img" aria-label="${T.wd_title}">${g}</svg>`;
 }
 
 function renderPyramid(st, meta, width) {

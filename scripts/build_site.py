@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from bbl import audit, config, forecast, league  # noqa: E402
+from bbl import audit, config, forecast, league, stats  # noqa: E402
 
 OUT = ROOT / "docs" / "data"
 
@@ -97,8 +97,14 @@ def main():
     dump(OUT / "champions.json", {"order": [l for l in res["leagues"]], "leagues": champions})
 
     members = sorted(history)
+    full_daily = {eva: [{"day": d.isoformat(), **data.by_day[d][eva]} for d in data.days if eva in data.by_day[d]]
+                  for eva in members}
+    latest_members = {r["eva"] for lg in res["seasons"][-1]["leagues"].values() for r in lg["tables"][-1]} \
+        if res["seasons"] else set()
+    state_of = {e: config.STATE_OVERRIDES.get(e) or stations_meta.get(e, {}).get("state") for e in members}
+    ranks = stats.national_ranks({e: stats.overall_average(full_daily[e]) for e in latest_members}, state_of)
     for eva in members:
-        daily = [{"day": d.isoformat(), **data.by_day[d][eva]} for d in data.days if eva in data.by_day[d]]
+        daily = full_daily[eva]
         played = [x for x in daily if x["plays"]]
         best = max(played, key=lambda x: x["points"], default=None)
         worst = min(played, key=lambda x: x["points"], default=None)
@@ -107,7 +113,10 @@ def main():
         dump(OUT / "stations" / f"{eva}.json", {
             "forecast": fc,
             "eva": eva, "name": data.names[eva], "state": config.STATE_OVERRIDES.get(eva) or m.get("state"), "lat": m.get("lat"), "lon": m.get("lon"),
-            "daily": daily[-120:], "best": best, "worst": worst, "history": history[eva]})
+            "daily": daily[-120:], "best": best, "worst": worst, "history": history[eva],
+            "stats": {"overall_avg": stats.overall_average(daily), "national": ranks.get(eva),
+                      "streaks": stats.streaks(daily), "weekdays": stats.weekday_profile(daily),
+                      "records": stats.records(history[eva]), "volume": stats.volume(daily)}})
 
     latest = res["seasons"][-1] if res["seasons"] else None
     current = {}

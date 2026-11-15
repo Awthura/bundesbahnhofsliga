@@ -2,7 +2,7 @@ import datetime as dt
 
 import duckdb
 
-from bbl import audit, config, forecast, ingest, league, points
+from bbl import audit, config, forecast, ingest, league, points, stats
 
 
 def stops_con(rows):
@@ -304,3 +304,23 @@ def test_typical_day_needs_10_arrivals():
     data = league.Data(rows)
     assert data.members(start)[0] == {"busy"}
     assert data.members(start, {"busy", "quiet", "mixed"})[0] == {"busy"}   # staying needs it too
+
+
+def test_station_stats():
+    days = [{"day": f"2026-11-{i:02d}", "points": p, "plays": pl, "arrivals": a} for i, (p, pl, a) in enumerate([
+        (0.9, True, 20), (0.85, True, 22), (0.5, True, 20), (0.8, True, 18), (0.95, True, 30),
+        (0.9, True, 25), (None, False, 2), (0.82, True, 20)], start=2)]   # Nov 2 is a Monday
+    s = stats.streaks(days, level=0.8)
+    assert (s["longest"], s["longest_from"], s["longest_to"], s["current"]) == (3, "2026-11-05", "2026-11-07", 1)
+    wk = stats.weekday_profile(days)
+    assert wk[0]["avg"] == round((0.9 + 0.82) / 2, 3) and wk[6]["days"] == 0   # Sunday Nov 8 not scored
+    v = stats.volume(days)
+    assert v["busiest"] == {"day": "2026-11-06", "arrivals": 30}
+    r = stats.national_ranks({"a": 0.7, "b": 0.6, "c": 0.8, "d": None}, {"a": "X", "b": "Y", "c": "X"})
+    assert r["c"]["rank"] == 1 and r["a"]["state_rank"] == 2 and r["b"]["state_rank"] == 1 and r["a"]["of"] == 3
+    hist = [{"season": "KW1", "league": "2", "short": "2. BBL", "tier": 2, "rank": 1, "avg": 0.8, "complete": True, "move": "up"},
+            {"season": "KW2", "league": "1", "short": "BBL", "tier": 1, "rank": 17, "avg": 0.6, "complete": True, "move": "down"},
+            {"season": "KW3", "league": "2", "short": "2. BBL", "tier": 2, "rank": 3, "avg": 0.9, "complete": False, "move": None}]
+    rec = stats.records(hist)
+    assert rec["best_week"]["season"] == "KW1" and rec["highest"]["short"] == "BBL"
+    assert (rec["titles"], rec["promotions"], rec["relegations"]) == (1, 1, 1)

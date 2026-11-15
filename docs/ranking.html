@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rangliste · Bundesbahnhofsliga</title>
+<link rel="icon" href="assets/logos/favicon.svg">
+<link rel="stylesheet" href="assets/style.css?v=8475e2ab82">
+<script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
+if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
+</head>
+<body>
+<main class="wrap">
+  <h1 id="rk-title" style="margin:4px 0 2px"></h1>
+  <p class="sub" id="rk-intro"></p>
+  <div class="matchdays" style="margin-top:0">
+    <label for="season" id="season-label"></label> <select id="season"></select>
+    <select id="state" aria-label="Bundesland"></select>
+  </div>
+  <div class="matchdays" id="matchdays"></div>
+  <div id="table"></div>
+</main>
+<script src="assets/app.js?v=d9f2e3d8b8"></script>
+<script>
+chrome("ranking.html");
+$("#rk-title").textContent = T.rk_title;
+$("#rk-intro").textContent = T.rk_intro;
+$("#season-label").textContent = T.season_label;
+const params = new URLSearchParams(location.search);
+const state = { meta: null, data: null, md: 0, filter: "" };
+
+// one national table from all league tables after a given day, ranked exactly like a league table
+function national(s, k) {
+  const rows = [];
+  for (const l of s.league_order) for (const r of s.leagues[l].tables[k] || []) rows.push({ ...r, league: l });
+  rows.sort((a, b) => (a.ranked === b.ranked ? 0 : a.ranked ? -1 : 1) || b.avg - a.avg || b.points - a.points || a.station.localeCompare(b.station));
+  rows.forEach((r, i) => (r.nrank = i + 1));
+  return rows;
+}
+
+function render() {
+  const s = state.data, meta = state.meta;
+  $("#matchdays").innerHTML = `${T.matchday}: ` + s.matchdays.map((d, i) =>
+    `<button class="${i === state.md ? "on" : ""}" data-i="${i}">${i + 1} · ${dayLabel(d)}</button>`).join("");
+  $("#matchdays").querySelectorAll("button").forEach((b) => (b.onclick = () => { state.md = +b.dataset.i; render(); }));
+  revealActive($("#matchdays"));
+  const rows = national(s, state.md);
+  const prev = state.md > 0 ? Object.fromEntries(national(s, state.md - 1).map((r) => [r.eva, r.nrank])) : null;
+  const shown = rows.filter((r) => !state.filter || meta.stations[r.eva]?.state === state.filter);
+  const c = T.rk_cols;
+  $("#table").innerHTML = `<div class="tablewrap"><table>
+    <thead><tr><th>${c[0]}</th><th></th><th>${c[1]}</th><th><span class="hide-sm">${c[2]}</span></th><th class="hide-md">${c[3]}</th>
+      <th class="num hide-sm">${c[4]}</th><th class="num">${c[5]}</th></tr></thead><tbody>
+    ${shown.map((r) => `<tr class="${r.ranked ? "" : "unranked"}">
+      <td class="rank">${r.nrank}.</td><td>${trendCell(prev && prev[r.eva] ? prev[r.eva] - r.nrank : null)}</td>
+      <td class="st"><a href="${stLink(r.eva)}">${esc(r.station)}</a></td>
+      <td><a href="index.html?season=${s.id}&liga=${r.league}&lang=${LANG}" title="${esc(s.leagues[r.league].name)}" style="color:var(--ink);text-decoration:none;white-space:nowrap">
+        <img src="${logo(r.league)}" alt="" style="width:16px;height:19px;vertical-align:-4px"> <span class="hide-sm">${esc(s.leagues[r.league].short)}</span></a></td>
+      <td class="hide-md">${esc(meta.stations[r.eva]?.state || "")}</td>
+      <td class="num hide-sm">${r.played}</td><td class="num"><b>${num(r.avg, 3)}</b></td></tr>`).join("")}
+    </tbody></table></div>`;
+}
+
+async function loadSeason(id) {
+  state.data = await getJSON(`data/season/${id}.json`);
+  state.md = state.data.matchdays.length - 1;
+  render();
+}
+
+(async () => {
+  const meta = state.meta = await getJSON("data/meta.json");
+  stamp(meta);
+  const sel = $("#season");
+  sel.innerHTML = meta.seasons.slice().reverse().map((s) =>
+    `<option value="${s.id}">${s.id} (${dayLabel(s.start)} ${T.to} ${dayLabel(s.end)})${s.complete ? "" : " " + T.live}</option>`).join("");
+  sel.value = params.get("season") || meta.latest;
+  sel.onchange = () => loadSeason(sel.value);
+  const states = [...new Set(Object.values(meta.stations).map((x) => x.state).filter(Boolean))].sort((a, b) => a.localeCompare(b, "de"));
+  $("#state").innerHTML = `<option value="">${T.rk_all}</option>` + states.map((x) => `<option>${esc(x)}</option>`).join("");
+  $("#state").onchange = (e) => { state.filter = e.target.value; render(); };
+  await loadSeason(sel.value);
+})().catch((e) => { console.error(e); $("#table").innerHTML = `<p>${T.load_error(esc(e.message))}</p>`; });
+</script>
+</body>
+</html>

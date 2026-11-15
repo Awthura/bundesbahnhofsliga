@@ -14,7 +14,7 @@ try { if (new URLSearchParams(location.search).get("lang")) localStorage.setItem
 
 const STR = {
   de: {
-    nav: ["Tabellen", "Meister", "Regeln", "Methodik"],
+    nav: ["Tabellen", "Rangliste", "Meister", "Regeln", "Methodik"],
     footer: `Fanprojekt, nicht mit der Deutschen Bahn verbunden. Daten: Deutsche Bahn Timetables API über
       <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>, CC BY 4.0.
       Die Tabellen zeigen die Pünktlichkeit, wie Fahrgäste sie am Bahnhof erleben; über die Ursache einer Verspätung sagen sie nichts.`,
@@ -48,6 +48,16 @@ const STR = {
     fc_legend: "Linie: Wahrscheinlichkeit für Ja, jeweils am Vortag geschätzt. Punkte oben und unten: tatsächliches Ergebnis (grün Ja, rot Nein).",
     fc_note: "Statistische Schätzung aus den letzten 8 Wochen dieses Bahnhofs; jüngere Tage und der gleiche Wochentag zählen mehr. Keine Wette, kein Geld, nur Statistik.",
     fc_no_service: "Zurzeit halten hier keine ICE- oder IC-Züge (zum Beispiel wegen Bauarbeiten), deshalb gibt es keine Prognose.",
+    rk_title: "Bundesweite Rangliste", rk_intro: "Alle Bahnhöfe aller Ligen in einer Tabelle, sortiert nach dem Schnitt der Woche.",
+    rk_cols: ["Platz", "Bahnhof", "Liga", "Bundesland", "Tage", "Schnitt"], rk_all: "Alle Bundesländer", rk_link: "Bundesweite Rangliste",
+    st_rank: (r, n) => `${r}. von ${n} bundesweit`, st_state: (r, n, s) => `${r}. von ${n} in ${s}`,
+    st_rank_note: "nach Durchschnitt aller Tage",
+    vol_avg: "ICE/IC-Ankünfte pro Tag (Ø)", vol_busiest: (d) => `meiste Ankünfte, ${d}`,
+    wd_title: "Wochentage", wd_note: "Durchschnittliche Tagespunkte je Wochentag. Grün: bester Tag, rot: schwächster Tag.",
+    rec_title: "Rekorde und Serien",
+    rec: { best: "Beste Woche", worst: "Schwächste Woche", highest: "Höchste Liga", titles: "Meistertitel",
+      moves: "Aufstiege / Abstiege", longest: "Längste Serie ab 0,60", current: "Aktuelle Serie ab 0,60" },
+    n_days: (n) => `${n} ${n === 1 ? "Tag" : "Tage"}`, place: (r, l) => `${r}. in der ${l}`,
     st_title: "Bahnhof", st_none: "diese Woche in keiner Liga", st_missing: "Bahnhof nicht gefunden",
     st_error: (m) => `Die Seite konnte nicht geladen werden. Bitte neu laden. (${m})`,
     kpi: ["Durchschnitt Tagespunkte", "gewertete Tage", "bester Tag", "schlechtester Tag"],
@@ -59,14 +69,14 @@ const STR = {
     filled: { spared: "nachgerückt (Abstieg erlassen)", next_best: "nachgerückt (bester Platz der Liga darunter)" },
     fills_title: "Nachrücker zu Saisonbeginn", dropped_title: (n) => `Ausgeschieden: ${n} Bahnhöfe hatten an weniger als der Hälfte der letzten 28 Tage mindestens 5 ICE/IC-Ankünfte`,
     hist_title: "Saisonverlauf", hist_cols: ["Saison", "Liga", "Platz", "Tage", "Schnitt"],
-    titles: { "index.html": "Bundesbahnhofsliga", "champions.html": "Meister · Bundesbahnhofsliga", "rules.html": "Regeln · Bundesbahnhofsliga", "about.html": "Methodik · Bundesbahnhofsliga" },
+    titles: { "index.html": "Bundesbahnhofsliga", "champions.html": "Meister · Bundesbahnhofsliga", "ranking.html": "Rangliste · Bundesbahnhofsliga", "rules.html": "Regeln · Bundesbahnhofsliga", "about.html": "Methodik · Bundesbahnhofsliga" },
     ch_title: "Meisterliste", ch_intro: "Wer stand am Ende der Woche ganz oben? Eine Saison ist eine Kalenderwoche.",
     ch_cols: ["Saison", "Meister", "Schnitt", "Vizemeister"], ch_live: "läuft, führt gerade", ch_promoted: "aufgestiegen",
     ch_record: "Rekordmeister", ch_titles: (n) => `${n} ${n === 1 ? "Titel" : "Titel"}`, ch_none: "Noch keine abgeschlossene Saison.",
     ch_link: "Meisterliste dieser Liga",
   },
   en: {
-    nav: ["Tables", "Champions", "Rules", "Methodology"],
+    nav: ["Tables", "Ranking", "Champions", "Rules", "Methodology"],
     footer: `Fan project, not affiliated with Deutsche Bahn. Data: Deutsche Bahn Timetables API via
       <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>, CC BY 4.0.
       Rankings describe punctuality as passengers see it at a station; they say nothing about who caused a delay.`,
@@ -100,6 +110,16 @@ const STR = {
     fc_legend: "Line: probability of Yes, as estimated the day before. Dots at top and bottom: actual result (green Yes, red No).",
     fc_note: "A statistical estimate from this station's last 8 weeks; recent days and the same weekday count more. No betting, no money, just statistics.",
     fc_no_service: "No ICE or IC trains stop here at the moment (for example because of construction), so there is no forecast.",
+    rk_title: "National ranking", rk_intro: "All stations of all leagues in one table, ranked by the week's average.",
+    rk_cols: ["Pos", "Station", "League", "State", "Days", "Avg"], rk_all: "All states", rk_link: "National ranking",
+    st_rank: (r, n) => `${r} of ${n} nationwide`, st_state: (r, n, s) => `${r} of ${n} in ${s}`,
+    st_rank_note: "by average over all days",
+    vol_avg: "ICE/IC arrivals per day (avg)", vol_busiest: (d) => `busiest day, ${d}`,
+    wd_title: "Weekdays", wd_note: "Average daily points per weekday. Green: best day, red: weakest day.",
+    rec_title: "Records and streaks",
+    rec: { best: "Best week", worst: "Weakest week", highest: "Highest league", titles: "Titles",
+      moves: "Promotions / relegations", longest: "Longest streak at 0.60+", current: "Current streak at 0.60+" },
+    n_days: (n) => `${n} ${n === 1 ? "day" : "days"}`, place: (r, l) => `${r}. in the ${l}`,
     st_title: "Station", st_none: "not in a league this week", st_missing: "Station not found",
     st_error: (m) => `The page could not be loaded. Please reload. (${m})`,
     kpi: ["average daily points", "scored days", "best day", "worst day"],
@@ -111,7 +131,7 @@ const STR = {
     filled: { spared: "moved up to fill a gap (relegation spared)", next_best: "moved up to fill a gap (best place of the league below)" },
     fills_title: "Filled gaps at the start of the season", dropped_title: (n) => `Dropped out: ${n} stations had at least 5 ICE/IC arrivals on fewer than half of the last 28 days`,
     hist_title: "Season history", hist_cols: ["Season", "League", "Pos", "Days", "Avg"],
-    titles: { "index.html": "Bundesbahnhofsliga", "champions.html": "Champions · Bundesbahnhofsliga", "rules.html": "Rules · Bundesbahnhofsliga", "about.html": "Methodology · Bundesbahnhofsliga" },
+    titles: { "index.html": "Bundesbahnhofsliga", "champions.html": "Champions · Bundesbahnhofsliga", "ranking.html": "Ranking · Bundesbahnhofsliga", "rules.html": "Rules · Bundesbahnhofsliga", "about.html": "Methodology · Bundesbahnhofsliga" },
     ch_title: "Roll of champions", ch_intro: "Who finished the week on top? A season is one calendar week.",
     ch_cols: ["Season", "Champion", "Avg", "Runner-up"], ch_live: "live, currently leading", ch_promoted: "promoted",
     ch_record: "Most titles", ch_titles: (n) => `${n} ${n === 1 ? "title" : "titles"}`, ch_none: "No finished season yet.",
@@ -129,7 +149,7 @@ function langLink(l) {
 }
 
 function chrome(active) {
-  const pages = ["index.html", "champions.html", "rules.html", "about.html"];
+  const pages = ["index.html", "ranking.html", "champions.html", "rules.html", "about.html"];
   if (T.titles[active]) document.title = T.titles[active];
   document.body.insertAdjacentHTML("afterbegin", `
     <header class="top"><div class="wrap">
@@ -149,7 +169,7 @@ function chrome(active) {
   // keep the language when following internal links
   document.querySelectorAll('a[href]').forEach((a) => {
     const h = a.getAttribute("href");
-    if (/^(index|champions|rules|about|station)\.html/.test(h) && !/[?&]lang=/.test(h)) a.setAttribute("href", h + (h.includes("?") ? "&" : "?") + "lang=" + LANG);
+    if (/^(index|ranking|champions|rules|about|station)\.html/.test(h) && !/[?&]lang=/.test(h)) a.setAttribute("href", h + (h.includes("?") ? "&" : "?") + "lang=" + LANG);
   });
 }
 
