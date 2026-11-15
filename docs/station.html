@@ -29,7 +29,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <h3 id="hist-title"></h3>
   <div id="hist"></div>
 </main>
-<script src="assets/app.js?v=a114e2f23f"></script>
+<script src="assets/app.js?v=5b754e85fa"></script>
 <script>
 chrome("");
 $("#chart-title").textContent = T.chart_title;
@@ -130,8 +130,7 @@ function renderStats(st) {
     [T.rec.best, wk(r.best_week)], [T.rec.worst, wk(r.worst_week)],
     [T.rec.highest, r.highest ? `${esc(r.highest.short)}<span>${r.highest.season} · ${r.highest.rank}.</span>` : "-"],
     [T.rec.titles, `${r.titles}`], [T.rec.moves, `${r.promotions} / ${r.relegations}`],
-    [T.rec.longest, `${T.n_days(s.longest)}${s.longest ? `<span>${dayLabel(s.longest_from)} ${T.to} ${dayLabel(s.longest_to)}</span>` : ""}`],
-    [T.rec.current, T.n_days(s.current)],
+    [T.rec.longest, `${T.n_days(s.longest)}<span>${s.longest ? `${dayLabel(s.longest_from)} ${T.to} ${dayLabel(s.longest_to)} · ` : ""}${T.rec.current_short(T.n_days(s.current))}</span>`],
   ];
   $("#records").innerHTML = rec.map(([k, v]) => `<div class="kpi"><span>${k}</span><b class="kpi-small">${v}</b></div>`).join("");
 }

@@ -129,7 +129,7 @@ def main():
             "eva": eva, "name": data.names[eva], "state": config.STATE_OVERRIDES.get(eva) or m.get("state"), "lat": m.get("lat"), "lon": m.get("lon"),
             "daily": daily[-120:], "best": best, "worst": worst, "history": history[eva],
             "stats": {"overall_avg": stats.overall_average(daily), "national": ranks.get(eva),
-                      "streaks": stats.streaks(daily), "weekdays": stats.weekday_profile(daily),
+                      "streaks": stats.streaks([d for d in daily if d["day"] < running.isoformat()]),   # running day still open "weekdays": stats.weekday_profile(daily),
                       "records": stats.records(history[eva]), "volume": stats.volume(daily)}})
 
     # typical day (median ICE/IC/EC arrivals over the last 28 days), for the frequency filter on the ranking page
