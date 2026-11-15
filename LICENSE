@@ -1,0 +1,33 @@
+Copyright (c) 2026 Aw Thura. All rights reserved.
+
+Bundesbahnhofsliga
+
+1. Code, website and designs
+
+The source code, the website (everything in docs/ except the data described in section 2), the
+league names and crest and logo designs, and all texts in this repository are the property of
+Aw Thura. No license is granted. You may not use, copy, modify, merge, publish, distribute,
+sublicense or sell any part of them without prior written permission from the copyright holder.
+
+This repository is public on GitHub. GitHub's Terms of Service allow other GitHub users to view
+and fork it on GitHub; that does not grant any further rights to use, copy or redistribute it.
+
+2. Train data
+
+The underlying train data comes from the Deutsche Bahn Timetables API, published by Deutsche Bahn
+under the Creative Commons Attribution 4.0 International license (CC BY 4.0,
+https://creativecommons.org/licenses/by/4.0/), collected via the archive
+https://huggingface.co/datasets/piebro/deutsche-bahn-data. Nothing in this file restricts anyone's
+rights to Deutsche Bahn's original data under CC BY 4.0.
+
+The processed data in this repository (data/ and docs/data/), including daily points, tables,
+rankings and forecasts, is derived from that data and is covered by section 1.
+
+Attribution: Data: Deutsche Bahn AG, CC BY 4.0.
+
+3. No affiliation, no warranty
+
+This is an independent fan project. It is not affiliated with or endorsed by Deutsche Bahn AG or
+the Deutsche Fußball Liga. Everything is provided "as is", without warranty of any kind.
+
+For permission requests, contact the copyright holder via GitHub: https://github.com/Awthura

@@ -68,6 +68,12 @@ cd docs && python3 -m http.server 8000                        # open http://loca
 
 Downloads go to `data/raw/` (gitignored) and are deleted after parsing unless `--keep-raw` is passed.
 
+## License
+
+Copyright (c) 2026 Aw Thura. **All rights reserved.** The code, website, crest and logo designs and
+texts may not be used, copied or redistributed without written permission. The underlying train data
+is Deutsche Bahn's, under CC BY 4.0. Details in [LICENSE](LICENSE).
+
 ## Data and attribution
 
 Data: Deutsche Bahn Timetables API, CC BY 4.0, via [piebro/deutsche-bahn-data](https://huggingface.co/datasets/piebro/deutsche-bahn-data).
