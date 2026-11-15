@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rangliste · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=952d2cd772">
+<link rel="stylesheet" href="assets/style.css?v=30de5b51f9">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -28,7 +28,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <div id="table"></div>
   <p class="sub" id="freq-note"></p>
 </main>
-<script src="assets/app.js?v=48aec5bbd0"></script>
+<script src="assets/app.js?v=490fdc2fc0"></script>
 <script>
 chrome("ranking.html");
 $("#rk-title").textContent = T.rk_title;
@@ -38,27 +38,18 @@ const params = new URLSearchParams(location.search);
 const state = { meta: null, data: null, md: 0, filter: "", min: Math.max(0, +params.get("min") || 0) };
 $("#freq-note").textContent = T.rk_freq_note;
 
-// one national table from all league tables after a given day, ranked exactly like a league table
-function national(s, k) {
-  const rows = [];
-  for (const l of s.league_order) for (const r of s.leagues[l].tables[k] || []) rows.push({ ...r, league: l });
-  rows.sort((a, b) => (a.ranked === b.ranked ? 0 : a.ranked ? -1 : 1) || b.avg - a.avg || b.points - a.points || a.station.localeCompare(b.station));
-  rows.forEach((r, i) => (r.nrank = i + 1));
-  return rows;
-}
-
 function render() {
   const s = state.data, meta = state.meta;
   $("#matchdays").innerHTML = `${T.matchday}: ` + s.matchdays.map((d, i) =>
-    `<button class="${i === state.md ? "on" : ""}" data-i="${i}">${i + 1} · ${dayLabel(d)}</button>`).join("");
+    `<button class="${i === state.md ? "on" : ""}" data-i="${i}">${dayButton(d, i, state.meta.last_day)}</button>`).join("");
   $("#matchdays").querySelectorAll("button").forEach((b) => (b.onclick = () => { state.md = +b.dataset.i; render(); }));
   revealActive($("#matchdays"));
-  const rows = national(s, state.md);
-  const prev = state.md > 0 ? Object.fromEntries(national(s, state.md - 1).map((r) => [r.eva, r.nrank])) : null;
+  const rows = nationalTable(s, state.md);
+  const prev = state.md > 0 ? Object.fromEntries(nationalTable(s, state.md - 1).map((r) => [r.eva, r.nrank])) : null;
   const perDay = (e) => meta.stations[e]?.per_day ?? 0;
   const shown = rows.filter((r) => (!state.filter || meta.stations[r.eva]?.state === state.filter) && perDay(r.eva) >= state.min);
   const filtered = shown.length !== rows.length;
-  const prevShown = prev ? national(s, state.md - 1).filter((r) => (!state.filter || meta.stations[r.eva]?.state === state.filter) && perDay(r.eva) >= state.min) : null;
+  const prevShown = prev ? nationalTable(s, state.md - 1).filter((r) => (!state.filter || meta.stations[r.eva]?.state === state.filter) && perDay(r.eva) >= state.min) : null;
   const prevPos = prevShown ? Object.fromEntries(prevShown.map((r, i) => [r.eva, i + 1])) : null;
   $("#freq-label").textContent = `${T.rk_freq(state.min)} · ${T.rk_count(shown.length, rows.length)}`;
   $("#freq").value = state.min;

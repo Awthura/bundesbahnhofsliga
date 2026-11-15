@@ -95,6 +95,7 @@ def table(evas: list[str], data: Data, days: list[dt.date], prev_ranks: dict[str
             "avg": round(total / len(played), 3) if played else 0.0,
             "ranked": len(played) >= need,
             "form": [(p["points"] if p and p["plays"] else None) for p in pts][-5:],
+            "arrivals": sum(p["arrivals"] for p in pts if p),   # traffic this week so far (national tie-break)
         })
     rows.sort(key=lambda r: (not r["ranked"], -r["avg"], -r["points"], r["station"]))
     for i, r in enumerate(rows, 1):

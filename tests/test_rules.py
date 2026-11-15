@@ -351,3 +351,12 @@ def test_week_is_not_closed_on_a_partial_sunday(monkeypatch):
     rows += make_rows(12, [start + dt.timedelta(days=7)], lambda i, d: 0.5)   # Monday data arrives
     s = league.run(rows, {})["seasons"][0]
     assert s["complete"] and s["moves"]
+
+
+def test_national_tie_goes_to_more_traffic():
+    def row(e, avg, arr):
+        return {"eva": e, "station": e.upper(), "avg": avg, "points": 3.0, "ranked": True, "arrivals": arr}
+    season = {"id": "2026-KW45", "leagues": {"1": {"tables": [[row("small", 0.7, 80)]]},
+                                             "2": {"tables": [[row("hub", 0.7, 900)]]}}}
+    r = stats.week_ranks(season, {})
+    assert r["hub"]["rank"] == 1 and r["small"]["rank"] == 2

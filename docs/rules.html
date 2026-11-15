@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Regeln · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=952d2cd772">
+<link rel="stylesheet" href="assets/style.css?v=30de5b51f9">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -80,7 +80,8 @@ Gleichstand entscheiden die Punkte, dann das Alphabet. Um normal gewertet zu wer
 Hälfte der bisherigen Wertungstage</b> gewertet worden sein (4 von 7 am Ende einer Woche). Wer darunter liegt, steht grau am
 Tabellenende, also praktisch in der Abstiegszone.</p>
 <p>Die <a href="ranking.html">bundesweite Rangliste</a> stellt alle Bahnhöfe aller Ligen nebeneinander. Sie ist nur eine
-Übersicht: Über Auf- und Abstieg entscheidet allein die Tabelle der eigenen Liga.</p>
+Übersicht: Über Auf- und Abstieg entscheidet allein die Tabelle der eigenen Liga. Haben zwei Bahnhöfe dort denselben
+Schnitt, steht der Bahnhof mit mehr ICE/IC/EC-Ankünften in dieser Woche vorn.</p>
 
 <h2>4. Auf- und Abstieg, jede Woche</h2>
 <p>Nach dem Sonntag ist die Kalenderwoche abgeschlossen, und die Bahnhöfe wechseln zwischen benachbarten Ligen.
@@ -222,7 +223,8 @@ broken by Points, then alphabetically. To be ranked normally a station must have
 scoring days so far</b> (4 of 7 at the end of a week). Stations below that are listed at the bottom in grey, which in
 practice means they are in the relegation zone.</p>
 <p>The <a href="ranking.html">national ranking</a> puts all stations of all leagues side by side. It is only an overview:
-promotion and relegation are decided by each station's own league table alone.</p>
+promotion and relegation are decided by each station's own league table alone. If two stations have the same average
+there, the one with more ICE/IC/EC arrivals that week ranks higher.</p>
 
 <h2>4. Promotion and relegation, every week</h2>
 <p>After Sunday the calendar week (KW) is final, and stations move between neighbouring leagues. Between the BBL and the 2. BBL, and between the 2. BBL and the 3. BL:
@@ -287,7 +289,7 @@ Regionalbahnhofsligen, promotion of the best 4 regional champions, deciders by p
 </ul>
 </div>
 </main>
-<script src="assets/app.js?v=48aec5bbd0"></script>
+<script src="assets/app.js?v=490fdc2fc0"></script>
 <script>chrome("rules.html"); getJSON("data/meta.json").then(stamp).catch(() => {});</script>
 </body>
 </html>

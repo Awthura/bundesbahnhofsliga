@@ -78,10 +78,11 @@ def national_ranks(averages: dict[str, float | None], states: dict[str, str | No
 
 
 def week_ranks(season: dict, states: dict[str, str | None]) -> dict[str, dict]:
-    """National ranking of one week: all leagues' final tables in one list, ranked like a league table
-    (ranked stations first, then Schnitt, then points, then name). Same order as the ranking page."""
+    """National ranking of one week: all leagues' final tables in one list. Ranked stations first, then
+    Schnitt; on a tie the station with more ICE/IC/EC arrivals that week wins, then points, then name.
+    Same order as the ranking page."""
     rows = [r for lg in season["leagues"].values() for r in (lg["tables"][-1] if lg["tables"] else [])]
-    rows.sort(key=lambda r: (not r["ranked"], -r["avg"], -r["points"], r["station"]))
+    rows.sort(key=lambda r: (not r["ranked"], -r["avg"], -r.get("arrivals", 0), -r["points"], r["station"]))
     out, per_state = {}, defaultdict(list)
     for i, r in enumerate(rows, 1):
         per_state[states.get(r["eva"])].append(r["eva"])

@@ -26,7 +26,7 @@ const STR = {
     season_done: "Saison beendet, Auf- und Abstieg vollzogen.",
     season_live: (n) => `Wertungstag ${n} von 7. Auf- und Abstieg nach dem Sonntag.`,
     sub: (n, id, day) => `${n} Bahnhöfe · Saison ${id} · Tabelle nach ${day}`,
-    matchday: "Wertungstag",
+    matchday: "Wertungstag", running: "läuft",
     leader_top: "Tabellenführer", leader: "Spitzenreiter", lantern: "Rote Laterne", day_winner: (d) => `Tagessieger ${d}`,
     legend: ["Aufstieg", "Relegation / Aufstiegsrunde", "Abstieg",
       "Sortiert nach Schnitt = durchschnittliche Tagespunkte (0 bis 1). Graue Zeilen haben bisher zu wenige gewertete Tage."],
@@ -106,7 +106,7 @@ const STR = {
     season_done: "Season finished, promotion and relegation applied.",
     season_live: (n) => `Scoring day ${n} of 7. Promotion and relegation after Sunday.`,
     sub: (n, id, day) => `${n} stations · season ${id} · table after ${day}`,
-    matchday: "Scoring day",
+    matchday: "Scoring day", running: "in progress",
     leader_top: "Top of the league", leader: "League leader", lantern: "Red lantern", day_winner: (d) => `Day winner ${d}`,
     legend: ["Promotion", "Decider / promotion round", "Relegation",
       "Ranked by average daily points (0 to 1). Grey rows have too few scored days so far."],
@@ -258,7 +258,9 @@ function revealActive(container) {
 function nationalTable(s, k) {
   const rows = [];
   for (const l of s.league_order) for (const r of s.leagues[l].tables[k] || []) rows.push({ ...r, league: l });
-  rows.sort((a, b) => (a.ranked === b.ranked ? 0 : a.ranked ? -1 : 1) || b.avg - a.avg || b.points - a.points || a.station.localeCompare(b.station));
+  // tie on average: the station with more traffic (ICE/IC/EC arrivals this week) wins
+  rows.sort((a, b) => (a.ranked === b.ranked ? 0 : a.ranked ? -1 : 1) || b.avg - a.avg
+    || (b.arrivals || 0) - (a.arrivals || 0) || b.points - a.points || a.station.localeCompare(b.station));
   rows.forEach((r, i) => (r.nrank = i + 1));
   return rows;
 }
@@ -268,3 +270,6 @@ function fold(t) {
   return String(t).toLowerCase().replace(/ß/g, "ss").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     .replace(/ae/g, "a").replace(/oe/g, "o").replace(/ue/g, "u").replace(/[^a-z0-9]+/g, " ").trim();
 }
+
+// label for a day button; the newest day in the data is still being collected
+const dayButton = (d, i, lastDay) => `${i + 1} · ${dayLabel(d)}${d === lastDay ? ` <span class="running">· ${T.running}</span>` : ""}`;
