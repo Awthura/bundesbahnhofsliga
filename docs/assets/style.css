@@ -192,7 +192,7 @@ html[data-lang="de"] .i18n[lang="en"], html[data-lang="en"] .i18n[lang="de"] { d
 .crest-link img { width: 62px; height: 72px; transition: transform .15s; }
 .crest-link:hover img { transform: translateY(-3px); }
 .small-link { margin-top: auto; font-size: 13px; }
-.podium { margin: 0 0 14px; padding-left: 22px; }
+.podium { margin: 0 0 10px; padding-left: 22px; }
 .podium li { margin: 6px 0; }
 .podium li a { color: var(--ink); font-weight: 600; text-decoration: none; }
 .podium li a:hover { color: var(--red); }
@@ -250,3 +250,7 @@ a.lg-link { color: var(--ink); text-decoration: none; font-weight: 600; white-sp
 a.lg-link:hover, a.lg-link:focus-visible { color: var(--red); text-decoration: underline; }
 a.lg-link.sub-link { font-weight: 400; color: var(--muted); }
 a.lg-link.sub-link:hover { color: var(--red); }
+.podium-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin: 2px 0 0; }
+.podium.bottom { margin-top: 0; padding-left: 34px; }
+.podium.bottom b { color: var(--red); }
+#bottom-label { border-top: 1px solid var(--line); padding-top: 8px; }
