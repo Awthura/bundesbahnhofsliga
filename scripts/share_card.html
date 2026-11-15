@@ -1,0 +1,35 @@
+<!doctype html>
+<!-- Link preview image (LinkedIn, etc.). Regenerate with:
+     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --window-size=1200,630 \
+       --screenshot=docs/assets/share.png "file://$PWD/scripts/share_card.html" -->
+<html><head><meta charset="utf-8"><style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body { background: #c8102e; color: #fff; font-family: "Helvetica Neue", Arial, sans-serif; position: relative; }
+  .stripe { position: absolute; left: 0; right: 0; bottom: 0; height: 18px;
+    background: repeating-linear-gradient(90deg, #fff 0 48px, #c8102e 48px 96px); }
+  .main { display: flex; align-items: center; gap: 48px; padding: 84px 80px 0; }
+  .badge { width: 230px; height: 230px; flex: 0 0 auto; }
+  h1 { margin: 0; font-size: 74px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
+  .de { font-size: 34px; font-weight: 700; margin: 22px 0 8px; line-height: 1.25; }
+  .en { font-size: 26px; opacity: .85; margin: 0; }
+  .crests { position: absolute; right: 80px; bottom: 50px; display: flex; gap: 18px; align-items: flex-end;
+    background: #fff; border-radius: 16px; padding: 14px 20px; }
+  .crests img { height: 80px; }
+  .crests img.small { height: 66px; }
+  .url { position: absolute; left: 80px; bottom: 74px; font-size: 26px; font-weight: 700; opacity: .9; }
+</style></head><body>
+  <div class="main">
+    <img class="badge" src="../docs/assets/logos/bbl.svg" alt="">
+    <div>
+      <h1>Bundesbahnhofsliga</h1>
+      <p class="de">Die Bundesliga der Bahnhöfe,<br>entschieden von pünktlichen Fernzügen.</p>
+      <p class="en">The Bundesliga of German railway stations.</p>
+    </div>
+  </div>
+  <div class="url">awthura.github.io/bundesbahnhofsliga</div>
+  <div class="crests">
+    <img src="../docs/assets/logos/liga-2.svg" alt=""><img src="../docs/assets/logos/liga-3.svg" alt="">
+    <img class="small" src="../docs/assets/logos/liga-RL-N.svg" alt=""><img class="small" src="../docs/assets/logos/liga-RL-BY.svg" alt="">
+  </div>
+  <div class="stripe"></div>
+</body></html>

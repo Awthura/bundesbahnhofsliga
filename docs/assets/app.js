@@ -14,7 +14,7 @@ try { if (new URLSearchParams(location.search).get("lang")) localStorage.setItem
 
 const STR = {
   de: {
-    nav: ["Tabellen", "Rangliste", "Meister", "Regeln", "Methodik"],
+    nav: ["Home", "Tabellen", "Rangliste", "Meister", "Regeln", "Methodik"],
     footer: `Fanprojekt, nicht mit der Deutschen Bahn verbunden. Daten: Deutsche Bahn Timetables API über
       <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>, CC BY 4.0.
       Die Tabellen zeigen die Pünktlichkeit, wie Fahrgäste sie am Bahnhof erleben; über die Ursache einer Verspätung sagen sie nichts.`,
@@ -49,6 +49,19 @@ const STR = {
     fc_legend: "Linie: Wahrscheinlichkeit für Ja, jeweils am Vortag geschätzt. Punkte oben und unten: tatsächliches Ergebnis (grün Ja, rot Nein).",
     fc_note: "Statistische Schätzung aus den letzten 8 Wochen dieses Bahnhofs; jüngere Tage und der gleiche Wochentag zählen mehr. Keine Wette, kein Geld, nur Statistik.",
     fc_no_service: "Zurzeit halten hier keine Fernzüge (ICE, IC, EC) (zum Beispiel wegen Bauarbeiten), deshalb gibt es keine Prognose.",
+    home_live: (kw, n) => `${kw} · LIVE · Wertungstag ${n} von 7`, home_done: (kw) => `${kw} · abgeschlossen`,
+    home_tables: "Ligatabellen", home_tables_sub: "Alle 8 Ligen, ein Klick zur Tabelle",
+    home_regional: "+ 5 Regionalbahnhofsligen", home_ranking: "Bundesweite Rangliste",
+    home_ranking_sub: (kw) => `Die besten Bahnhöfe aller Ligen, ${kw}`, home_ranking_btn: "Bundesweite Rangliste ansehen",
+    home_search: "Finde deinen Bahnhof", home_search_ph: "Bahnhof eingeben, z. B. Nürnberg",
+    home_search_sub: (n) => `${n} Bahnhöfe mit regelmäßigem Fernverkehr`, home_popular: "Die größten", home_search_none: "Kein Bahnhof gefunden. Nur Bahnhöfe mit regelmäßigem ICE/IC/EC-Verkehr sind in der Liga.",
+    home_week: "Diese Woche", home_leader: "Tabellenführer BBL", home_climber: (d) => `Größter Sprung ${d}`,
+    home_climb_txt: (n) => `${n} Plätze nach oben, bundesweit`, home_day: (d) => `Tagessieger bundesweit ${d}`,
+    home_how: "So funktioniert's",
+    home_steps: [["1", "Jeden Tag Punkte", "Anteil der ICE/IC/EC, die pünktlich ankommen: 0,82 heißt 82 % pünktlich."],
+      ["2", "Jede Woche eine Saison", "Montag bis Sonntag, sortiert nach dem Schnitt. Die Tabelle ändert sich jeden Tag."],
+      ["3", "Auf- und Abstieg", "Nach jedem Sonntag wechseln Bahnhöfe die Liga, von den Regionalbahnhofsligen bis in die BBL."]],
+    home_rules: "Alle Regeln",
     rk_title: "Bundesweite Rangliste", rk_intro: "Alle Bahnhöfe aller Ligen in einer Tabelle, sortiert nach dem Schnitt der Woche.",
     rk_cols: ["Platz", "Bahnhof", "Liga", "Bundesland", "Tage", "Schnitt"], rk_all: "Alle Bundesländer", rk_link: "Bundesweite Rangliste",
     rk_freq: (n) => n ? `Nur Bahnhöfe mit mindestens ${n} ICE/IC/EC-Ankünften an einem typischen Tag` : "Alle Bahnhöfe, egal wie viele Züge",
@@ -74,14 +87,14 @@ const STR = {
     filled: { spared: "nachgerückt (Abstieg erlassen)", next_best: "nachgerückt (bester Platz der Liga darunter)" },
     fills_title: "Nachrücker zu Saisonbeginn", dropped_title: (n) => `Ausgeschieden: ${n} Bahnhöfe hatten an weniger als der Hälfte der letzten 28 Tage mindestens 5 ICE/IC/EC-Ankünfte`,
     hist_title: "Saisonverlauf", hist_cols: ["Saison", "Liga", "Platz", "Tage", "Schnitt"],
-    titles: { "index.html": "Bundesbahnhofsliga", "champions.html": "Meister · Bundesbahnhofsliga", "ranking.html": "Rangliste · Bundesbahnhofsliga", "rules.html": "Regeln · Bundesbahnhofsliga", "about.html": "Methodik · Bundesbahnhofsliga" },
+    titles: { "index.html": "Bundesbahnhofsliga · Die Liga der Bahnhöfe", "tables.html": "Tabellen · Bundesbahnhofsliga", "champions.html": "Meister · Bundesbahnhofsliga", "ranking.html": "Rangliste · Bundesbahnhofsliga", "rules.html": "Regeln · Bundesbahnhofsliga", "about.html": "Methodik · Bundesbahnhofsliga" },
     ch_title: "Meisterliste", ch_intro: "Wer stand am Ende der Woche ganz oben? Eine Saison ist eine Kalenderwoche.",
     ch_cols: ["Saison", "Meister", "Schnitt", "Vizemeister"], ch_live: "läuft, führt gerade", ch_promoted: "aufgestiegen",
     ch_record: "Rekordmeister", ch_titles: (n) => `${n} ${n === 1 ? "Titel" : "Titel"}`, ch_none: "Noch keine abgeschlossene Saison.",
     ch_link: "Meisterliste dieser Liga",
   },
   en: {
-    nav: ["Tables", "Ranking", "Champions", "Rules", "Methodology"],
+    nav: ["Home", "Tables", "Ranking", "Champions", "Rules", "Methodology"],
     footer: `Fan project, not affiliated with Deutsche Bahn. Data: Deutsche Bahn Timetables API via
       <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>, CC BY 4.0.
       Rankings describe punctuality as passengers see it at a station; they say nothing about who caused a delay.`,
@@ -116,6 +129,19 @@ const STR = {
     fc_legend: "Line: probability of Yes, as estimated the day before. Dots at top and bottom: actual result (green Yes, red No).",
     fc_note: "A statistical estimate from this station's last 8 weeks; recent days and the same weekday count more. No betting, no money, just statistics.",
     fc_no_service: "No long-distance trains (ICE, IC, EC) stop here at the moment (for example because of construction), so there is no forecast.",
+    home_live: (kw, n) => `${kw} · LIVE · scoring day ${n} of 7`, home_done: (kw) => `${kw} · finished`,
+    home_tables: "League tables", home_tables_sub: "All 8 leagues, one click to the table",
+    home_regional: "+ 5 Regionalbahnhofsligen", home_ranking: "National ranking",
+    home_ranking_sub: (kw) => `The best stations of all leagues, ${kw}`, home_ranking_btn: "View national ranking",
+    home_search: "Find your station", home_search_ph: "Type a station, e.g. Nürnberg",
+    home_search_sub: (n) => `${n} stations with regular long-distance service`, home_popular: "Busiest", home_search_none: "No station found. Only stations with regular ICE/IC/EC service are in the league.",
+    home_week: "This week", home_leader: "Top of the BBL", home_climber: (d) => `Biggest climber ${d}`,
+    home_climb_txt: (n) => `up ${n} places nationwide`, home_day: (d) => `Day winner nationwide ${d}`,
+    home_how: "How it works",
+    home_steps: [["1", "Points every day", "The share of ICE/IC/EC trains arriving on time: 0.82 means 82% on time."],
+      ["2", "A season every week", "Monday to Sunday, ranked by average. The table changes every day."],
+      ["3", "Promotion and relegation", "After every Sunday, stations move between leagues, from the regional leagues up to the BBL."]],
+    home_rules: "All rules",
     rk_title: "National ranking", rk_intro: "All stations of all leagues in one table, ranked by the week's average.",
     rk_cols: ["Pos", "Station", "League", "State", "Days", "Avg"], rk_all: "All states", rk_link: "National ranking",
     rk_freq: (n) => n ? `Only stations with at least ${n} ICE/IC/EC arrivals on a typical day` : "All stations, however many trains",
@@ -141,7 +167,7 @@ const STR = {
     filled: { spared: "moved up to fill a gap (relegation spared)", next_best: "moved up to fill a gap (best place of the league below)" },
     fills_title: "Filled gaps at the start of the season", dropped_title: (n) => `Dropped out: ${n} stations had at least 5 ICE/IC/EC arrivals on fewer than half of the last 28 days`,
     hist_title: "Season history", hist_cols: ["Season", "League", "Pos", "Days", "Avg"],
-    titles: { "index.html": "Bundesbahnhofsliga", "champions.html": "Champions · Bundesbahnhofsliga", "ranking.html": "Ranking · Bundesbahnhofsliga", "rules.html": "Rules · Bundesbahnhofsliga", "about.html": "Methodology · Bundesbahnhofsliga" },
+    titles: { "index.html": "Bundesbahnhofsliga · The league of railway stations", "tables.html": "Tables · Bundesbahnhofsliga", "champions.html": "Champions · Bundesbahnhofsliga", "ranking.html": "Ranking · Bundesbahnhofsliga", "rules.html": "Rules · Bundesbahnhofsliga", "about.html": "Methodology · Bundesbahnhofsliga" },
     ch_title: "Roll of champions", ch_intro: "Who finished the week on top? A season is one calendar week.",
     ch_cols: ["Season", "Champion", "Avg", "Runner-up"], ch_live: "live, currently leading", ch_promoted: "promoted",
     ch_record: "Most titles", ch_titles: (n) => `${n} ${n === 1 ? "title" : "titles"}`, ch_none: "No finished season yet.",
@@ -159,12 +185,12 @@ function langLink(l) {
 }
 
 function chrome(active) {
-  const pages = ["index.html", "ranking.html", "champions.html", "rules.html", "about.html"];
+  const pages = ["index.html", "tables.html", "ranking.html", "champions.html", "rules.html", "about.html"];
   if (T.titles[active]) document.title = T.titles[active];
   document.body.insertAdjacentHTML("afterbegin", `
     <header class="top"><div class="wrap">
       <img src="assets/logos/bbl.svg" alt="">
-      <h1><a href="index.html">Bundesbahnhofsliga</a></h1>
+      <h1><a href="index.html?lang=${LANG}">Bundesbahnhofsliga</a></h1>
       <nav>${pages.map((h, i) => `<a href="${h}?lang=${LANG}" class="${h === active ? "on" : ""}">${T.nav[i]}</a>`).join("")}
         <span class="lang" role="group" aria-label="Sprache / Language">
           <a href="${langLink("de")}" class="${LANG === "de" ? "on" : ""}" hreflang="de" lang="de">DE</a><a
@@ -179,7 +205,7 @@ function chrome(active) {
   // keep the language when following internal links
   document.querySelectorAll('a[href]').forEach((a) => {
     const h = a.getAttribute("href");
-    if (/^(index|ranking|champions|rules|about|station)\.html/.test(h) && !/[?&]lang=/.test(h)) a.setAttribute("href", h + (h.includes("?") ? "&" : "?") + "lang=" + LANG);
+    if (/^(index|tables|ranking|champions|rules|about|station)\.html/.test(h) && !/[?&]lang=/.test(h)) a.setAttribute("href", h + (h.includes("?") ? "&" : "?") + "lang=" + LANG);
   });
 }
 
@@ -226,4 +252,19 @@ async function stamp(meta) {
 function revealActive(container) {
   const el = container && container.querySelector(".on");
   if (el && container.scrollWidth > container.clientWidth) container.scrollLeft = el.offsetLeft - container.offsetLeft - 16;
+}
+
+// all leagues' tables after day k merged into one national table (same order as a league table)
+function nationalTable(s, k) {
+  const rows = [];
+  for (const l of s.league_order) for (const r of s.leagues[l].tables[k] || []) rows.push({ ...r, league: l });
+  rows.sort((a, b) => (a.ranked === b.ranked ? 0 : a.ranked ? -1 : 1) || b.avg - a.avg || b.points - a.points || a.station.localeCompare(b.station));
+  rows.forEach((r, i) => (r.nrank = i + 1));
+  return rows;
+}
+
+// search: case, accents and "ue/oe/ae/ss" spellings don't matter ("nurnberg" = "Nuernberg" = "Nürnberg")
+function fold(t) {
+  return String(t).toLowerCase().replace(/ß/g, "ss").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/ae/g, "a").replace(/oe/g, "o").replace(/ue/g, "u").replace(/[^a-z0-9]+/g, " ").trim();
 }

@@ -3,145 +3,138 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bundesbahnhofsliga</title>
-<meta name="description" content="A weekly league table of German railway stations, ranked by how punctually long-distance trains (ICE, IC, EC) arrive.">
+<title>Bundesbahnhofsliga · Die Liga der Bahnhöfe</title>
+<meta name="description" content="Die Bundesliga der Bahnhöfe: eine wöchentliche Tabelle der deutschen Fernverkehrsbahnhöfe, entschieden von pünktlichen ICE, IC und EC. The Bundesliga of German railway stations, decided by punctual long-distance trains.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://awthura.github.io/bundesbahnhofsliga/">
+<meta property="og:title" content="Bundesbahnhofsliga · Die Bundesliga der Bahnhöfe">
+<meta property="og:description" content="Welcher Bahnhof hat die pünktlichsten Fernzüge? Jede Woche eine Saison, mit Auf- und Abstieg. The Bundesliga of German railway stations, decided by punctual long-distance trains.">
+<meta property="og:image" content="https://awthura.github.io/bundesbahnhofsliga/assets/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=9329bea0cd">
+<link rel="stylesheet" href="assets/style.css?v=952d2cd772">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
+<script>(function(){var p=new URLSearchParams(location.search);if(p.has("liga")||p.has("season")){location.replace("tables.html"+location.search);}})();</script>
 </head>
 <body>
-<main class="wrap">
-  <p class="tagline" id="tagline"></p>
-  <p class="sub score-hint" id="score-hint"></p>
-  <div class="matchdays" style="margin-top:0">
-    <label for="season" id="season-label"></label> <select id="season"></select>
-    <span id="season-state"></span>
-  </div>
-  <div class="tabs" id="tabs"></div>
-  <div class="league-head"><img id="lg-logo" alt=""><div><h2 id="lg-name"></h2><div class="sub" id="lg-sub"></div></div></div>
-  <div class="badges" id="badges"></div>
-  <div class="matchdays" id="matchdays"></div>
-  <div id="table"></div>
-  <div class="legend" id="legend"></div>
-  <h2 id="moves-title"></h2>
-  <div id="moves" class="moves"></div>
+<main class="wrap home">
+  <section class="hero">
+    <img src="assets/logos/bbl.svg" alt="" class="hero-logo">
+    <div>
+      <h1 class="hero-title">Bundesbahnhofsliga</h1>
+      <p class="tagline" id="tagline"></p>
+      <p class="sub score-hint" id="score-hint"></p>
+      <span class="live-pill" id="live"></span>
+    </div>
+  </section>
+
+  <section class="home-grid">
+    <div class="card home-card" id="card-tables">
+      <h2 id="t-tables"></h2><p class="sub" id="t-tables-sub"></p>
+      <div class="crest-row" id="crests"></div>
+      <div class="crest-label" id="regional"></div>
+      <div class="crest-row small" id="crests-rl"></div>
+    </div>
+    <div class="card home-card" id="card-ranking">
+      <h2 id="t-ranking"></h2><p class="sub" id="t-ranking-sub"></p>
+      <ol class="podium" id="podium"></ol>
+      <a class="btn" id="ranking-btn" href="ranking.html"></a>
+    </div>
+    <div class="card home-card" id="card-search">
+      <h2 id="t-search"></h2><p class="sub" id="t-search-sub"></p>
+      <div class="search">
+        <input id="q" type="search" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="results">
+        <ul id="results" role="listbox"></ul>
+      </div>
+      <p class="popular" id="popular"></p>
+    </div>
+  </section>
+
+  <h2 id="t-week"></h2>
+  <div class="badges" id="week"></div>
+
+  <h2 id="t-how"></h2>
+  <div class="steps" id="steps"></div>
+  <p><a id="rules-link" href="rules.html"></a></p>
 </main>
-<script src="assets/app.js?v=6c48fe6a27"></script>
+<script src="assets/app.js?v=48aec5bbd0"></script>
 <script>
 chrome("index.html");
-$("#tagline").textContent = T.tagline;
-$("#score-hint").textContent = T.score_hint;
-$("#season-label").textContent = T.season_label;
-$("#moves-title").textContent = T.moves_title;
-$("#legend").innerHTML = `<span class="lu">${T.legend[0]}</span><span class="lp">${T.legend[1]}</span><span class="ld">${T.legend[2]}</span><span>${T.legend[3]}</span>`;
-const state = { season: null, league: null, md: null, meta: null, data: null };
-const params = new URLSearchParams(location.search);
+const $$ = (id, txt) => ($(id).textContent = txt);
+$$("#tagline", T.tagline); $$("#score-hint", T.score_hint);
+$$("#t-tables", T.home_tables); $$("#t-tables-sub", T.home_tables_sub); $$("#regional", "Regionalbahnhofsligen");
+$$("#t-ranking", T.home_ranking); $$("#ranking-btn", T.home_ranking_btn);
+$$("#t-search", T.home_search); $("#q").placeholder = T.home_search_ph;
+$$("#t-week", T.home_week); $$("#t-how", T.home_how); $$("#rules-link", T.home_rules + " →");
+$("#steps").innerHTML = T.home_steps.map(([n, h, t]) => `<div class="card step"><b class="step-n">${n}</b><h3>${h}</h3><p class="sub">${t}</p></div>`).join("");
 
-async function init() {
-  const meta = state.meta = await getJSON("data/meta.json");
+(async () => {
+  const meta = await getJSON("data/meta.json");
   stamp(meta);
-  const sel = $("#season");
-  sel.innerHTML = meta.seasons.slice().reverse().map((s) =>
-    `<option value="${s.id}">${s.id} (${dayLabel(s.start)} ${T.to} ${dayLabel(s.end)})${s.complete ? "" : " " + T.live}</option>`).join("");
-  sel.value = params.get("season") || meta.latest;
-  sel.onchange = () => loadSeason(sel.value);
-  await loadSeason(sel.value);
-}
+  const s = await getJSON(`data/season/${meta.latest}.json`);
+  const k = s.matchdays.length - 1;
+  $$("#live", s.complete ? T.home_done(s.id) : T.home_live(s.id, s.matchdays.length));
 
-async function loadSeason(id) {
-  state.season = id;
-  state.data = await getJSON(`data/season/${id}.json`);
-  const s = state.data;
-  $("#season-state").innerHTML = s.complete
-    ? T.season_done
-    : `<b style="color:var(--red)">${T.live}</b>: ${T.season_live(s.matchdays.length)}`;
-  const lids = s.league_order;
-  if (!lids.includes(state.league)) state.league = params.get("liga") && lids.includes(params.get("liga")) ? params.get("liga") : lids[0];
-  $("#tabs").innerHTML = lids.map((l) => {
-    return `<button class="tab ${l === state.league ? "on" : ""}" data-l="${l}"><img src="${logo(l)}" alt="">${esc(s.leagues[l].short)}</button>`;
-  }).join("");
-  $("#tabs").querySelectorAll("button").forEach((b) => (b.onclick = () => { state.league = b.dataset.l; loadSeason(state.season); }));
-  revealActive($("#tabs"));
-  state.md = s.matchdays.length - 1;
-  renderMoves();
-  render();
-}
+  // league tables card: the three national leagues
+  // all leagues, each straight to its table: national ones big, the five regional ones smaller
+  const crest = (l, label) => `<a href="tables.html?liga=${l}&lang=${LANG}" class="crest-link" title="${esc(s.leagues[l].name)}"><img src="${logo(l)}" alt=""><span>${esc(label)}</span></a>`;
+  $("#crests").innerHTML = s.league_order.filter((l) => !l.startsWith("RL")).map((l) => crest(l, s.leagues[l].short)).join("");
+  $("#crests-rl").innerHTML = s.league_order.filter((l) => l.startsWith("RL")).map((l) => crest(l, s.leagues[l].name.replace("Regionalbahnhofsliga ", ""))).join("");
 
-function render() {
-  const s = state.data, lid = state.league;
-  const L = s.leagues[lid], lg = L;
-  const rows = L.tables[state.md] || [];
-  $("#lg-logo").src = logo(lid);
-  $("#lg-name").textContent = lg.name;
-  $("#lg-sub").innerHTML = `${esc(T.sub(rows.length, s.id, dayLabel(s.matchdays[state.md])))} · <a href="champions.html?liga=${lid}&lang=${LANG}">${T.ch_link}</a> · <a href="ranking.html?season=${s.id}&lang=${LANG}">${T.rk_link}</a>`;
-  $("#matchdays").innerHTML = `${T.matchday}: ` + s.matchdays.map((d, i) =>
-    `<button class="${i === state.md ? "on" : ""}" data-i="${i}">${i + 1} · ${dayLabel(d)}</button>`).join("");
-  $("#matchdays").querySelectorAll("button").forEach((b) => (b.onclick = () => { state.md = +b.dataset.i; render(); }));
-  revealActive($("#matchdays"));
-  $("#table").innerHTML = tableHTML(rows, s.zones[lid] || { up: 0, down: 0 }, L.status || {});
-  // fun badges
-  const ranked = rows.filter((r) => r.ranked);
-  const day = s.matchdays[state.md];
-  let dayBest = null;
-  for (const r of rows) {   // best punctuality on this day, within the selected league
-    const p = r.form[r.form.length - 1];
-    if (p != null && (!dayBest || p > dayBest.p || (p === dayBest.p && r.played > dayBest.r.played))) dayBest = { p, r };
+  // national ranking card: top 3 this week
+  const nat = nationalTable(s, k);
+  $$("#t-ranking-sub", T.home_ranking_sub(s.id));
+  $("#podium").innerHTML = nat.slice(0, 3).map((r) =>
+    `<li><a href="${stLink(r.eva)}">${esc(r.station)}</a> <img src="${logo(r.league)}" alt="" title="${esc(s.leagues[r.league].short)}"> <b>${num(r.avg, 3)}</b></li>`).join("");
+  $("#ranking-btn").href = `ranking.html?lang=${LANG}`;
+
+  // this week: BBL leader, biggest climber since the day before, day winner nationwide
+  const items = [];
+  const bbl = s.leagues["1"]?.tables[k]?.find((r) => r.ranked);
+  if (bbl) items.push([T.home_leader, `<a href="${stLink(bbl.eva)}">${esc(bbl.station)}</a> (${num(bbl.avg, 3)})`]);
+  if (k > 0) {
+    const before = Object.fromEntries(nationalTable(s, k - 1).map((r) => [r.eva, r.nrank]));
+    const up = nat.filter((r) => before[r.eva]).map((r) => [r, before[r.eva] - r.nrank]).sort((a, b) => b[1] - a[1])[0];
+    if (up && up[1] > 0) items.push([T.home_climber(dayLabel(s.matchdays[k])), `<a href="${stLink(up[0].eva)}">${esc(up[0].station)}</a>, ${T.home_climb_txt(up[1])}`]);
   }
-  const b = [];
-  if (ranked[0]) b.push([lid === "1" ? T.leader_top : T.leader, `${ranked[0].station} (${num(ranked[0].avg, 3)})`]);
-  if (ranked.length) b.push([T.lantern, `${ranked[ranked.length - 1].station} (${num(ranked[ranked.length - 1].avg, 3)})`]);
-  if (dayBest) b.push([T.day_winner(dayLabel(day)), `${dayBest.r.station} (${num(dayBest.p)})`]);
-  $("#badges").innerHTML = b.map(([k, v]) => `<div class="badge"><b>${k}</b>${esc(v)}</div>`).join("");
-}
+  let best = null;
+  for (const r of nat) { const p = r.form[r.form.length - 1]; if (p != null && (!best || p > best.p)) best = { p, r }; }
+  if (best) items.push([T.home_day(dayLabel(s.matchdays[k])), `<a href="${stLink(best.r.eva)}">${esc(best.r.station)}</a> (${num(best.p)})`]);
+  $("#week").innerHTML = items.map(([h, v]) => `<div class="badge"><b>${h}</b>${v}</div>`).join("");
 
-function renderFills() {   // transparency: who moved up to fill a gap, and who dropped out, at the start of this season
-  const s = state.data, names = state.meta.stations;
-  const name = (e) => esc(names[e]?.name || e);
-  const short = (l) => s.leagues[l]?.short || l;
-  let h = "";
-  if (s.fills?.length) h += `<div class="card" style="grid-column:1/-1"><h3>${T.fills_title}</h3><ul>${
-    s.fills.map((f) => `<li><a href="${stLink(f.eva)}">${name(f.eva)}</a>: ${esc(short(f.from))} → ${esc(short(f.to))}, ${T.filled[f.reason]}</li>`).join("")}</ul></div>`;
-  if (s.dropped?.length) h += `<div class="card" style="grid-column:1/-1"><h3>${T.dropped_title(s.dropped.length)}</h3><p class="sub" style="margin:0">${
-    s.dropped.map((d) => `<a href="${stLink(d.eva)}">${name(d.eva)}</a>`).join(" · ")}</p></div>`;
-  return h;
-}
-
-async function renderMoves() {
-  // show the moves of this season if complete, otherwise of the previous one
-  const seasons = state.meta.seasons;
-  let s = state.data;
-  if (!s.complete) {
-    const i = seasons.findIndex((x) => x.id === s.id);
-    if (i <= 0) { $("#moves").innerHTML = renderFills() + `<p class="sub">${T.first_season}</p>`; return; }
-    s = await getJSON(`data/season/${seasons[i - 1].id}.json`);
-  }
-  const names = state.meta.stations;
-  const name = (e) => esc(names[e]?.name || e);
-  const short = (l) => s.leagues[l]?.short || l;
-  const tier = (l) => s.leagues[l]?.tier ?? state.meta.leagues.find((x) => x.id === l)?.tier ?? 9;
-  const groups = {};
-  const po = (s.playoffs || []).map((p) => {
-    const won = p.kind === "promotion" || p.winner === p.lower_eva;
-    const pct = (x) => (x == null ? T.called_off : num(x * 100, 1) + " %");
-    return `<li>${short(p.upper)} vs ${short(p.lower)}: <a href="${stLink(p.upper_eva)}">${name(p.upper_eva)}</a>
-      ${pct(p.upper_share)} : ${pct(p.lower_share)}
-      <a href="${stLink(p.lower_eva)}">${name(p.lower_eva)}</a>, <b>${won ? T.po_up : T.po_stays}: ${name(p.winner)}</b></li>`;
+  // search
+  const list = Object.entries(meta.stations).map(([eva, x]) => ({ eva, name: x.name, league: x.league, key: fold(x.name) }));
+  $$("#t-search-sub", T.home_search_sub(list.filter((x) => x.league).length));
+  const q = $("#q"), res = $("#results");
+  let hits = [], sel = 0;
+  const draw = () => {
+    const t = fold(q.value);
+    if (!t) { res.innerHTML = ""; return; }
+    const words = t.split(" ");
+    hits = list.filter((x) => words.every((w) => x.key.includes(w)))
+      .sort((a, b) => (a.key.startsWith(t) ? 0 : 1) - (b.key.startsWith(t) ? 0 : 1) || a.name.localeCompare(b.name, "de")).slice(0, 8);
+    sel = Math.min(sel, Math.max(hits.length - 1, 0));
+    res.innerHTML = hits.length ? hits.map((x, i) => `<li role="option" class="${i === sel ? "on" : ""}" data-i="${i}">
+      ${x.league ? `<img src="${logo(x.league)}" alt="">` : ""}<span>${esc(x.name)}</span></li>`).join("")
+      : `<li class="none">${T.home_search_none}</li>`;
+    res.querySelectorAll("li[data-i]").forEach((li) => (li.onmousedown = () => go(hits[+li.dataset.i])));
+  };
+  const go = (x) => { if (x) location.href = stLink(x.eva); };
+  q.addEventListener("input", () => { sel = 0; draw(); });
+  const busiest = list.filter((x) => x.league).sort((a, b) => (meta.stations[b.eva].per_day || 0) - (meta.stations[a.eva].per_day || 0)).slice(0, 5);
+  $("#popular").innerHTML = `${T.home_popular}: ` + busiest.map((x) => `<a href="${stLink(x.eva)}">${esc(x.name)}</a>`).join(" · ");
+  const pre = new URLSearchParams(location.search).get("q");
+  if (pre) { q.value = pre; draw(); }
+  q.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") { sel = Math.min(sel + 1, hits.length - 1); draw(); e.preventDefault(); }
+    else if (e.key === "ArrowUp") { sel = Math.max(sel - 1, 0); draw(); e.preventDefault(); }
+    else if (e.key === "Enter") go(hits[sel]);
+    else if (e.key === "Escape") { q.value = ""; draw(); }
   });
-  for (const m of s.moves) {
-    const up = tier(m.to) < tier(m.from);
-    const key = up ? T.up_into(short(m.to)) : T.down_from(short(m.from));
-    (groups[key] ||= []).push(m.eva);
-  }
-  $("#moves").innerHTML = renderFills() + `<p class="sub" style="grid-column:1/-1">${T.after(s.id)}</p>` +
-    (s.promotion_round?.length ? `<div class="card" style="grid-column:1/-1"><h3>${T.round_title}</h3><ol>${
-      s.promotion_round.map((c) => `<li><a href="${stLink(c.eva)}">${name(c.eva)}</a> (${esc(short(c.league))}, ${num(c.avg, 3)}):
-        ${T.round_res[c.result] || c.result}</li>`).join("")}</ol></div>` : "") +
-    (po.length ? `<div class="card" style="grid-column:1/-1"><h3>${T.po_title}</h3><ul>${po.join("")}</ul></div>` : "") +
-    Object.entries(groups).map(([k, v]) => `<div class="card"><h3>${k}</h3><ul>${v.map((e) =>
-      `<li><a href="${stLink(e)}">${name(e)}</a></li>`).join("")}</ul></div>`).join("");
-}
-init().catch((e) => { $("#table").innerHTML = `<p>${T.load_error(esc(e.message))}</p>`; });
+})().catch((e) => { console.error(e); $("#week").innerHTML = `<p>${T.load_error(esc(e.message))}</p>`; });
 </script>
 </body>
 </html>

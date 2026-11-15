@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bahnhof · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=9329bea0cd">
+<link rel="stylesheet" href="assets/style.css?v=952d2cd772">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -29,7 +29,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <h3 id="hist-title"></h3>
   <div id="hist"></div>
 </main>
-<script src="assets/app.js?v=6c48fe6a27"></script>
+<script src="assets/app.js?v=48aec5bbd0"></script>
 <script>
 chrome("");
 $("#chart-title").textContent = T.chart_title;
@@ -92,7 +92,7 @@ $("#pyr-note").textContent = T.pyr_note;
   $("#hist").innerHTML = `<div class="tablewrap"><table><thead><tr><th>${hc[0]}</th><th>${hc[1]}</th><th class="num">${hc[2]}</th>
     <th class="num hide-sm">${hc[3]}</th><th class="num">${hc[4]}</th></tr></thead><tbody>${st.history.slice().reverse().map((h) => {
       const l = { short: h.short || h.league };
-      return `<tr><td><a href="index.html?season=${h.season}&liga=${h.league}&lang=${LANG}">${h.season}</a>${h.complete ? "" : ` <span class="tag new">${T.live}</span>`}</td>
+      return `<tr><td><a href="tables.html?season=${h.season}&liga=${h.league}&lang=${LANG}">${h.season}</a>${h.complete ? "" : ` <span class="tag new">${T.live}</span>`}</td>
         <td><img src="${logo(h.league)}" alt="${esc(l.short)}" title="${esc(l.short)}" style="width:16px;height:19px;vertical-align:-4px"> <span class="hide-sm">${esc(l.short)}</span></td>
         <td class="num">${h.rank}.</td><td class="num hide-sm">${h.played}</td><td class="num">${num(h.avg, 3)}</td></tr>`;
     }).join("")}</tbody></table></div>`;
