@@ -30,4 +30,8 @@ so lines must be derived. Counting compass directions (rough estimate: about 45 
 valid method, because one track often carries several lines (e.g. Hamburg to Berlin) and termini like Dresden Hbf have
 two lines but only one direction. A proper version would group trains into lines by their routes.
 
+**Departure punctuality as a station stat.** Decided 2026-11-15 to keep scoring on arrivals (matches DB's official
+definition; departures would hand easy points to stations where many trains start). Showing "trains left on time" on
+station pages, without changing the scoring, would add the boarding passenger's view.
+
 **Forecast threshold.** 0.60 (42% of station-days reach it). 0.55 would be an exact coin flip.

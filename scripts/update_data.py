@@ -105,7 +105,7 @@ def do_raw_day(day: dt.date, keep_raw: bool):
         for p in CACHE.glob("daily/date_*.parquet"):
             if p.name < f"date_{day}":
                 p.unlink()
-    print(f"day {day}: {len(rows)} ICE/IC arrivals from {len(paths)} raw files")
+    print(f"day {day}: {len(rows)} long-distance arrivals from {len(paths)} raw files")
     return True
 
 

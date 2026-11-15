@@ -50,6 +50,7 @@ PLAN = """<timetable station='Halle(Saale)Hbf'>
 <s id="a-2"><tl c="ICE" n="2"/><dp pt="2611091100"/></s>
 <s id="a-3"><tl c="RE" n="3"/><ar pt="2611091200"/></s>
 <s id="a-4"><tl c="IC" n="4"/><ar pt="2611091300"/></s>
+<s id="a-5"><tl c="ECE" n="5"/><ar pt="2611091400"/></s>
 </timetable>"""
 FCHG_OLD = '<timetable><s id="a-1"><ar ct="2611091020"/></s></timetable>'
 FCHG_NEW = '<timetable><s id="a-1"><ar ct="2611091004"/></s><s id="a-4"><ar cs="c"/></s></timetable>'
@@ -62,7 +63,7 @@ def test_raw_plan_and_latest_change_win():
     acc.add(dt.datetime(2026, 11, 9, 11), "", "timetables/v1/fchg", FCHG_NEW)
     acc.add(dt.datetime(2026, 11, 9, 9), "", "timetables/v1/fchg", FCHG_OLD)  # older, arrives late
     s = {r["id"]: r for r in acc.stops()}
-    assert set(s) == {"a-1", "a-4"}           # first stop (no <ar>) and RE ignored
+    assert set(s) == {"a-1", "a-4", "a-5"}    # first stop (no <ar>) and RE ignored; EC/ECE count
     assert s["a-1"]["delay_in_min"] == 4 and s["a-1"]["eva"] == "08010159"
     assert s["a-4"]["canceled"]
 
@@ -324,3 +325,14 @@ def test_station_stats():
     rec = stats.records(hist)
     assert rec["best_week"]["season"] == "KW1" and rec["highest"]["short"] == "BBL"
     assert (rec["titles"], rec["promotions"], rec["relegations"]) == (1, 1, 1)
+
+
+def test_week_ranks_follow_the_ranking_page_order():
+    def row(e, avg, ranked=True, pts=1.0):
+        return {"eva": e, "station": e.upper(), "avg": avg, "points": pts, "ranked": ranked}
+    season = {"id": "2026-KW45", "leagues": {
+        "1": {"tables": [[row("a", 0.70), row("b", 0.60)]]},
+        "RL-N": {"tables": [[row("c", 0.80), row("d", 0.95, ranked=False)]]}}}
+    r = stats.week_ranks(season, {"a": "X", "b": "Y", "c": "X", "d": "X"})
+    assert [r[e]["rank"] for e in "cabd"] == [1, 2, 3, 4]      # unranked last, even with the best average
+    assert (r["a"]["state_rank"], r["a"]["state_of"], r["a"]["season"]) == (2, 3, "2026-KW45")

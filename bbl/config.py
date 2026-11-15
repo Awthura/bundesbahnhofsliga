@@ -1,7 +1,7 @@
 """All league rules live here so the rules page and the code can't drift apart."""
 
 # Which trains count
-TRAIN_TYPES = ("ICE", "IC")          # EC/ECE excluded (M0 decision, revisit later)
+TRAIN_TYPES = ("ICE", "IC", "EC", "ECE")   # long-distance trains (EC/ECE added 2026-11-15)
 PUNCTUAL_LIMIT_MIN = 6               # punctual = arrival delay < 6 min (DB threshold)
 
 # Daily qualification ("Spieltag")

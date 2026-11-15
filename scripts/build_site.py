@@ -102,7 +102,14 @@ def main():
     latest_members = {r["eva"] for lg in res["seasons"][-1]["leagues"].values() for r in lg["tables"][-1]} \
         if res["seasons"] else set()
     state_of = {e: config.STATE_OVERRIDES.get(e) or stations_meta.get(e, {}).get("state") for e in members}
-    ranks = stats.national_ranks({e: stats.overall_average(full_daily[e]) for e in latest_members}, state_of)
+    # national rank cards: place in the national ranking of the last finished week, and the week before
+    done = [s for s in res["seasons"] if s["complete"]]
+    ranks = stats.week_ranks(done[-1], state_of) if done else {}
+    prev_ranks = stats.week_ranks(done[-2], state_of) if len(done) > 1 else {}
+    for e, r in ranks.items():
+        if e in prev_ranks:
+            r["change"] = prev_ranks[e]["rank"] - r["rank"]          # positive = moved up
+            r["state_change"] = prev_ranks[e]["state_rank"] - r["state_rank"] if prev_ranks[e].get("state") == r.get("state") else None
     for eva in members:
         daily = full_daily[eva]
         played = [x for x in daily if x["plays"]]

@@ -83,7 +83,7 @@ class RawAccumulator:
         try:
             if api_name == "timetables/v1/plan":
                 eva = _eva_from_url(url)
-                if 'c="IC' not in body:          # cheap pre-filter, matches ICE and IC
+                if 'c="IC' not in body and 'c="EC' not in body:   # cheap pre-filter: ICE, IC, EC, ECE
                     return
                 for p in parse_plan(body, eva):
                     self.plans.setdefault(p["id"], p)
