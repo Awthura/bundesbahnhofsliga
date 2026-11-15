@@ -236,3 +236,12 @@ button.on .running { color: #fff; }
 .view-toggle button { border: 0; background: var(--panel); color: var(--red); font: inherit; font-weight: 700; font-size: 13px; padding: 5px 14px; cursor: pointer; }
 .view-toggle button.on { background: var(--red); color: #fff; }
 .mk-live { margin: 6px 0 0; font-size: 12px; }
+/* homepage league tiles: each league is a rounded, clickable tile */
+.crest-row { gap: 8px; }
+.crest-link { flex: 1 1 0; min-width: 0; border: 1.5px solid var(--line); border-radius: 12px; padding: 10px 4px 8px;
+  background: var(--panel); transition: border-color .15s, background .15s, transform .15s; }
+.crest-link:hover, .crest-link:focus-visible { border-color: var(--red); background: var(--red-soft); transform: translateY(-2px); }
+.crest-link:hover img { transform: none; }
+.crest-row.small { gap: 5px; }
+.crest-row.small .crest-link { padding: 7px 2px 6px; border-radius: 10px; }
+.crest-row.small .crest-link span { font-size: 10.5px; white-space: nowrap; }
