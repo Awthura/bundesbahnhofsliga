@@ -2,7 +2,7 @@ import datetime as dt
 
 import duckdb
 
-from bbl import audit, config, forecast, ingest, league, points, stats
+from bbl import audit, config, forecast, ingest, league, maps, points, stats
 
 
 def stops_con(rows):
@@ -395,3 +395,17 @@ def test_tune_picks_settings_from_the_grid():
     t = forecast.tune([hist] * 10, min_forecasts=50)
     assert t["tuned"] and t["params"]["window"] in forecast.GRID["window"]
     assert t["params"]["weekday_weight"] == max(forecast.GRID["weekday_weight"])   # strong weekday pattern
+
+
+def test_map_states_add_up_to_national():
+    rows = [{"day": "2026-11-09", "eva": "a", "arrivals": "10", "punctual": "6"},
+            {"day": "2026-11-09", "eva": "b", "arrivals": "20", "punctual": "5"},
+            {"day": "2026-11-09", "eva": "c", "arrivals": "4", "punctual": "4"},       # no state known
+            {"day": "2026-11-10", "eva": "a", "arrivals": "8", "punctual": "8"}]
+    meta = {"a": {"state": "Bayern"}, "b": {"state": "Bayern"}}
+    m = maps.map_data(rows, meta, {"a": {"name": "A", "lat": 48.1, "lon": 11.5, "league": "1"}})
+    assert m["states"]["Bayern"] == [[30, 11], [8, 8]] and m["unassigned"] == [[4, 4], [0, 0]]
+    assert m["national"] == [[34, 15], [8, 8]] and maps.check(m) == []
+    assert m["stations"]["a"]["d"] == [[10, 6], [8, 8]]
+    m["national"][0][0] += 1
+    assert maps.check(m)                                                            # a mismatch is caught

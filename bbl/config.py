@@ -50,6 +50,8 @@ REGIONS = {   # id: (name, Bundeslaender)
 STATE_OVERRIDES = {   # stations whose platform-level EVA is missing in the station data
     "08098160": "Berlin",                 # Berlin Hbf (tief)
     "08073368": "Nordrhein-Westfalen",    # Köln Messe/Deutz Gl.11-12
+    "08098261": "Bayern",                 # München Hbf (Gl. 27-36, platform-level ID)
+    "08098262": "Bayern",                 # München Hbf (Gl. 5-10, platform-level ID)
 }
 DEFAULT_REGION = "NO"
 

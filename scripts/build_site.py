@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from bbl import audit, config, forecast, league, stats  # noqa: E402
+from bbl import audit, config, forecast, league, maps, stats  # noqa: E402
 
 OUT = ROOT / "docs" / "data"
 
@@ -163,6 +163,19 @@ def main():
     from scripts import make_logos
     make_logos.main()
     version_assets()
+    # map page: per-state daily sums from all ICE/IC/EC stops, plus the league stations as dots
+    md = maps.map_data(rows, stations_meta, {e: {"name": data.names[e], "league": current.get(e),
+                                                 "lat": stations_meta.get(e, {}).get("lat"),
+                                                 "lon": stations_meta.get(e, {}).get("lon")}
+                                             for e in members if current.get(e)})
+    bad = maps.check(md)
+    if bad:
+        print("MAP CHECK FAILED:", *bad[:10], sep="\n - ", file=sys.stderr)
+        sys.exit(1)
+    md["seasons"] = [{k: x[k] for k in ("id", "start", "end", "complete")} for x in index]
+    md["last_day"] = data.days[-1].isoformat()
+    dump(OUT / "map.json", md)
+
     # sanity check: every station page must have all its statistics (a missing key once emptied a chart silently)
     need = {"overall_avg", "national", "streaks", "weekdays", "records", "volume"}
     for f in (OUT / "stations").glob("*.json"):

@@ -42,6 +42,12 @@ gleiche Wochentag zählt) werden bei jedem Update an allen bisherigen Tagen neu 
 vor ihrem Tag nutzt; aktuell: <span class="fc-model"></span>. Ein Münzwurf käme auf 0,25, für alle die gleiche Quote auf
 etwa 0,24: Die Prognose ist also nützlich, aber weit weg von sicher. Halten an einem Bahnhof gerade keine ICE/IC/EC, gibt
 es keine Prognose. Keine Wetten, kein Geld.</p>
+<h2>Karte</h2>
+<p>Die Karte färbt jedes Bundesland nach dem Anteil pünktlicher ICE/IC/EC-Ankünfte im gewählten Zeitraum, im Vergleich zu
+ganz Deutschland im selben Zeitraum: grau heißt höchstens 3 Prozentpunkte Abstand, darüber wird es zunehmend grün (besser)
+oder rot (schlechter). Gezählt werden alle Fernverkehrshalte im Bundesland, auch solche, die nicht in der Liga sind; jeder
+Zug zählt einmal. Die Punkte auf der Karte sind die Liga-Bahnhöfe, eingefärbt nach derselben Regel. Kartengrundlage:
+Natural Earth (gemeinfrei).</p>
 <h2>Prüfung</h2>
 <p>Vor jeder Veröffentlichung prüft ein unabhängiges Prüfprogramm die gesamte Historie: Es rechnet alle Tagespunkte,
 Tabellen, Mitgliedschaften, Auf- und Abstiege, Relegationen und Nachrücker aus den Rohdaten nach und erklärt jeden
@@ -81,6 +87,11 @@ re-tuned on all past days with every update, where every forecast only uses data
 <span class="fc-model"></span>. A coin flip would score 0.25 and the same odds for every station about 0.24, so the
 forecast is useful but far from certain. When no ICE/IC/EC trains currently stop at a station, there is no forecast.
 No betting, no money.</p>
+<h2>Map</h2>
+<p>The map colours each state by the share of punctual ICE/IC/EC arrivals in the chosen period, compared with Germany as a
+whole in the same period: grey means within 3 percentage points, beyond that it becomes increasingly green (better) or red
+(worse). All long-distance stops in a state count, including stops that are not in the league; every train counts once.
+The dots on the map are the league stations, coloured by the same rule. Base map: Natural Earth (public domain).</p>
 <h2>Audit</h2>
 <p>Before every publish, an independent checker re-derives the entire history from the raw daily data: points, tables,
 memberships, promotions, relegations, deciders and gap fills, and it requires every league change to be explained. If it
@@ -93,7 +104,7 @@ table is live and will change after every scoring day; promotion and relegation 
 are our own designs. No betting, no prizes, just bragging rights.</p>
 </div>
 </main>
-<script src="assets/app.js?v=a650c856a7"></script>
+<script src="assets/app.js?v=5f9eadd17e"></script>
 <script>chrome("about.html");
 getJSON("data/meta.json").then((m) => {
   stamp(m);

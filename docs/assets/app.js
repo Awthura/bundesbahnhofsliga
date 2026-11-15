@@ -14,7 +14,7 @@ try { if (new URLSearchParams(location.search).get("lang")) localStorage.setItem
 
 const STR = {
   de: {
-    nav: ["Home", "Tabellen", "Rangliste", "Meister", "Regeln", "Methodik"],
+    nav: ["Home", "Tabellen", "Rangliste", "Karte", "Meister", "Regeln", "Methodik"],
     footer: `Fanprojekt, nicht mit der Deutschen Bahn verbunden. Daten: Deutsche Bahn Timetables API über
       <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>, CC BY 4.0.
       Die Tabellen zeigen die Pünktlichkeit, wie Fahrgäste sie am Bahnhof erleben; über die Ursache einer Verspätung sagen sie nichts.`,
@@ -67,6 +67,15 @@ const STR = {
       ["2", "Jede Woche eine Saison", "Montag bis Sonntag, sortiert nach dem Schnitt. Die Tabelle ändert sich jeden Tag."],
       ["3", "Auf- und Abstieg", "Nach jedem Sonntag wechseln Bahnhöfe die Liga, von den Regionalbahnhofsligen bis in die BBL."]],
     home_rules: "Alle Regeln",
+    map_title: "Karte", map_intro: "Wie pünktlich sind die Fernzüge in deinem Bundesland? Farbe im Vergleich zu ganz Deutschland im gleichen Zeitraum.",
+    map_period: ["Tag", "Woche (KW)", "4 Wochen"], map_mode: ["Kumuliert", "Einzelner Tag"], map_dots: "Bahnhöfe zeigen",
+    map_play: "Abspielen", map_pause: "Pause",
+    map_nat: (pct, n) => `Deutschland gesamt: ${pct} % pünktlich (${n} Ankünfte)`,
+    map_legend: ["deutlich besser als Deutschland", "ähnlich (± 3 Punkte)", "deutlich schlechter", "keine Daten"],
+    map_range: (a, b) => (a === b ? a : `${a} bis ${b}`), map_running: "Der letzte Tag läuft noch.",
+    map_tip: (pct, n, d) => `${pct} % pünktlich · ${n} Ankünfte · ${d} Punkte gegenüber Deutschland`,
+    map_cols: ["Platz", "Bundesland", "Pünktlich", "Ankünfte", "vs. Deutschland"],
+    map_note: "Gezählt werden alle planmäßigen ICE/IC/EC-Ankünfte im Bundesland, auch an Halten, die nicht in der Liga sind. Jeder Zug zählt einmal. Punkte = Prozentpunkte. Kartengrundlage: Natural Earth.",
     rk_title: "Bundesweite Rangliste", rk_intro: "Alle Bahnhöfe aller Ligen in einer Tabelle, sortiert nach dem Schnitt der Woche.",
     rk_cols: ["Platz", "Bahnhof", "Liga", "Bundesland", "Tage", "Schnitt"], rk_all: "Alle Bundesländer", rk_link: "Bundesweite Rangliste",
     rk_freq: (n) => n ? `Nur Bahnhöfe mit mindestens ${n} ICE/IC/EC-Ankünften an einem typischen Tag` : "Alle Bahnhöfe, egal wie viele Züge",
@@ -93,14 +102,14 @@ const STR = {
     filled: { spared: "nachgerückt (Abstieg erlassen)", next_best: "nachgerückt (bester Platz der Liga darunter)" },
     fills_title: "Nachrücker zu Saisonbeginn", dropped_title: (n) => `Ausgeschieden: ${n} Bahnhöfe hatten an weniger als der Hälfte der letzten 28 Tage mindestens 5 ICE/IC/EC-Ankünfte`,
     hist_title: "Saisonverlauf", hist_cols: ["Saison", "Liga", "Platz", "Tage", "Schnitt"],
-    titles: { "index.html": "Bundesbahnhofsliga · Die Liga der Bahnhöfe", "tables.html": "Tabellen · Bundesbahnhofsliga", "champions.html": "Meister · Bundesbahnhofsliga", "ranking.html": "Rangliste · Bundesbahnhofsliga", "rules.html": "Regeln · Bundesbahnhofsliga", "about.html": "Methodik · Bundesbahnhofsliga" },
+    titles: { "index.html": "Bundesbahnhofsliga · Die Liga der Bahnhöfe", "tables.html": "Tabellen · Bundesbahnhofsliga", "champions.html": "Meister · Bundesbahnhofsliga", "ranking.html": "Rangliste · Bundesbahnhofsliga", "map.html": "Karte · Bundesbahnhofsliga", "rules.html": "Regeln · Bundesbahnhofsliga", "about.html": "Methodik · Bundesbahnhofsliga" },
     ch_title: "Meisterliste", ch_intro: "Wer stand am Ende der Woche ganz oben? Eine Saison ist eine Kalenderwoche.",
     ch_cols: ["Saison", "Meister", "Schnitt", "Vizemeister"], ch_live: "läuft, führt gerade", ch_promoted: "aufgestiegen",
     ch_record: "Rekordmeister", ch_titles: (n) => `${n} ${n === 1 ? "Titel" : "Titel"}`, ch_none: "Noch keine abgeschlossene Saison.",
     ch_link: "Meisterliste dieser Liga",
   },
   en: {
-    nav: ["Home", "Tables", "Ranking", "Champions", "Rules", "Methodology"],
+    nav: ["Home", "Tables", "Ranking", "Map", "Champions", "Rules", "Methodology"],
     footer: `Fan project, not affiliated with Deutsche Bahn. Data: Deutsche Bahn Timetables API via
       <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>, CC BY 4.0.
       Rankings describe punctuality as passengers see it at a station; they say nothing about who caused a delay.`,
@@ -153,6 +162,15 @@ const STR = {
       ["2", "A season every week", "Monday to Sunday, ranked by average. The table changes every day."],
       ["3", "Promotion and relegation", "After every Sunday, stations move between leagues, from the regional leagues up to the BBL."]],
     home_rules: "All rules",
+    map_title: "Map", map_intro: "How punctual are long-distance trains in your state? Colours compare each state with Germany as a whole in the same period.",
+    map_period: ["Day", "Week", "4 weeks"], map_mode: ["Cumulative", "Single day"], map_dots: "Show stations",
+    map_play: "Play", map_pause: "Pause",
+    map_nat: (pct, n) => `Germany overall: ${pct}% on time (${n} arrivals)`,
+    map_legend: ["clearly better than Germany", "similar (± 3 points)", "clearly worse", "no data"],
+    map_range: (a, b) => (a === b ? a : `${a} to ${b}`), map_running: "The last day is still in progress.",
+    map_tip: (pct, n, d) => `${pct}% on time · ${n} arrivals · ${d} points vs Germany`,
+    map_cols: ["Pos", "State", "On time", "Arrivals", "vs Germany"],
+    map_note: "All scheduled ICE/IC/EC arrivals in a state count, including stops that are not in the league. Every train counts once. Points = percentage points. Base map: Natural Earth.",
     rk_title: "National ranking", rk_intro: "All stations of all leagues in one table, ranked by the week's average.",
     rk_cols: ["Pos", "Station", "League", "State", "Days", "Avg"], rk_all: "All states", rk_link: "National ranking",
     rk_freq: (n) => n ? `Only stations with at least ${n} ICE/IC/EC arrivals on a typical day` : "All stations, however many trains",
@@ -179,7 +197,7 @@ const STR = {
     filled: { spared: "moved up to fill a gap (relegation spared)", next_best: "moved up to fill a gap (best place of the league below)" },
     fills_title: "Filled gaps at the start of the season", dropped_title: (n) => `Dropped out: ${n} stations had at least 5 ICE/IC/EC arrivals on fewer than half of the last 28 days`,
     hist_title: "Season history", hist_cols: ["Season", "League", "Pos", "Days", "Avg"],
-    titles: { "index.html": "Bundesbahnhofsliga · The league of railway stations", "tables.html": "Tables · Bundesbahnhofsliga", "champions.html": "Champions · Bundesbahnhofsliga", "ranking.html": "Ranking · Bundesbahnhofsliga", "rules.html": "Rules · Bundesbahnhofsliga", "about.html": "Methodology · Bundesbahnhofsliga" },
+    titles: { "index.html": "Bundesbahnhofsliga · The league of railway stations", "tables.html": "Tables · Bundesbahnhofsliga", "champions.html": "Champions · Bundesbahnhofsliga", "ranking.html": "Ranking · Bundesbahnhofsliga", "map.html": "Map · Bundesbahnhofsliga", "rules.html": "Rules · Bundesbahnhofsliga", "about.html": "Methodology · Bundesbahnhofsliga" },
     ch_title: "Roll of champions", ch_intro: "Who finished the week on top? A season is one calendar week.",
     ch_cols: ["Season", "Champion", "Avg", "Runner-up"], ch_live: "live, currently leading", ch_promoted: "promoted",
     ch_record: "Most titles", ch_titles: (n) => `${n} ${n === 1 ? "title" : "titles"}`, ch_none: "No finished season yet.",
@@ -197,7 +215,7 @@ function langLink(l) {
 }
 
 function chrome(active) {
-  const pages = ["index.html", "tables.html", "ranking.html", "champions.html", "rules.html", "about.html"];
+  const pages = ["index.html", "tables.html", "ranking.html", "map.html", "champions.html", "rules.html", "about.html"];
   if (T.titles[active]) document.title = T.titles[active];
   document.body.insertAdjacentHTML("afterbegin", `
     <header class="top"><div class="wrap">
@@ -217,7 +235,7 @@ function chrome(active) {
   // keep the language when following internal links
   document.querySelectorAll('a[href]').forEach((a) => {
     const h = a.getAttribute("href");
-    if (/^(index|tables|ranking|champions|rules|about|station)\.html/.test(h) && !/[?&]lang=/.test(h)) a.setAttribute("href", h + (h.includes("?") ? "&" : "?") + "lang=" + LANG);
+    if (/^(index|tables|ranking|map|champions|rules|about|station)\.html/.test(h) && !/[?&]lang=/.test(h)) a.setAttribute("href", h + (h.includes("?") ? "&" : "?") + "lang=" + LANG);
   });
 }
 
