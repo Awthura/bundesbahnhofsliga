@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rangliste · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=30de5b51f9">
+<link rel="stylesheet" href="assets/style.css?v=9a6ffe926d">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -25,24 +25,27 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
     <div class="sub" id="freq-label"></div>
   </div>
   <div class="matchdays" id="matchdays"></div>
+  <div class="view-row" id="view"></div>
   <div id="table"></div>
   <p class="sub" id="freq-note"></p>
 </main>
-<script src="assets/app.js?v=490fdc2fc0"></script>
+<script src="assets/app.js?v=38994c3cae"></script>
 <script>
 chrome("ranking.html");
 $("#rk-title").textContent = T.rk_title;
 $("#rk-intro").textContent = T.rk_intro;
 $("#season-label").textContent = T.season_label;
 const params = new URLSearchParams(location.search);
-const state = { meta: null, data: null, md: 0, filter: "", min: Math.max(0, +params.get("min") || 0) };
+const state = { meta: null, data: null, md: 0, filter: "", min: Math.max(0, +params.get("min") || 0), view: params.get("view") === "day" ? "day" : "week" };
 $("#freq-note").textContent = T.rk_freq_note;
 
 function render() {
   const s = state.data, meta = state.meta;
   $("#matchdays").innerHTML = `${T.matchday}: ` + s.matchdays.map((d, i) =>
     `<button class="${i === state.md ? "on" : ""}" data-i="${i}">${dayButton(d, i, state.meta.last_day)}</button>`).join("");
-  $("#matchdays").querySelectorAll("button").forEach((b) => (b.onclick = () => { state.md = +b.dataset.i; render(); }));
+  $("#matchdays").querySelectorAll("button[data-i]").forEach((b) => (b.onclick = () => { state.md = +b.dataset.i; render(); }));
+  $("#view").innerHTML = viewToggle(state);
+  bindViewToggle($("#view"), state, render);
   revealActive($("#matchdays"));
   const rows = nationalTable(s, state.md);
   const prev = state.md > 0 ? Object.fromEntries(nationalTable(s, state.md - 1).map((r) => [r.eva, r.nrank])) : null;
@@ -55,6 +58,12 @@ function render() {
   $("#freq").value = state.min;
   $("#presets").innerHTML = T.rk_presets.map(([lbl, v]) => `<button class="${v === state.min ? "on" : ""}" data-v="${v}">${lbl}</button>`).join("");
   $("#presets").querySelectorAll("button").forEach((b) => (b.onclick = () => setMin(+b.dataset.v)));
+  if (state.view === "day") {
+    const keep = new Set(shown.map((r) => r.eva));
+    const dr = dayRows(rows, state.md > 0 ? nationalTable(s, state.md - 1) : []).filter((r) => keep.has(r.eva));
+    $("#table").innerHTML = dayTableHTML(dr, (r) => r.league) + `<p class="sub">${T.day_note(dayLabel(s.matchdays[state.md]))}</p>`;
+    return;
+  }
   const c = T.rk_cols;
   $("#table").innerHTML = `<div class="tablewrap"><table>
     <thead><tr><th>${c[0]}</th><th></th><th>${c[1]}</th><th><span class="hide-sm">${c[2]}</span></th><th class="hide-md">${c[3]}</th>

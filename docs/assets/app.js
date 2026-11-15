@@ -27,6 +27,8 @@ const STR = {
     season_live: (n) => `Wertungstag ${n} von 7. Auf- und Abstieg nach dem Sonntag.`,
     sub: (n, id, day) => `${n} Bahnhöfe · Saison ${id} · Tabelle nach ${day}`,
     matchday: "Wertungstag", running: "läuft",
+    view_week: "Woche", view_day: "Nur dieser Tag", day_cols: ["Platz", "Bahnhof", "Ankünfte", "Tagespunkte"],
+    day_note: (d) => `Nur ${d}: Rangfolge nach den Punkten dieses einen Tages (Anteil pünktlicher Ankünfte). Bei Gleichstand zählen mehr Ankünfte. Auf- und Abstieg entscheidet die ganze Woche.`,
     leader_top: "Tabellenführer", leader: "Spitzenreiter", lantern: "Rote Laterne", day_winner: (d) => `Tagessieger ${d}`,
     legend: ["Aufstieg", "Relegation / Aufstiegsrunde", "Abstieg",
       "Sortiert nach Schnitt = durchschnittliche Tagespunkte (0 bis 1). Graue Zeilen haben bisher zu wenige gewertete Tage."],
@@ -107,6 +109,8 @@ const STR = {
     season_live: (n) => `Scoring day ${n} of 7. Promotion and relegation after Sunday.`,
     sub: (n, id, day) => `${n} stations · season ${id} · table after ${day}`,
     matchday: "Scoring day", running: "in progress",
+    view_week: "Week", view_day: "This day only", day_cols: ["Pos", "Station", "Arrivals", "Day points"],
+    day_note: (d) => `${d} only: ranked by this single day's points (share of punctual arrivals). On a tie, more arrivals win. Promotion and relegation are decided by the whole week.`,
     leader_top: "Top of the league", leader: "League leader", lantern: "Red lantern", day_winner: (d) => `Day winner ${d}`,
     legend: ["Promotion", "Decider / promotion round", "Relegation",
       "Ranked by average daily points (0 to 1). Grey rows have too few scored days so far."],
@@ -273,3 +277,39 @@ function fold(t) {
 
 // label for a day button; the newest day in the data is still being collected
 const dayButton = (d, i, lastDay) => `${i + 1} · ${dayLabel(d)}${d === lastDay ? ` <span class="running">· ${T.running}</span>` : ""}`;
+
+// single-day view: rank by one day's points; the day's arrivals = week-to-date arrivals minus the day before
+function dayRows(rows, prevRows) {
+  const before = Object.fromEntries((prevRows || []).map((r) => [r.eva, r.arrivals || 0]));
+  const out = rows.map((r) => ({ ...r, day_points: r.form[r.form.length - 1], day_arrivals: (r.arrivals || 0) - (before[r.eva] || 0) }));
+  out.sort((a, b) => (a.day_points == null) - (b.day_points == null) || (b.day_points ?? 0) - (a.day_points ?? 0)
+    || b.day_arrivals - a.day_arrivals || a.station.localeCompare(b.station));
+  return out;
+}
+
+function dayTableHTML(rows, leagueOf) {
+  const c = T.day_cols;
+  return `<div class="tablewrap"><table>
+    <thead><tr><th>${c[0]}</th><th>${c[1]}</th>${leagueOf ? "<th></th>" : ""}<th class="num hide-sm">${c[2]}</th><th class="num">${c[3]}</th></tr></thead><tbody>
+    ${rows.map((r, i) => `<tr class="${r.day_points == null ? "unranked" : ""}">
+      <td class="rank">${r.day_points == null ? "–" : i + 1 + "."}</td>
+      <td class="st"><a href="${stLink(r.eva)}">${esc(r.station)}</a></td>
+      ${leagueOf ? `<td><img src="${logo(leagueOf(r))}" alt="" style="width:16px;height:19px;vertical-align:-4px"></td>` : ""}
+      <td class="num hide-sm">${r.day_arrivals}</td>
+      <td class="num"><b>${r.day_points == null ? T.called_off : num(r.day_points)}</b></td></tr>`).join("")}
+    </tbody></table></div>`;
+}
+
+function viewToggle(state, rerender) {
+  return `<span class="view-toggle">${[["week", T.view_week], ["day", T.view_day]].map(([v, lbl]) =>
+    `<button class="${state.view === v ? "on" : ""}" data-view="${v}">${lbl}</button>`).join("")}</span>`;
+}
+function bindViewToggle(el, state, rerender) {
+  el.querySelectorAll("button[data-view]").forEach((b) => (b.onclick = () => {
+    state.view = b.dataset.view;
+    const p = new URLSearchParams(location.search);
+    if (state.view === "day") p.set("view", "day"); else p.delete("view");
+    history.replaceState(null, "", "?" + p.toString());
+    rerender();
+  }));
+}
