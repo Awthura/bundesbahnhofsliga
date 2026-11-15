@@ -129,7 +129,9 @@ def main():
             "eva": eva, "name": data.names[eva], "state": config.STATE_OVERRIDES.get(eva) or m.get("state"), "lat": m.get("lat"), "lon": m.get("lon"),
             "daily": daily[-120:], "best": best, "worst": worst, "history": history[eva],
             "stats": {"overall_avg": stats.overall_average(daily), "national": ranks.get(eva),
-                      "streaks": stats.streaks([d for d in daily if d["day"] < running.isoformat()]),   # running day still open "weekdays": stats.weekday_profile(daily),
+                      # the running day is still open, so it does not count for streaks yet
+                      "streaks": stats.streaks([d for d in daily if d["day"] < running.isoformat()]),
+                      "weekdays": stats.weekday_profile(daily),
                       "records": stats.records(history[eva]), "volume": stats.volume(daily)}})
 
     # typical day (median ICE/IC/EC arrivals over the last 28 days), for the frequency filter on the ranking page
@@ -161,6 +163,13 @@ def main():
     from scripts import make_logos
     make_logos.main()
     version_assets()
+    # sanity check: every station page must have all its statistics (a missing key once emptied a chart silently)
+    need = {"overall_avg", "national", "streaks", "weekdays", "records", "volume"}
+    for f in (OUT / "stations").glob("*.json"):
+        missing = need - set(json.loads(f.read_text())["stats"])
+        if missing:
+            print(f"BUILD CHECK FAILED: {f.name} lacks stats {sorted(missing)}", file=sys.stderr)
+            sys.exit(1)
     print(f"{len(index)} seasons, {len(members)} stations, latest {index[-1]['id'] if index else '-'}")
 
 
