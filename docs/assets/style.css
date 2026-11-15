@@ -147,9 +147,9 @@ html[data-lang="de"] .i18n[lang="en"], html[data-lang="en"] .i18n[lang="de"] { d
 .tagline { margin: 0 0 2px; font-size: 16px; font-weight: 600; line-height: 1.4; }
 @media (max-width: 640px) { .tagline { font-size: 14px; } }
 
-/* forecast card, Polymarket style */
-.market { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--panel); margin: 16px 0 6px; }
-.market h3 { margin: 0 0 4px; font-size: 13px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
+/* forecast card */
+.forecast-card { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--panel); margin: 16px 0 6px; }
+.forecast-card h3 { margin: 0 0 4px; font-size: 13px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
 .mk-head { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center; margin-bottom: 6px; }
 .mk-q { font-size: 18px; font-weight: 700; line-height: 1.35; }
 .mk-odds { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
