@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bahnhof · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=426e3fa114">
+<link rel="stylesheet" href="assets/style.css?v=a589297fd4">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -49,7 +49,8 @@ $("#pyr-note").textContent = T.pyr_note;
   const cur = meta.stations[eva]?.league;
   const lg = meta.leagues.find((l) => l.id === cur);
   $("#name").textContent = st.name;
-  $("#sub").textContent = [lg ? lg.name : T.st_none, st.state].filter(Boolean).join(" · ");
+  $("#sub").innerHTML = [lg ? `<a class="lg-link sub-link" href="tables.html?liga=${cur}&lang=${LANG}">${esc(lg.name)}</a>` : esc(T.st_none),
+    st.state ? esc(st.state) : ""].filter(Boolean).join(" · ");
   if (cur) $("#logo").src = logo(cur); else $("#logo").remove();
   const played = st.daily.filter((d) => d.plays);
   const avg = played.length ? played.reduce((a, d) => a + d.points, 0) / played.length : null;
@@ -93,7 +94,7 @@ $("#pyr-note").textContent = T.pyr_note;
     <th class="num hide-sm">${hc[3]}</th><th class="num">${hc[4]}</th></tr></thead><tbody>${st.history.slice().reverse().map((h) => {
       const l = { short: h.short || h.league };
       return `<tr><td><a href="tables.html?season=${h.season}&liga=${h.league}&lang=${LANG}">${h.season}</a>${h.complete ? "" : ` <span class="tag new">${T.live}</span>`}</td>
-        <td><img src="${logo(h.league)}" alt="${esc(l.short)}" title="${esc(l.short)}" style="width:16px;height:19px;vertical-align:-4px"> <span class="hide-sm">${esc(l.short)}</span></td>
+        <td class="st"><a class="lg-link" href="tables.html?season=${h.season}&liga=${h.league}&lang=${LANG}" title="${esc(l.short)}"><img src="${logo(h.league)}" alt="${esc(l.short)}" style="width:16px;height:19px;vertical-align:-4px"> <span class="hide-sm">${esc(l.short)}</span></a></td>
         <td class="num">${h.rank}.</td><td class="num hide-sm">${h.played}</td><td class="num">${num(h.avg, 3)}</td></tr>`;
     }).join("")}</tbody></table></div>`;
 })().catch((e) => {

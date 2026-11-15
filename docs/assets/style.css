@@ -245,3 +245,8 @@ button.on .running { color: #fff; }
 .crest-row.small { gap: 5px; }
 .crest-row.small .crest-link { padding: 7px 2px 6px; border-radius: 10px; }
 .crest-row.small .crest-link span { font-size: 10.5px; white-space: nowrap; }
+/* league links look and behave like station links: dark text, red and underlined on hover */
+a.lg-link { color: var(--ink); text-decoration: none; font-weight: 600; white-space: nowrap; }
+a.lg-link:hover, a.lg-link:focus-visible { color: var(--red); text-decoration: underline; }
+a.lg-link.sub-link { font-weight: 400; color: var(--muted); }
+a.lg-link.sub-link:hover { color: var(--red); }

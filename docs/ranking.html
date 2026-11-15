@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rangliste · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=426e3fa114">
+<link rel="stylesheet" href="assets/style.css?v=a589297fd4">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -74,7 +74,7 @@ function render() {
         ? (prevPos && prevPos[r.eva] ? prevPos[r.eva] - (i + 1) : null)
         : (prev && prev[r.eva] ? prev[r.eva] - r.nrank : null))}</td>
       <td class="st"><a href="${stLink(r.eva)}">${esc(r.station)}</a></td>
-      <td><a href="tables.html?season=${s.id}&liga=${r.league}&lang=${LANG}" title="${esc(s.leagues[r.league].name)}" style="color:var(--ink);text-decoration:none;white-space:nowrap">
+      <td class="st"><a class="lg-link" href="tables.html?season=${s.id}&liga=${r.league}&lang=${LANG}" title="${esc(s.leagues[r.league].name)}">
         <img src="${logo(r.league)}" alt="" style="width:16px;height:19px;vertical-align:-4px"> <span class="hide-sm">${esc(s.leagues[r.league].short)}</span></a></td>
       <td class="hide-md">${esc(meta.stations[r.eva]?.state || "")}</td>
       <td class="num hide-sm">${Math.round(perDay(r.eva))}</td>${filtered ? `<td class="num hide-sm" style="color:var(--muted)">${r.nrank}.</td>` : ""}
