@@ -121,6 +121,7 @@ def test_regionalligen_and_promotion_round(monkeypatch):
     states = {f"{i:03d}": ("Hamburg" if i % 2 else "Bayern") for i in range(12)}
     rows = make_rows(12, seed, lambda i, d: 1 - i / 20)
     rows += make_rows(12, week1, lambda i, d: i / 20)   # reversed again
+    rows += make_rows(12, [week1[-1] + dt.timedelta(days=1)], lambda i, d: 0.5)   # Monday: Sunday is complete
     s1 = league.run(rows, states)["seasons"][0]
     assert s1["league_order"] == ["1", "RL-N", "RL-S"]
     assert sorted(e["eva"] for e in s1["leagues"]["RL-N"]["tables"][0]) == ["007", "009", "011"]
@@ -193,6 +194,7 @@ def test_best_4_of_5_champions_go_up(monkeypatch):
     states = {f"{i:03d}": f"S{'ABCDE'[i % 5]}" for i in range(n)}
     rows = make_rows(n, seed, lambda i, d: 1 - i / 40)
     rows += make_rows(n, week1, lambda i, d: 0.2 + i / 40)   # reversed: higher number = better this week
+    rows += make_rows(n, [week1[-1] + dt.timedelta(days=1)], lambda i, d: 0.5)   # Monday: Sunday is complete
     s1 = league.run(rows, states)["seasons"][0]
     rnd = s1["promotion_round"]
     assert len(rnd) == 5 and [c["result"] for c in rnd] == ["up", "up", "up", "up", "stays"]
@@ -336,3 +338,16 @@ def test_week_ranks_follow_the_ranking_page_order():
     r = stats.week_ranks(season, {"a": "X", "b": "Y", "c": "X", "d": "X"})
     assert [r[e]["rank"] for e in "cabd"] == [1, 2, 3, 4]      # unranked last, even with the best average
     assert (r["a"]["state_rank"], r["a"]["state_of"], r["a"]["season"]) == (2, 3, "2026-KW45")
+
+
+def test_week_is_not_closed_on_a_partial_sunday(monkeypatch):
+    small_pyramid(monkeypatch, tiers=2, size=6)
+    start = dt.date(2026, 11, 2)
+    seed = [start - dt.timedelta(days=i) for i in range(1, 8)]
+    week = [start + dt.timedelta(days=i) for i in range(7)]          # ends on Sunday Nov 8
+    rows = make_rows(12, seed, lambda i, d: 1 - i / 20) + make_rows(12, week, lambda i, d: i / 20)
+    s = league.run(rows, {})["seasons"][0]
+    assert not s["complete"] and not s["moves"] and not s["playoffs"]   # Sunday may still be running
+    rows += make_rows(12, [start + dt.timedelta(days=7)], lambda i, d: 0.5)   # Monday data arrives
+    s = league.run(rows, {})["seasons"][0]
+    assert s["complete"] and s["moves"]

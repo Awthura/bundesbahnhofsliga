@@ -36,8 +36,14 @@ def audit(res: dict, rows: list[dict], states: dict[str, str]) -> list[str]:
             err(f"{r['day']} {name(r['eva'])}: plays={plays} but arrivals={a}")
 
     prev = None
+    last_final = league.final_through(data)
     for s in res["seasons"]:
         sid = s["id"]
+        # a week may only be closed (moves, deciders, champion) once its Sunday is completely collected
+        if s["complete"] and dt.date.fromisoformat(s["end"]) > last_final:
+            err(f"{sid}: closed although Sunday {s['end']} is not complete (data through {data.days[-1]})")
+        if not s["complete"] and (s["moves"] or s["playoffs"]):
+            err(f"{sid}: moves or deciders in a week that is not finished")
         week = dt.date.fromisoformat(s["start"])
         days = [dt.date.fromisoformat(d) for d in s["matchdays"]]
         where = {}

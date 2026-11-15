@@ -126,12 +126,20 @@ def _sort_by(evas, score, names):
     return sorted(evas, key=lambda e: (-score.get(e, -1), names.get(e, e)))
 
 
+def final_through(data: Data) -> dt.date | None:
+    """Last day whose data is complete. The newest day in the data may still be running (it is
+    collected through the day, and late updates arrive with the next day's files), so a day only
+    counts as finished once data for a later day exists."""
+    return data.days[-1] - dt.timedelta(days=1) if data.days else None
+
+
 def run(rows, states: dict[str, str] | None = None) -> dict:
     """states: eva -> Bundesland, used to place stations in their Regionalbahnhofsliga."""
     data = Data(rows)
     states = states or {}
     if not data.days:
         return {"seasons": [], "names": {}, "data": data, "leagues": {}}
+    done_through = final_through(data)
     nat = config.NATIONAL_TIERS
     sizes = {str(t): config.league_size(t) for t in range(1, nat + 1)}
     nat_ids = [str(t) for t in range(1, nat + 1)]
@@ -198,7 +206,8 @@ def run(rows, states: dict[str, str] | None = None) -> dict:
                     went_down.pop(e, None)
                     fills.append({"eva": e, "from": frm, "to": l, "reason": reason})
         sunday = week + dt.timedelta(days=6)
-        complete = sunday in data.by_day
+        # the week is final only when Sunday is completely collected; never decide on a partial Sunday
+        complete = sunday in data.by_day and sunday <= done_through
         active = [l for l in nat_ids + reg_ids if lists[l]]
         season = {"id": season_id(week), "start": week.isoformat(), "end": sunday.isoformat(),
                   "complete": complete, "matchdays": [d.isoformat() for d in days], "leagues": {},
