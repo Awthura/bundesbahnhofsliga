@@ -5,6 +5,7 @@ import csv
 import datetime as dt
 import json
 import shutil
+import statistics
 import sys
 from pathlib import Path
 
@@ -125,6 +126,11 @@ def main():
                       "streaks": stats.streaks(daily), "weekdays": stats.weekday_profile(daily),
                       "records": stats.records(history[eva]), "volume": stats.volume(daily)}})
 
+    # typical day (median ICE/IC/EC arrivals over the last 28 days), for the frequency filter on the ranking page
+    recent = data.days[-config.MEMBERSHIP_WINDOW_DAYS:]
+    typical_day = {e: statistics.median(data.by_day[d].get(e, {}).get("arrivals", 0) for d in recent)
+                   for e in members} if recent else {}
+
     latest = res["seasons"][-1] if res["seasons"] else None
     current = {}
     if latest:
@@ -138,7 +144,8 @@ def main():
         "stations": {eva: {"name": data.names[eva], "league": current.get(eva),
                            "state": config.STATE_OVERRIDES.get(eva) or stations_meta.get(eva, {}).get("state"),
                            "lat": stations_meta.get(eva, {}).get("lat"),
-                           "lon": stations_meta.get(eva, {}).get("lon")} for eva in members},
+                           "lon": stations_meta.get(eva, {}).get("lon"),
+                           "per_day": typical_day.get(eva)} for eva in members},
         "rules": {"min_arrivals": config.MIN_ARRIVALS, "punctual_limit": config.PUNCTUAL_LIMIT_MIN,
                   "types": config.TRAIN_TYPES, "direct_movers": config.DIRECT_MOVERS, "league_sizes": config.LEAGUE_SIZES, "rl_relegated": config.RL_RELEGATED, "min_day_share": config.MIN_DAY_SHARE, "stay_day_share": config.STAY_DAY_SHARE, "min_median_arrivals": config.MIN_MEDIAN_ARRIVALS,
                   "window": config.MEMBERSHIP_WINDOW_DAYS, "min_played_share": config.MIN_PLAYED_SHARE},

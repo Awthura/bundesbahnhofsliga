@@ -167,3 +167,10 @@ html[data-lang="de"] .i18n[lang="en"], html[data-lang="en"] .i18n[lang="de"] { d
 .kpi b.kpi-small span, .kpi b span { display: block; font-size: 12px; font-weight: 400; color: var(--muted); margin-top: 2px; }
 .kpi b.kpi-small a { color: var(--ink); }
 .score-hint { margin: 0 0 14px; font-size: 13px; }
+.freq { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--panel); margin: 4px 0 10px; }
+.freq-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.freq input[type=range] { flex: 1 1 220px; accent-color: var(--red); }
+.freq-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+.freq-presets button { border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 6px; padding: 4px 9px; cursor: pointer; font: inherit; font-size: 13px; }
+.freq-presets button.on { border-color: var(--red); background: var(--red); color: #fff; }
+.freq .sub { margin: 6px 0 0; font-size: 13px; }

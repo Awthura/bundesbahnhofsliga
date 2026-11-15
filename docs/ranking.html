@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rangliste · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=2a50b5502e">
+<link rel="stylesheet" href="assets/style.css?v=9329bea0cd">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -17,17 +17,26 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
     <label for="season" id="season-label"></label> <select id="season"></select>
     <select id="state" aria-label="Bundesland"></select>
   </div>
+  <div class="freq">
+    <div class="freq-row">
+      <input type="range" id="freq" min="0" max="180" step="5" value="0" aria-labelledby="freq-label">
+      <span class="freq-presets" id="presets"></span>
+    </div>
+    <div class="sub" id="freq-label"></div>
+  </div>
   <div class="matchdays" id="matchdays"></div>
   <div id="table"></div>
+  <p class="sub" id="freq-note"></p>
 </main>
-<script src="assets/app.js?v=e24a94dd57"></script>
+<script src="assets/app.js?v=6c48fe6a27"></script>
 <script>
 chrome("ranking.html");
 $("#rk-title").textContent = T.rk_title;
 $("#rk-intro").textContent = T.rk_intro;
 $("#season-label").textContent = T.season_label;
 const params = new URLSearchParams(location.search);
-const state = { meta: null, data: null, md: 0, filter: "" };
+const state = { meta: null, data: null, md: 0, filter: "", min: Math.max(0, +params.get("min") || 0) };
+$("#freq-note").textContent = T.rk_freq_note;
 
 // one national table from all league tables after a given day, ranked exactly like a league table
 function national(s, k) {
@@ -46,20 +55,41 @@ function render() {
   revealActive($("#matchdays"));
   const rows = national(s, state.md);
   const prev = state.md > 0 ? Object.fromEntries(national(s, state.md - 1).map((r) => [r.eva, r.nrank])) : null;
-  const shown = rows.filter((r) => !state.filter || meta.stations[r.eva]?.state === state.filter);
+  const perDay = (e) => meta.stations[e]?.per_day ?? 0;
+  const shown = rows.filter((r) => (!state.filter || meta.stations[r.eva]?.state === state.filter) && perDay(r.eva) >= state.min);
+  const filtered = shown.length !== rows.length;
+  const prevShown = prev ? national(s, state.md - 1).filter((r) => (!state.filter || meta.stations[r.eva]?.state === state.filter) && perDay(r.eva) >= state.min) : null;
+  const prevPos = prevShown ? Object.fromEntries(prevShown.map((r, i) => [r.eva, i + 1])) : null;
+  $("#freq-label").textContent = `${T.rk_freq(state.min)} · ${T.rk_count(shown.length, rows.length)}`;
+  $("#freq").value = state.min;
+  $("#presets").innerHTML = T.rk_presets.map(([lbl, v]) => `<button class="${v === state.min ? "on" : ""}" data-v="${v}">${lbl}</button>`).join("");
+  $("#presets").querySelectorAll("button").forEach((b) => (b.onclick = () => setMin(+b.dataset.v)));
   const c = T.rk_cols;
   $("#table").innerHTML = `<div class="tablewrap"><table>
     <thead><tr><th>${c[0]}</th><th></th><th>${c[1]}</th><th><span class="hide-sm">${c[2]}</span></th><th class="hide-md">${c[3]}</th>
+      <th class="num hide-sm">${T.rk_per_day}</th>${filtered ? `<th class="num hide-sm">${T.rk_nat}</th>` : ""}
       <th class="num hide-sm">${c[4]}</th><th class="num">${c[5]}</th></tr></thead><tbody>
-    ${shown.map((r) => `<tr class="${r.ranked ? "" : "unranked"}">
-      <td class="rank">${r.nrank}.</td><td>${trendCell(prev && prev[r.eva] ? prev[r.eva] - r.nrank : null)}</td>
+    ${shown.map((r, i) => `<tr class="${r.ranked ? "" : "unranked"}">
+      <td class="rank">${filtered ? i + 1 : r.nrank}.</td><td>${trendCell(filtered
+        ? (prevPos && prevPos[r.eva] ? prevPos[r.eva] - (i + 1) : null)
+        : (prev && prev[r.eva] ? prev[r.eva] - r.nrank : null))}</td>
       <td class="st"><a href="${stLink(r.eva)}">${esc(r.station)}</a></td>
       <td><a href="index.html?season=${s.id}&liga=${r.league}&lang=${LANG}" title="${esc(s.leagues[r.league].name)}" style="color:var(--ink);text-decoration:none;white-space:nowrap">
         <img src="${logo(r.league)}" alt="" style="width:16px;height:19px;vertical-align:-4px"> <span class="hide-sm">${esc(s.leagues[r.league].short)}</span></a></td>
       <td class="hide-md">${esc(meta.stations[r.eva]?.state || "")}</td>
+      <td class="num hide-sm">${Math.round(perDay(r.eva))}</td>${filtered ? `<td class="num hide-sm" style="color:var(--muted)">${r.nrank}.</td>` : ""}
       <td class="num hide-sm">${r.played}</td><td class="num"><b>${num(r.avg, 3)}</b></td></tr>`).join("")}
     </tbody></table></div>`;
 }
+
+function setMin(v) {
+  state.min = v;
+  const p = new URLSearchParams(location.search);
+  if (v) p.set("min", v); else p.delete("min");
+  history.replaceState(null, "", "?" + p.toString());
+  render();
+}
+$("#freq").addEventListener("input", (e) => setMin(+e.target.value));
 
 async function loadSeason(id) {
   state.data = await getJSON(`data/season/${id}.json`);
