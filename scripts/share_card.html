@@ -1,35 +1,48 @@
 <!doctype html>
-<!-- Link preview image (LinkedIn, etc.). Regenerate with:
-     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --window-size=1200,630 \
-       --screenshot=docs/assets/share.png "file://$PWD/scripts/share_card.html" -->
+<!-- Link preview image (LinkedIn etc.). Snapshot of KW45 (last finished week when created).
+     Bottom rows: places 142-144 (Köln, Solingen, Dortmund: mostly late trains). Gelsenkirchen Hbf (145.) is left out on
+     purpose: its 5 % that week came from 84 % cancelled stops (trains not stopping there), not from late trains.
+     Regenerate: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars \
+       --allow-file-access-from-files --window-size=1200,630 --screenshot=docs/assets/share.png "file://$PWD/scripts/share_card.html" -->
 <html><head><meta charset="utf-8"><style>
   html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
   body { background: #c8102e; color: #fff; font-family: "Helvetica Neue", Arial, sans-serif; position: relative; }
-  .stripe { position: absolute; left: 0; right: 0; bottom: 0; height: 18px;
-    background: repeating-linear-gradient(90deg, #fff 0 48px, #c8102e 48px 96px); }
-  .main { display: flex; align-items: center; gap: 48px; padding: 84px 80px 0; }
-  .badge { width: 230px; height: 230px; flex: 0 0 auto; }
-  h1 { margin: 0; font-size: 74px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
-  .de { font-size: 34px; font-weight: 700; margin: 22px 0 8px; line-height: 1.25; }
-  .en { font-size: 26px; opacity: .85; margin: 0; }
-  .crests { position: absolute; right: 80px; bottom: 50px; display: flex; gap: 18px; align-items: flex-end;
-    background: #fff; border-radius: 16px; padding: 14px 20px; }
-  .crests img { height: 80px; }
-  .crests img.small { height: 66px; }
-  .url { position: absolute; left: 80px; bottom: 74px; font-size: 26px; font-weight: 700; opacity: .9; }
+  .stripe { position: absolute; left: 0; right: 0; bottom: 0; height: 16px; background: repeating-linear-gradient(90deg, #fff 0 48px, #c8102e 48px 96px); }
+  .left { position: absolute; left: 64px; top: 56px; width: 600px; }
+  .brand { display: flex; align-items: center; gap: 16px; font-size: 30px; font-weight: 900; }
+  .brand img { width: 64px; height: 64px; }
+  h1 { margin: 38px 0 0; font-size: 70px; line-height: 1.02; font-weight: 900; letter-spacing: -1.5px; }
+  .stat { margin-top: 26px; display: inline-block; background: #fff; color: #c8102e; font-weight: 900; font-size: 30px;
+          border-radius: 12px; padding: 10px 18px; }
+  .sub { margin-top: 18px; font-size: 22px; opacity: .92; }
+  .card { position: absolute; right: 56px; top: 54px; width: 430px; background: #fff; color: #1a1a1a; border-radius: 20px;
+          padding: 22px 24px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+  .card h2 { margin: 0 0 12px; font-size: 20px; letter-spacing: .5px; text-transform: uppercase; color: #666; }
+  .row { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 10px; font-size: 25px; font-weight: 700; margin: 5px 0; }
+  .row .pos { width: 52px; color: #666; font-weight: 800; }
+  .row .name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .val { font-variant-numeric: tabular-nums; }
+  .up { background: #e6f4ea; } .up .val { color: #1f7a3a; }
+  .down { background: #fde8e8; } .down .val { color: #c8102e; }
+  .dots { text-align: center; color: #999; font-size: 26px; line-height: 1; margin: 4px 0; }
+  .url { position: absolute; left: 64px; bottom: 44px; font-size: 22px; font-weight: 700; opacity: .9; }
 </style></head><body>
-  <div class="main">
-    <img class="badge" src="../docs/assets/logos/bbl.svg" alt="">
-    <div>
-      <h1>Bundesbahnhofsliga</h1>
-      <p class="de">Die Bundesliga der Bahnhöfe,<br>entschieden von pünktlichen Fernzügen.</p>
-      <p class="en">The Bundesliga of German railway stations.</p>
-    </div>
+  <div class="left">
+    <div class="brand"><img src="../docs/assets/logos/bbl.svg" alt="">Bundesbahnhofsliga</div>
+    <h1>Wie pünktlich ist dein Bahnhof?</h1>
+    <div class="stat">Nur jeder 2. Fernzug ist pünktlich.</div>
+    <div class="sub">Die Bundesliga der Bahnhöfe: jede Woche Auf- und Abstieg.</div>
+  </div>
+  <div class="card">
+    <h2>Rangliste KW45 · Anteil pünktlich</h2>
+    <div class="row up"><span class="pos">1.</span><span class="name">Bruchsal</span><span class="val">82 %</span></div>
+    <div class="row up"><span class="pos">2.</span><span class="name">Züssow</span><span class="val">81 %</span></div>
+    <div class="row up"><span class="pos">3.</span><span class="name">Flensburg</span><span class="val">81 %</span></div>
+    <div class="dots">⋮</div>
+    <div class="row down"><span class="pos">142.</span><span class="name">Köln Hbf</span><span class="val">25 %</span></div>
+    <div class="row down"><span class="pos">143.</span><span class="name">Solingen Hbf</span><span class="val">24 %</span></div>
+    <div class="row down"><span class="pos">144.</span><span class="name">Dortmund Hbf</span><span class="val">22 %</span></div>
   </div>
   <div class="url">awthura.github.io/bundesbahnhofsliga</div>
-  <div class="crests">
-    <img src="../docs/assets/logos/liga-2.svg" alt=""><img src="../docs/assets/logos/liga-3.svg" alt="">
-    <img class="small" src="../docs/assets/logos/liga-RL-N.svg" alt=""><img class="small" src="../docs/assets/logos/liga-RL-BY.svg" alt="">
-  </div>
   <div class="stripe"></div>
 </body></html>
