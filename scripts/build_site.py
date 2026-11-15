@@ -111,13 +111,19 @@ def main():
         if e in prev_ranks:
             r["change"] = prev_ranks[e]["rank"] - r["rank"]          # positive = moved up
             r["state_change"] = prev_ranks[e]["state_rank"] - r["state_rank"] if prev_ranks[e].get("state") == r.get("state") else None
+    # forecast settings re-tuned on all past days (every forecast only uses data before its day)
+    running = data.days[-1]
+    fc_model = forecast.tune([[(dt.date.fromisoformat(d["day"]), d["points"]) for d in full_daily[e]
+                               if d["plays"] and d["points"] is not None and d["day"] < running.isoformat()]
+                              for e in members])
+    print(f"forecast model: {fc_model}")
     for eva in members:
         daily = full_daily[eva]
         played = [x for x in daily if x["plays"]]
         best = max(played, key=lambda x: x["points"], default=None)
         worst = min(played, key=lambda x: x["points"], default=None)
         m = stations_meta.get(eva, {})
-        fc = forecast.station_forecast(daily, data.days[-1] + dt.timedelta(days=1))
+        fc = forecast.station_forecast(daily, data.days[-1], params=fc_model["params"])
         dump(OUT / "stations" / f"{eva}.json", {
             "forecast": fc,
             "eva": eva, "name": data.names[eva], "state": config.STATE_OVERRIDES.get(eva) or m.get("state"), "lat": m.get("lat"), "lon": m.get("lon"),
@@ -146,6 +152,7 @@ def main():
                            "lat": stations_meta.get(eva, {}).get("lat"),
                            "lon": stations_meta.get(eva, {}).get("lon"),
                            "per_day": typical_day.get(eva)} for eva in members},
+        "forecast_model": fc_model,
         "rules": {"min_arrivals": config.MIN_ARRIVALS, "punctual_limit": config.PUNCTUAL_LIMIT_MIN,
                   "types": config.TRAIN_TYPES, "direct_movers": config.DIRECT_MOVERS, "league_sizes": config.LEAGUE_SIZES, "rl_relegated": config.RL_RELEGATED, "min_day_share": config.MIN_DAY_SHARE, "stay_day_share": config.STAY_DAY_SHARE, "min_median_arrivals": config.MIN_MEDIAN_ARRIVALS,
                   "window": config.MEMBERSHIP_WINDOW_DAYS, "min_played_share": config.MIN_PLAYED_SHARE},

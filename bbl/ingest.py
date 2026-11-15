@@ -15,13 +15,23 @@ import json
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import duckdb
 
 from . import config
 
 STOPS_COLUMNS = "id VARCHAR, eva VARCHAR, station VARCHAR, train_type VARCHAR, train_number VARCHAR, " \
-                "planned TIMESTAMP, delay_in_min INTEGER, canceled BOOLEAN"
+                "planned TIMESTAMP, delay_in_min INTEGER, canceled BOOLEAN, due BOOLEAN"
+# due = the planned arrival time had passed when the newest data was fetched. On a running day the timetable
+# already lists the rest of the day's trains; they are not scored until they are due.
+
+BERLIN = ZoneInfo("Europe/Berlin")
+
+
+def utc_to_berlin(ts: dt.datetime) -> dt.datetime:
+    """Raw dump fetch times are UTC (naive); DB timetable times are German local time (naive)."""
+    return ts.replace(tzinfo=dt.timezone.utc).astimezone(BERLIN).replace(tzinfo=None)
 
 
 def parse_db_time(s: str | None) -> dt.datetime | None:
@@ -76,10 +86,13 @@ class RawAccumulator:
         self.plans: dict[str, dict] = {}
         self.changes: dict[str, tuple[dt.datetime, dict]] = {}   # id -> (fetched_at, change)
         self.stations: dict[str, dict] = {}
+        self.latest: dt.datetime | None = None   # newest fetch time seen (UTC)
 
     def add(self, fetched_at: dt.datetime, url: str, api_name: str, body: str | None):
         if not body:
             return
+        if api_name.startswith("timetables") and (self.latest is None or fetched_at > self.latest):
+            self.latest = fetched_at
         try:
             if api_name == "timetables/v1/plan":
                 eva = _eva_from_url(url)
@@ -104,6 +117,7 @@ class RawAccumulator:
             pass
 
     def stops(self) -> list[dict]:
+        cutoff = utc_to_berlin(self.latest) if self.latest else None
         rows = []
         for sid, p in self.plans.items():
             ch = self.changes.get(sid, (None, {}))[1]
@@ -111,7 +125,8 @@ class RawAccumulator:
             delay = 0
             if ch.get("ct") is not None:
                 delay = int((ch["ct"] - p["planned"]).total_seconds() // 60)
-            rows.append({**p, "delay_in_min": delay, "canceled": canceled})
+            due = cutoff is None or p["planned"] <= cutoff
+            rows.append({**p, "delay_in_min": delay, "canceled": canceled, "due": due})
         return rows
 
 
@@ -142,7 +157,8 @@ def stops_from_monthly(con: duckdb.DuckDBPyConnection, path: str, month: str):
                CAST(any_value(arrival_planned_time) AS TIMESTAMP) AS planned,
                -- arrival delay; the dataset's delay_in_min prefers the departure delay, so don't use it
                max(coalesce(date_diff('minute', arrival_planned_time, arrival_change_time), 0)) AS delay_in_min,
-               bool_or(coalesce(arrival_is_canceled, false)) AS canceled
+               bool_or(coalesce(arrival_is_canceled, false)) AS canceled,
+               true AS due
         FROM read_parquet('{path}')
         WHERE train_type IN ({types}) AND arrival_planned_time IS NOT NULL AND has_plan_record
           AND arrival_planned_time >= DATE '{start}' AND arrival_planned_time < DATE '{end}'
@@ -155,8 +171,8 @@ def write_stops(rows: list[dict], out_dir: Path) -> list[str]:
     out_dir.mkdir(parents=True, exist_ok=True)
     con = duckdb.connect()
     con.execute(f"CREATE TABLE s ({STOPS_COLUMNS})")
-    cols = ["id", "eva", "station", "train_type", "train_number", "planned", "delay_in_min", "canceled"]
-    con.executemany("INSERT INTO s VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [[r[c] for c in cols] for r in rows])
+    cols = ["id", "eva", "station", "train_type", "train_number", "planned", "delay_in_min", "canceled", "due"]
+    con.executemany("INSERT INTO s VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [[r.get(c, True) for c in cols] for r in rows])
     return write_stops_relation(con, "s", out_dir)
 
 

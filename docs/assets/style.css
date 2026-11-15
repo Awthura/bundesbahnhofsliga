@@ -235,3 +235,4 @@ button.on .running { color: #fff; }
 .view-toggle { display: inline-flex; border: 2px solid var(--red); border-radius: 999px; overflow: hidden; }
 .view-toggle button { border: 0; background: var(--panel); color: var(--red); font: inherit; font-weight: 700; font-size: 13px; padding: 5px 14px; cursor: pointer; }
 .view-toggle button.on { background: var(--red); color: #fff; }
+.mk-live { margin: 6px 0 0; font-size: 12px; }

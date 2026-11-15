@@ -97,6 +97,7 @@ def do_raw_day(day: dt.date, keep_raw: bool):
     acc = ingest.ingest_raw_files([str(p) for p in paths])
     rows = [r for r in acc.stops() if r["planned"].date() == day]
     ingest.write_stops(rows, STOPS)
+    due = sum(1 for r in rows if r["due"])
     if acc.stations:
         known = json.loads(STATIONS.read_text()) if STATIONS.exists() else {}
         known.update(acc.stations)
@@ -105,7 +106,7 @@ def do_raw_day(day: dt.date, keep_raw: bool):
         for p in CACHE.glob("daily/date_*.parquet"):
             if p.name < f"date_{day}":
                 p.unlink()
-    print(f"day {day}: {len(rows)} long-distance arrivals from {len(paths)} raw files")
+    print(f"day {day}: {due} of {len(rows)} scheduled long-distance arrivals due so far, from {len(paths)} raw files")
     return True
 
 
@@ -115,7 +116,7 @@ def rebuild_points():
         return
     con = duckdb.connect()
     lst = ", ".join(f"'{f}'" for f in files)
-    new = points.daily_counts(con, f"read_parquet([{lst}])")
+    new = points.daily_counts(con, f"read_parquet([{lst}], union_by_name=true)")
     new_days = {r["day"] for r in new}
     old = []
     if POINTS_CSV.exists():  # keep days whose stops are no longer on disk (CSV is the archive)
@@ -124,9 +125,13 @@ def rebuild_points():
     rows = old + new
     rows.sort(key=lambda r: (r["day"], r["eva"]))
     with POINTS_CSV.open("w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=["day", "eva", "station", "arrivals", "punctual", "canceled", "points", "plays"])
+        w = csv.DictWriter(f, fieldnames=["day", "eva", "station", "arrivals", "punctual", "canceled", "points", "plays",
+                                          "scheduled"])
         w.writeheader()
         for r in rows:
+            r.setdefault("scheduled", r["arrivals"])   # finished days: everything scheduled is due
+            if r["scheduled"] in (None, ""):
+                r["scheduled"] = r["arrivals"]
             w.writerow({k: r[k] for k in w.fieldnames})
     print(f"daily_points.csv: {len(rows)} rows, {len({r['day'] for r in rows})} days")
 

@@ -40,7 +40,10 @@ class Data:
             arr = int(r.get("arrivals") or 0)
             pun = r.get("punctual")
             share = (int(pun) / arr) if pun not in (None, "") and arr else pts   # exact share for playoffs
-            self.by_day[day][r["eva"]] = {"points": pts, "plays": plays, "arrivals": arr, "share": share}
+            sch = r.get("scheduled")
+            self.by_day[day][r["eva"]] = {"points": pts, "plays": plays, "arrivals": arr, "share": share,
+                                          "punctual": int(pun) if pun not in (None, "") else None,
+                                          "scheduled": int(sch) if sch not in (None, "") else arr}
             self.names[r["eva"]] = r["station"]
         self.days = sorted(self.by_day)
 

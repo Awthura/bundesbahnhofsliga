@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Methodik · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=9a6ffe926d">
+<link rel="stylesheet" href="assets/style.css?v=7262ffddd4">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -30,14 +30,18 @@ Pünktlichkeitsstatistik der DB abweichen.</p>
 Bahnhöfe. Diese Liga misst bewusst, was ein Fahrgast am Bahnsteig erlebt, nicht wer eine Verspätung verursacht hat. Die
 Ursachen stehen nicht in den Daten, eine Platzierung ist also nie eine Schuldzuweisung. Denkbar ist später eine Tabelle
 "Heimleistung", die nur die am Bahnhof selbst entstandene Verspätung wertet.</p>
-<h2>Prognose für morgen</h2>
-<p>Jede Bahnhofsseite zeigt eine Prognose: Wie wahrscheinlich kommen morgen mindestens 60 % der Fernzüge dort
-pünktlich an? Das Modell ist bewusst einfach: Es nimmt die gewerteten Tage der letzten 8 Wochen, gewichtet
-jüngere Tage stärker (ein zwei Wochen alter Tag zählt halb) und den gleichen Wochentag doppelt, weil Wochenenden deutlich
-pünktlicher sind. Die Wahrscheinlichkeit ist der gewichtete Anteil der Tage über der Schwelle, leicht Richtung 50 % gezogen.
-Über alle Bahnhöfe erreicht es einen Brier-Score von etwa 0,18 (Münzwurf: 0,25; für alle die gleiche Quote: 0,24), es ist
-also nützlich, aber weit weg von sicher. Halten an einem Bahnhof gerade keine ICE/IC/EC, gibt es keine Prognose.
-Keine Wetten, kein Geld.</p>
+<h2>Prognose für heute</h2>
+<p>Jede Bahnhofsseite zeigt eine Prognose für den laufenden Tag: Wie wahrscheinlich kommen heute mindestens 60 % der
+Fernzüge dort pünktlich an? Vor dem ersten Zug stützt sie sich auf die Vorgeschichte des Bahnhofs: Jüngere Tage zählen
+mehr als ältere, und der gleiche Wochentag zählt extra, weil Wochenenden deutlich pünktlicher sind. Die Wahrscheinlichkeit
+ist der gewichtete Anteil der bisherigen Tage, die 60 % erreicht haben, leicht Richtung 50 % gezogen. Im Laufe des Tages
+fließen die schon angekommenen Züge ein ("bisher 31 von 40 pünktlich, noch etwa 60 erwartet"), und sobald das Ergebnis
+feststeht, zeigt die Karte "Entschieden".</p>
+<p>Die Einstellungen des Modells (wie weit es zurückschaut, wie schnell ältere Tage an Gewicht verlieren, wie stark der
+gleiche Wochentag zählt) werden bei jedem Update an allen bisherigen Tagen neu bestimmt, wobei jede Prognose nur Daten von
+vor ihrem Tag nutzt; aktuell: <span class="fc-model"></span>. Ein Münzwurf käme auf 0,25, für alle die gleiche Quote auf
+etwa 0,24: Die Prognose ist also nützlich, aber weit weg von sicher. Halten an einem Bahnhof gerade keine ICE/IC/EC, gibt
+es keine Prognose. Keine Wetten, kein Geld.</p>
 <h2>Prüfung</h2>
 <p>Vor jeder Veröffentlichung prüft ein unabhängiges Prüfprogramm die gesamte Historie: Es rechnet alle Tagespunkte,
 Tabellen, Mitgliedschaften, Auf- und Abstiege, Relegationen und Nachrücker aus den Rohdaten nach und erklärt jeden
@@ -66,13 +70,17 @@ so the numbers can differ slightly from DB's official punctuality statistics.</p
 This league deliberately measures what a passenger standing on the platform experiences, not who caused a delay. Delay
 causes are unknown in this data, so a ranking is never blame. A possible later addition is a "Heimleistung" table that
 scores only the delay added at the station itself.</p>
-<h2>Forecast for tomorrow</h2>
-<p>Every station page shows a forecast: how likely is it that at least 60% of long-distance trains arrive on time there tomorrow?
-The model is deliberately simple. It takes the scored days of the last 8 weeks, weights recent days more (a day two weeks
-old counts half) and the same weekday double, because weekends are clearly more punctual. The probability is the weighted
-share of days above the threshold, pulled slightly towards 50%. Across all stations it reaches a Brier score of about 0.18
-(coin flip: 0.25; the same odds for everyone: 0.24), so it is useful but far from certain. When no ICE/IC/EC trains currently
-stop at a station, there is no forecast. No betting, no money.</p>
+<h2>Forecast for today</h2>
+<p>Every station page shows a forecast for the running day: how likely is it that at least 60% of long-distance trains
+arrive on time there today? Before the first train it relies on the station's history: recent days count more than older
+ones, and the same weekday counts extra, because weekends are clearly more punctual. The probability is the weighted share
+of past days that reached 60%, pulled slightly towards 50%. During the day the trains that have already arrived are added
+in ("so far 31 of 40 on time, about 60 more expected"), and once the outcome is certain the card says "Decided".</p>
+<p>The model's settings (how far back it looks, how fast older days lose weight, how much the same weekday counts) are
+re-tuned on all past days with every update, where every forecast only uses data from before its day; currently:
+<span class="fc-model"></span>. A coin flip would score 0.25 and the same odds for every station about 0.24, so the
+forecast is useful but far from certain. When no ICE/IC/EC trains currently stop at a station, there is no forecast.
+No betting, no money.</p>
 <h2>Audit</h2>
 <p>Before every publish, an independent checker re-derives the entire history from the raw daily data: points, tables,
 memberships, promotions, relegations, deciders and gap fills, and it requires every league change to be explained. If it
@@ -85,7 +93,14 @@ table is live and will change after every scoring day; promotion and relegation 
 are our own designs. No betting, no prizes, just bragging rights.</p>
 </div>
 </main>
-<script src="assets/app.js?v=38994c3cae"></script>
-<script>chrome("about.html"); getJSON("data/meta.json").then(stamp).catch(() => {});</script>
+<script src="assets/app.js?v=a114e2f23f"></script>
+<script>chrome("about.html");
+getJSON("data/meta.json").then((m) => {
+  stamp(m);
+  const f = m.forecast_model;
+  if (f && f.tuned) document.querySelectorAll(".fc-model").forEach((el) => (el.textContent = LANG === "de"
+    ? `${f.params.window} Tage zurück, Halbwertszeit ${f.params.half_life} Tage, gleicher Wochentag zählt ${num(f.params.weekday_weight, 0)}-fach; Brier ${num(f.brier, 3)} über ${f.forecasts} Prognosen`
+    : `${f.params.window} days back, half-life ${f.params.half_life} days, same weekday counts ${num(f.params.weekday_weight, 0)}x; Brier ${num(f.brier, 3)} over ${f.forecasts} forecasts`));
+}).catch(() => {});</script>
 </body>
 </html>

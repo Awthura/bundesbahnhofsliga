@@ -19,17 +19,21 @@ def daily_counts(con, stops_sql: str) -> list[dict]:
         WITH s AS (
             SELECT id, any_value(eva) AS eva, any_value(station) AS station,
                    CAST(any_value(planned) AS DATE) AS day,
-                   max(delay_in_min) AS delay, bool_or(canceled) AS canceled
+                   max(delay_in_min) AS delay, bool_or(canceled) AS canceled,
+                   bool_and(coalesce(due, true)) AS due
             FROM {stops_sql} GROUP BY id
         )
-        SELECT eva, any_value(station) AS station, day, count(*) AS arrivals,
-               count(*) FILTER (WHERE NOT canceled AND delay < {config.PUNCTUAL_LIMIT_MIN}) AS punctual,
-               count(*) FILTER (WHERE canceled) AS canceled
+        SELECT eva, any_value(station) AS station, day,
+               count(*) FILTER (WHERE due) AS arrivals,
+               count(*) FILTER (WHERE due AND NOT canceled AND delay < {config.PUNCTUAL_LIMIT_MIN}) AS punctual,
+               count(*) FILTER (WHERE due AND canceled) AS canceled,
+               count(*) AS scheduled
         FROM s GROUP BY eva, day ORDER BY day, eva
     """).fetchall()
     out = []
-    for eva, station, day, arrivals, punctual, canceled in rows:
+    for eva, station, day, arrivals, punctual, canceled, scheduled in rows:
         pts, plays = score_day(arrivals, punctual)
         out.append({"eva": eva, "station": station, "day": day.isoformat(), "arrivals": arrivals,
-                    "punctual": punctual, "canceled": canceled, "points": pts, "plays": plays})
+                    "punctual": punctual, "canceled": canceled, "points": pts, "plays": plays,
+                    "scheduled": scheduled})
     return out

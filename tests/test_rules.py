@@ -8,12 +8,12 @@ from bbl import audit, config, forecast, ingest, league, points, stats
 def stops_con(rows):
     con = duckdb.connect()
     con.execute(f"CREATE TABLE s ({ingest.STOPS_COLUMNS})")
-    con.executemany("INSERT INTO s VALUES (?, ?, ?, ?, ?, ?, ?, ?)", rows)
+    con.executemany("INSERT INTO s VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", rows)
     return con
 
 
-def stop(i, delay=0, canceled=False, eva="1", day="2026-11-09 10:00"):
-    return [str(i), eva, "Teststadt Hbf", "ICE", str(i), dt.datetime.fromisoformat(day), delay, canceled]
+def stop(i, delay=0, canceled=False, eva="1", day="2026-11-09 10:00", due=True):
+    return [str(i), eva, "Teststadt Hbf", "ICE", str(i), dt.datetime.fromisoformat(day), delay, canceled, due]
 
 
 # --- daily points -----------------------------------------------------------
@@ -360,3 +360,38 @@ def test_national_tie_goes_to_more_traffic():
                                              "2": {"tables": [[row("hub", 0.7, 900)]]}}}
     r = stats.week_ranks(season, {})
     assert r["hub"]["rank"] == 1 and r["small"]["rank"] == 2
+
+
+def test_trains_not_yet_due_are_not_scored():
+    rows = [stop(1, 0), stop(2, 30), stop(3, 0), stop(4, 0), stop(5, 0), stop(6, 0, due=False), stop(7, 0, due=False)]
+    (r,) = points.daily_counts(stops_con(rows), "s")
+    assert (r["arrivals"], r["punctual"], r["scheduled"]) == (5, 4, 7)
+
+
+def test_raw_due_cutoff_uses_utc_fetch_time():
+    acc = ingest.RawAccumulator()
+    plan = """<timetable station='X'><s id="b-1"><tl c="ICE" n="1"/><ar pt="2611091000"/></s>
+              <s id="b-2"><tl c="ICE" n="2"/><ar pt="2611091200"/></s></timetable>"""
+    # fetched 09:30 UTC = 10:30 in Germany (CET): the 10:00 train is due, the 12:00 train is not
+    acc.add(dt.datetime(2026, 11, 9, 9, 30), "https://x/timetables/v1/plan/08000001/261109/10", "timetables/v1/plan", plan)
+    due = {r["id"]: r["due"] for r in acc.stops()}
+    assert due == {"b-1": True, "b-2": False}
+
+
+def test_live_forecast_updates_and_decides():
+    prior = {"p_yes": 0.5, "expected": 0.6}
+    hist = [{"plays": True, "arrivals": 20, "points": 0.6, "share": 0.6}] * 20
+    good = forecast.live_update(prior, hist, due=30, punctual=27, scheduled=60)   # 90% so far
+    bad = forecast.live_update(prior, hist, due=30, punctual=9, scheduled=60)     # 30% so far
+    assert good["p_yes"] > 0.5 > bad["p_yes"] and good["decided"] is None
+    assert forecast.live_update(prior, hist, due=40, punctual=36, scheduled=60)["decided"] == "yes"   # 36 >= 0.6*60
+    assert forecast.live_update(prior, hist, due=40, punctual=10, scheduled=60)["decided"] == "no"    # 10+20 < 36
+
+
+def test_tune_picks_settings_from_the_grid():
+    start = dt.date(2026, 9, 1)
+    hist = [(start + dt.timedelta(days=i), 0.8 if (start + dt.timedelta(days=i)).weekday() >= 5 else 0.4)
+            for i in range(90)]
+    t = forecast.tune([hist] * 10, min_forecasts=50)
+    assert t["tuned"] and t["params"]["window"] in forecast.GRID["window"]
+    assert t["params"]["weekday_weight"] == max(forecast.GRID["weekday_weight"])   # strong weekday pattern

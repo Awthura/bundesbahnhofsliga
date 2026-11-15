@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bahnhof · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=9a6ffe926d">
+<link rel="stylesheet" href="assets/style.css?v=7262ffddd4">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -29,7 +29,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <h3 id="hist-title"></h3>
   <div id="hist"></div>
 </main>
-<script src="assets/app.js?v=38994c3cae"></script>
+<script src="assets/app.js?v=a114e2f23f"></script>
 <script>
 chrome("");
 $("#chart-title").textContent = T.chart_title;
@@ -228,6 +228,8 @@ function renderForecast(st, width) {
           <div class="mk-no"><span>${T.no}</span><b>${no}%</b></div>
         </div>
         <div class="mk-bar" role="img" aria-label="${T.yes} ${yes}%, ${T.no} ${no}%"><i style="width:${yes}%"></i></div>
+        <p class="sub mk-live">${f.live ? (f.live.decided ? `<b>${T.fc_decided[f.live.decided]}</b>`
+          : `${T.fc_live(f.live.punctual, f.live.due, f.live.expected_total)} ${T.fc_pre(Math.round(f.prior_p_yes * 100))}`) : T.fc_waiting}</p>
       </div>
     </div>
     <svg class="mk-chart" viewBox="0 0 ${W} ${H}" style="height:${H}px" role="img" aria-label="${T.fc_legend}">${g}</svg>

@@ -28,6 +28,9 @@ def audit(res: dict, rows: list[dict], states: dict[str, str]) -> list[str]:
         a, p = int(r["arrivals"]), int(r["punctual"])
         c = int(r.get("canceled") or 0)
         plays = r["plays"] in (True, "True")
+        sch = int(r.get("scheduled") or a)
+        if sch < a:
+            err(f"{r['day']} {name(r['eva'])}: scheduled {sch} < arrivals {a}")
         if not (0 <= p <= a and 0 <= c <= a - p):
             err(f"{r['day']} {name(r['eva'])}: impossible counts arrivals={a} punctual={p} canceled={c}")
         if a and abs(float(r["points"]) - round(p / a, config.POINTS_DECIMALS)) > 1e-9:
