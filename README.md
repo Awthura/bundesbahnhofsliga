@@ -1,49 +1,75 @@
 # Bundesbahnhofsliga
 
-A Bundesliga-style league for German railway stations, ranked only on how punctually long-distance trains (ICE, IC, EC, ECE) arrive.
-Live at **https://awthura.github.io/bundesbahnhofsliga/**
+**The Bundesliga of German railway stations, decided by punctual long-distance trains.**
+A weekly league table that ranks Germany's long-distance stations by how punctually ICE, IC and EC/ECE trains
+arrive there. Live at **https://awthura.github.io/bundesbahnhofsliga/** (German and English).
 
-Each day is a scoring day. A station's points for the day are the share of its scheduled ICE/IC/EC arrivals that were
-less than 6 minutes late (cancelled counts as late), so 0.00 to 1.00. A day is only scored for a station with at least 5
-arrivals, and a station joins the league only with at least 5 arrivals on every day of the previous 28; members stay while they reach it on at least half of those days. A typical day (median) must also have at least 10 ICE/IC/EC arrivals. A season is one calendar week; the table updates after every matchday and promotion/relegation happens
-after Sunday. Like German football: the BBL and 2. BBL have 18 stations, the 3. BL 20, and below them are five
-Regionalbahnhofsligen by region (Nord, Nordost, West, Südwest, Bayern). Between national leagues 17th and 18th go down,
-1st and 2nd go up, and 16th vs 3rd is a decider settled by punctuality on Sunday. From the 3. BL places 17-20 go down;
-of the five regional champions the best 4 by weekly average go up (no regional rotation, unlike football). Full rules: [docs/rules.html](docs/rules.html).
+Independent fan project, not affiliated with Deutsche Bahn. No betting, no prizes.
+
+## How the league works
+
+- **Points per day:** the share of scheduled ICE/IC/EC arrivals that were punctual (less than 6 minutes late,
+  cancellations count as late), from 0.00 to 1.00. A day only counts with at least 5 arrivals.
+- **Membership:** to join, a station needs at least 5 arrivals on every one of the last 28 days; to stay, on at least
+  half of them. Members also need a typical (median) day with at least 10 arrivals, so quiet single-line stops stay out.
+- **Season:** one calendar week (KW). Tables are live after every day and sorted by the average (Schnitt).
+- **Pyramid:** Bundesbahnhofsliga (BBL, 18), 2. Bundesbahnhofsliga (18), 3. Bahnhofsliga (20), then five
+  Regionalbahnhofsligen (Nord, Nordost, West, Südwest, Bayern).
+- **Promotion and relegation after every Sunday:** 2 up and 2 down directly between national leagues, 16th vs 3rd decided
+  by punctuality on Sunday. Places 17 to 20 of the 3. BL go down to their own region; the best 4 of the 5 regional
+  champions go up. Gaps from stations that drop out are filled like in football (relegation spared first).
+
+Full rules with examples: [rules page](https://awthura.github.io/bundesbahnhofsliga/rules.html).
+
+## What's on the site
+
+- **Tables** per league with live daily movement, form, promotion and relegation zones, gap fills and drop-outs
+- **National ranking** of all stations per week, filterable by Bundesland
+- **Champions** history per league with most titles
+- **Station pages:** daily points, national and Bundesland rank of the last finished week, ICE/IC/EC volume, weekday
+  profile, league journey through the pyramid, records and streaks, and a forecast of whether at least 60% of trains
+  will be on time tomorrow (with its track record)
+- **Rules** and **methodology** pages
 
 ## How it works
 
 ```
 Hugging Face piebro/deutsche-bahn-data        (DB Timetables API, CC BY 4.0)
   monthly processed parquet  ─┐
-  raw hourly API dumps       ─┼─> bbl/ingest.py  -> data/stops/<day>.parquet   (one row per ICE/IC/EC arrival)
-our collector (optional)     ─┘                        │
-                                                       v
-                              bbl/points.py   -> data/daily_points.csv       (in git, the source of truth)
-                              bbl/league.py   -> weekly seasons, tables, moves, playoffs
-                              scripts/build_site.py -> docs/data/*.json -> GitHub Pages (docs/)
+  raw hourly API dumps       ─┼─> bbl/ingest.py   -> data/stops/<day>.parquet  (one row per ICE/IC/EC arrival, not in git)
+our collector (optional)     ─┘                         │
+                                                        v
+                               bbl/points.py    -> data/daily_points.csv       (in git, the source of truth)
+                               bbl/league.py    -> weekly seasons, tables, moves, deciders, gap fills
+                               bbl/audit.py     -> independent check of the whole history (no publish on any violation)
+                               bbl/forecast.py, bbl/stats.py -> station forecasts and statistics
+                               scripts/build_site.py -> docs/data/*.json -> GitHub Pages (docs/)
 ```
 
-GitHub Actions (`.github/workflows/update.yml`) runs every 3 hours: fetch new days, run tests, rebuild, commit.
-The storage server (Hetzner) is an optional archive for the per-day stops and our own collector's raw API dumps;
-see [ops/SERVER.md](ops/SERVER.md). All credentials live in GitHub Actions secrets, never in the repo.
+GitHub Actions (`.github/workflows/update.yml`) runs every 3 hours: fetch new days, run the tests, rebuild, audit,
+commit. A day becomes final after 2 days; complete months are replaced by the archive's processed monthly files.
+The rules and thresholds all live in `bbl/config.py`; changing one and rebuilding recalculates and re-audits the history.
+Crests are generated by `scripts/make_logos.py`.
+
+The Hetzner archive and our own DB API collector are prepared but optional, see [ops/SERVER.md](ops/SERVER.md).
+All credentials live in GitHub Actions secrets, never in the repo. Ideas and decisions for later are in
+[BACKLOG.md](BACKLOG.md).
 
 ## Run locally
 
 ```sh
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python -m scripts.update_data --months 2026-10      # a complete month
-.venv/bin/python -m scripts.update_data --days 2026-11-01 2026-11-14
-.venv/bin/python scripts/build_site.py
+.venv/bin/python -m scripts.update_data --days 2026-11-01 2026-11-15
+.venv/bin/python scripts/build_site.py                         # builds, audits, writes docs/data
 .venv/bin/python -m pytest -q
 cd docs && python3 -m http.server 8000                        # open http://localhost:8000
 ```
 
 Downloads go to `data/raw/` (gitignored) and are deleted after parsing unless `--keep-raw` is passed.
-Rules and thresholds are all in `bbl/config.py`. Crests are generated by `scripts/make_logos.py`.
 
 ## Data and attribution
 
-Data: Deutsche Bahn, CC BY 4.0, via [piebro/deutsche-bahn-data](https://huggingface.co/datasets/piebro/deutsche-bahn-data).
-Independent fan project, not affiliated with Deutsche Bahn. No DB logos; all crests are original.
-Rankings describe what passengers at a station experience and say nothing about who caused a delay.
+Data: Deutsche Bahn Timetables API, CC BY 4.0, via [piebro/deutsche-bahn-data](https://huggingface.co/datasets/piebro/deutsche-bahn-data).
+All crests are original designs; no DB logos. Rankings describe what passengers at a station experience and say
+nothing about who caused a delay.
