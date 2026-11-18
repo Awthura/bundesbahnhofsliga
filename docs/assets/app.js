@@ -14,7 +14,13 @@ try { if (new URLSearchParams(location.search).get("lang")) localStorage.setItem
 
 const STR = {
   de: {
-    nav: ["Home", "Tabellen", "Rangliste", "Karte", "Meister", "Regeln", "Methodik"],
+    nav: ["Home", "Tabellen", "Rangliste", "Karte", "Statistik", "Meister", "Regeln", "Methodik"],
+    ns_title: "Statistik Deutschland", ns_intro: "Wie pünktlich sind ICE, IC und EC bundesweit? Alle planmäßigen Fernverkehrsankünfte an allen Halten in Deutschland, jeder Zug zählt einmal.",
+    ns_period: ["Tag", "Woche (KW)", "Letzte 28 Tage", "Seit Beginn"],
+    ns_kpi: ["Ankünfte", "pünktlich (< 6 Min.)", "verspätet (≥ 6 Min.)", "ausgefallen", "über 1 Std. verspätet"],
+    ns_cmp: "Zeiträume im Vergleich", ns_cmp_rows: ["Diese Woche", "Letzte abgeschlossene Woche", "Letzte 28 Tage", "Seit Beginn"],
+    ns_cmp_cols: ["Zeitraum", "Ankünfte", "Pünktl.", "6–15", "16–30", "31–60", "1–2 Std.", "> 2 Std.", "Ausgef."],
+    ns_note: (a, b) => `Daten vom ${a} bis ${b} · Verspätung bei der Ankunft in ganzen Minuten. Pünktlich heißt weniger als 6 Minuten zu spät, wie bei der Deutschen Bahn; ausgefallene Ankünfte zählen hier gesondert.`,
     footer: `Fanprojekt, nicht mit der Deutschen Bahn verbunden. Daten: Deutsche Bahn Timetables API über
       <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>, CC BY 4.0.
       Die Tabellen zeigen die Pünktlichkeit, wie Fahrgäste sie am Bahnhof erleben; über die Ursache einer Verspätung sagen sie nichts.`,
@@ -127,14 +133,20 @@ const STR = {
     filled: { spared: "nachgerückt (Abstieg erlassen)", next_best: "nachgerückt (bester Platz der Liga darunter)" },
     fills_title: "Nachrücker zu Saisonbeginn", dropped_title: (n) => `Ausgeschieden: ${n} Bahnhöfe hatten an weniger als der Hälfte der letzten 28 Tage mindestens 5 ICE/IC/EC-Ankünfte`,
     hist_title: "Saisonverlauf", hist_cols: ["Saison", "Liga", "Platz", "Tage", "Schnitt"],
-    titles: { "index.html": "Bundesbahnhofsliga · Die Liga der Bahnhöfe", "tables.html": "Tabellen · Bundesbahnhofsliga", "champions.html": "Meister · Bundesbahnhofsliga", "ranking.html": "Rangliste · Bundesbahnhofsliga", "map.html": "Karte · Bundesbahnhofsliga", "rules.html": "Regeln · Bundesbahnhofsliga", "about.html": "Methodik · Bundesbahnhofsliga" },
+    titles: { "index.html": "Bundesbahnhofsliga · Die Liga der Bahnhöfe", "tables.html": "Tabellen · Bundesbahnhofsliga", "champions.html": "Meister · Bundesbahnhofsliga", "ranking.html": "Rangliste · Bundesbahnhofsliga", "map.html": "Karte · Bundesbahnhofsliga", "stats.html": "Statistik · Bundesbahnhofsliga", "rules.html": "Regeln · Bundesbahnhofsliga", "about.html": "Methodik · Bundesbahnhofsliga" },
     ch_title: "Meisterliste", ch_intro: "Wer stand am Ende der Woche ganz oben? Eine Saison ist eine Kalenderwoche.",
     ch_cols: ["Saison", "Meister", "Schnitt", "Vizemeister"], ch_live: "läuft, führt gerade", ch_promoted: "aufgestiegen",
     ch_record: "Rekordmeister", ch_titles: (n) => `${n} ${n === 1 ? "Titel" : "Titel"}`, ch_none: "Noch keine abgeschlossene Saison.",
     ch_link: "Meisterliste dieser Liga",
   },
   en: {
-    nav: ["Home", "Tables", "Ranking", "Map", "Champions", "Rules", "Methodology"],
+    nav: ["Home", "Tables", "Ranking", "Map", "Statistics", "Champions", "Rules", "Methodology"],
+    ns_title: "Germany at a glance", ns_intro: "How punctual are ICE, IC and EC trains nationwide? All scheduled long-distance arrivals at all stops in Germany, every train counted once.",
+    ns_period: ["Day", "Week", "Last 28 days", "All time"],
+    ns_kpi: ["arrivals", "on time (< 6 min)", "late (≥ 6 min)", "cancelled", "over 1 h late"],
+    ns_cmp: "Periods compared", ns_cmp_rows: ["This week", "Last finished week", "Last 28 days", "All time"],
+    ns_cmp_cols: ["Period", "Arrivals", "On time", "6–15", "16–30", "31–60", "1–2 h", "> 2 h", "Canc."],
+    ns_note: (a, b) => `Data from ${a} to ${b} · Arrival delay in whole minutes. On time means less than 6 minutes late, as at Deutsche Bahn; cancelled arrivals are counted separately here.`,
     footer: `Fan project, not affiliated with Deutsche Bahn. Data: Deutsche Bahn Timetables API via
       <a href="https://huggingface.co/datasets/piebro/deutsche-bahn-data">piebro/deutsche-bahn-data</a>, CC BY 4.0.
       Rankings describe punctuality as passengers see it at a station; they say nothing about who caused a delay.`,
@@ -247,7 +259,7 @@ const STR = {
     filled: { spared: "moved up to fill a gap (relegation spared)", next_best: "moved up to fill a gap (best place of the league below)" },
     fills_title: "Filled gaps at the start of the season", dropped_title: (n) => `Dropped out: ${n} stations had at least 5 ICE/IC/EC arrivals on fewer than half of the last 28 days`,
     hist_title: "Season history", hist_cols: ["Season", "League", "Pos", "Days", "Avg"],
-    titles: { "index.html": "Bundesbahnhofsliga · The league of railway stations", "tables.html": "Tables · Bundesbahnhofsliga", "champions.html": "Champions · Bundesbahnhofsliga", "ranking.html": "Ranking · Bundesbahnhofsliga", "map.html": "Map · Bundesbahnhofsliga", "rules.html": "Rules · Bundesbahnhofsliga", "about.html": "Methodology · Bundesbahnhofsliga" },
+    titles: { "index.html": "Bundesbahnhofsliga · The league of railway stations", "tables.html": "Tables · Bundesbahnhofsliga", "champions.html": "Champions · Bundesbahnhofsliga", "ranking.html": "Ranking · Bundesbahnhofsliga", "map.html": "Map · Bundesbahnhofsliga", "stats.html": "Statistics · Bundesbahnhofsliga", "rules.html": "Rules · Bundesbahnhofsliga", "about.html": "Methodology · Bundesbahnhofsliga" },
     ch_title: "Roll of champions", ch_intro: "Who finished the week on top? A season is one calendar week.",
     ch_cols: ["Season", "Champion", "Avg", "Runner-up"], ch_live: "live, currently leading", ch_promoted: "promoted",
     ch_record: "Most titles", ch_titles: (n) => `${n} ${n === 1 ? "title" : "titles"}`, ch_none: "No finished season yet.",
@@ -265,7 +277,7 @@ function langLink(l) {
 }
 
 function chrome(active) {
-  const pages = ["index.html", "tables.html", "ranking.html", "map.html", "champions.html", "rules.html", "about.html"];
+  const pages = ["index.html", "tables.html", "ranking.html", "map.html", "stats.html", "champions.html", "rules.html", "about.html"];
   if (T.titles[active]) document.title = T.titles[active];
   document.body.insertAdjacentHTML("afterbegin", `
     <header class="top"><div class="wrap">
@@ -285,7 +297,7 @@ function chrome(active) {
   // keep the language when following internal links
   document.querySelectorAll('a[href]').forEach((a) => {
     const h = a.getAttribute("href");
-    if (/^(index|tables|ranking|map|champions|rules|about|station)\.html/.test(h) && !/[?&]lang=/.test(h)) a.setAttribute("href", h + (h.includes("?") ? "&" : "?") + "lang=" + LANG);
+    if (/^(index|tables|ranking|map|stats|champions|rules|about|station)\.html/.test(h) && !/[?&]lang=/.test(h)) a.setAttribute("href", h + (h.includes("?") ? "&" : "?") + "lang=" + LANG);
   });
 }
 
@@ -326,6 +338,32 @@ function tableHTML(rows, zones, status) {
 
 // cancellation rate as "1,2 %" (shown only; cancellations already count as not punctual)
 const cancPct = (c, a) => (a ? `${num((100 * c) / a, 1)} %` : "–");
+
+// two donuts: all arrivals (on time / late / cancelled) and the disruptions alone (delay ranges + cancelled)
+function donut(parts, centre, label, id) {
+  const total = parts.reduce((t, p) => t + p.n, 0), R = 72, r0 = 46, c = 75;
+  const pt = (a, rad) => [c + rad * Math.sin(a), c - rad * Math.cos(a)];
+  let a = 0, g = `<defs><pattern id="h${id}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <rect width="6" height="6" fill="var(--mx-canc)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--mx-hatch)" stroke-width="2"/></pattern></defs>`;
+  for (const p of parts) {
+    if (!p.n) continue;
+    const share = p.n / total, fill = p.hatch ? `url(#h${id})` : p.col, tip = `${p.label}: ${p.n.toLocaleString(LANG)} (${num(share * 100, 1)} %)`;
+    if (share > 0.9999) {   // a full ring cannot be drawn as one arc
+      g += `<path d="M${c},${c - R}A${R},${R} 0 1 1 ${c - 0.01},${c - R}L${c - 0.01},${c - r0}A${r0},${r0} 0 1 0 ${c},${c - r0}Z" fill="${fill}"><title>${esc(tip)}</title></path>`;
+      break;
+    }
+    const b = a + share * 2 * Math.PI, big = b - a > Math.PI ? 1 : 0;
+    const [x1, y1] = pt(a, R), [x2, y2] = pt(b, R), [x3, y3] = pt(b, r0), [x4, y4] = pt(a, r0);
+    g += `<path d="M${x1},${y1}A${R},${R} 0 ${big} 1 ${x2},${y2}L${x3},${y3}A${r0},${r0} 0 ${big} 0 ${x4},${y4}Z" fill="${fill}"><title>${esc(tip)}</title></path>`;
+    a = b;
+  }
+  g += `<text x="${c}" y="${c + 2}" text-anchor="middle" font-size="20" font-weight="700" fill="var(--ink)">${total.toLocaleString(LANG)}</text>
+    <text x="${c}" y="${c + 18}" text-anchor="middle" font-size="11" fill="var(--muted)">${esc(centre)}</text>`;
+  const leg = parts.map((p) => `<li><i style="background:${p.hatch ? `repeating-linear-gradient(45deg,var(--mx-canc) 0 3px,var(--mx-hatch) 3px 5px)` : p.col}"></i>
+    <span>${esc(p.label)}</span><span class="n">${p.n.toLocaleString(LANG)}</span><span class="p">${total ? num((p.n / total) * 100, 1) : "0"} %</span></li>`).join("");
+  return `<div class="mix-card"><svg viewBox="0 0 150 150" role="img" aria-label="${esc(label)}">${g}</svg>
+    <div style="flex:1;min-width:0"><h4>${esc(label)}</h4><ul class="mix-leg">${leg}</ul></div></div>`;
+}
 
 async function stamp(meta) {
   const u = $("#updated");

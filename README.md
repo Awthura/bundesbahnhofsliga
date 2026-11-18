@@ -26,6 +26,7 @@ Full rules with examples: [rules page](https://awthura.github.io/bundesbahnhofsl
 - **Tables** per league with live daily movement, form, promotion and relegation zones, gap fills and drop-outs
 - **National ranking** of all stations per week, filterable by Bundesland
 - **Champions** history per league with most titles
+- **Statistics** page: nationwide on-time, late (by delay range) and cancelled shares with donut charts, for a day, a week, the last 28 days or all time, and a comparison of periods
 - **Map** of the 16 states coloured by punctuality relative to Germany (day, week, 4 weeks; cumulative or single day; play button), with the league stations as dots
 - **Station pages:** daily points, national and Bundesland rank of the last finished week, ICE/IC/EC volume, weekday
   profile, league journey through the pyramid, records and streaks, and a forecast of whether at least 60% of trains
