@@ -38,6 +38,16 @@ def audit(res: dict, rows: list[dict], states: dict[str, str], today=None) -> li
         if plays != (a >= config.MIN_ARRIVALS):
             err(f"{r['day']} {name(r['eva'])}: plays={plays} but arrivals={a}")
 
+    # shown cancellation counts in the tables must match the daily data
+    for s in res["seasons"]:
+        for lid, lg in s["leagues"].items():
+            for k, rows_k in enumerate(lg["tables"]):
+                days_k = [dt.date.fromisoformat(d) for d in s["matchdays"][: k + 1]]
+                for r in rows_k:
+                    c = sum(data.by_day[d].get(r["eva"], {}).get("canceled", 0) for d in days_k)
+                    if r.get("canceled") != c:
+                        err(f"{s['id']} {lid} {name(r['eva'])}: table shows {r.get('canceled')} cancellations, data has {c}")
+
     prev = None
     last_final = league.final_through(data, today)
     for s in res["seasons"]:

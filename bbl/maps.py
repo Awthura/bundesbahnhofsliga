@@ -19,19 +19,19 @@ def map_data(rows: list[dict], stations_meta: dict, members: dict[str, dict]) ->
     """rows: daily_points rows. members: eva -> {name, lat, lon, league} for the station dots."""
     days = sorted({r["day"] for r in rows})
     idx = {d: i for i, d in enumerate(days)}
-    blank = lambda: [[0, 0] for _ in days]   # noqa: E731
+    blank = lambda: [[0, 0, 0] for _ in days]   # noqa: E731   [arrivals, punctual, cancelled]
     states, national, unassigned = defaultdict(blank), blank(), blank()
     dots = {e: {**m, "d": [0] * len(days)} for e, m in members.items() if m.get("lat") is not None}
     for r in rows:
-        a, p = int(r["arrivals"]), int(r["punctual"])
+        a, p, c = int(r["arrivals"]), int(r["punctual"]), int(r.get("canceled") or 0)
         i = idx[r["day"]]
         target = states[state_of(r["eva"], stations_meta)] if state_of(r["eva"], stations_meta) else unassigned
-        target[i][0] += a
-        target[i][1] += p
-        national[i][0] += a
-        national[i][1] += p
+        for t in (target, national):
+            t[i][0] += a
+            t[i][1] += p
+            t[i][2] += c
         if r["eva"] in dots and a:
-            dots[r["eva"]]["d"][i] = [a, p]
+            dots[r["eva"]]["d"][i] = [a, p, c]
     return {"days": days, "states": dict(sorted(states.items())), "national": national,
             "unassigned": unassigned, "stations": dots}
 
@@ -40,7 +40,7 @@ def check(m: dict) -> list[str]:
     """States plus unassigned must add up exactly to the national total, every day."""
     errors = []
     for i, day in enumerate(m["days"]):
-        for k in (0, 1):
+        for k in (0, 1, 2):
             s = sum(v[i][k] for v in m["states"].values()) + m["unassigned"][i][k]
             if s != m["national"][i][k]:
                 errors.append(f"{day}: states add up to {s}, national is {m['national'][i][k]}")

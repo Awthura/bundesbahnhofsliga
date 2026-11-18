@@ -29,7 +29,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <div id="table"></div>
   <p class="sub" id="freq-note"></p>
 </main>
-<script src="assets/app.js?v=6119075df5"></script>
+<script src="assets/app.js?v=25f6be8f63"></script>
 <script>
 chrome("ranking.html");
 $("#rk-title").textContent = T.rk_title;
@@ -68,7 +68,7 @@ function render() {
   $("#table").innerHTML = `<div class="tablewrap"><table>
     <thead><tr><th>${c[0]}</th><th></th><th>${c[1]}</th><th><span class="hide-sm">${c[2]}</span></th><th class="hide-md">${c[3]}</th>
       <th class="num hide-sm">${T.rk_per_day}</th>${filtered ? `<th class="num hide-sm">${T.rk_nat}</th>` : ""}
-      <th class="num hide-sm">${c[4]}</th><th class="num">${c[5]}</th></tr></thead><tbody>
+      <th class="num hide-sm">${c[4]}</th><th class="num hide-sm" title="${esc(T.canc_tip)}">${T.col_canc}</th><th class="num">${c[5]}</th></tr></thead><tbody>
     ${shown.map((r, i) => `<tr class="${r.ranked ? "" : "unranked"}">
       <td class="rank">${filtered ? i + 1 : r.nrank}.</td><td>${trendCell(filtered
         ? (prevPos && prevPos[r.eva] ? prevPos[r.eva] - (i + 1) : null)
@@ -78,7 +78,7 @@ function render() {
         <img src="${logo(r.league)}" alt="" style="width:16px;height:19px;vertical-align:-4px"> <span class="hide-sm">${esc(s.leagues[r.league].short)}</span></a></td>
       <td class="hide-md">${esc(meta.stations[r.eva]?.state || "")}</td>
       <td class="num hide-sm">${Math.round(perDay(r.eva))}</td>${filtered ? `<td class="num hide-sm" style="color:var(--muted)">${r.nrank}.</td>` : ""}
-      <td class="num hide-sm">${r.played}</td><td class="num"><b>${num(r.avg, 3)}</b></td></tr>`).join("")}
+      <td class="num hide-sm">${r.played}</td><td class="num hide-sm" style="color:var(--muted)">${cancPct(r.canceled || 0, r.arrivals || 0)}</td><td class="num"><b>${num(r.avg, 3)}</b></td></tr>`).join("")}
     </tbody></table></div>`;
 }
 

@@ -20,7 +20,17 @@ const STR = {
       Die Tabellen zeigen die Pünktlichkeit, wie Fahrgäste sie am Bahnhof erleben; über die Ursache einer Verspätung sagen sie nichts.`,
     updated: (d, g) => `Daten bis ${d}, erstellt ${g} UTC.`,
     days: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
-    cols: ["Platz", "Bahnhof", "Tage", "Punkte", "Schnitt", "Form"],
+    cols: ["Platz", "Bahnhof", "Tage", "Punkte", "Schnitt", "Form"], col_canc: "Ausfälle",
+    canc_tip: "Anteil ausgefallener Ankünfte in dieser Woche. Ausfälle zählen in den Punkten bereits als unpünktlich; die Spalte zeigt nur, wie viele es waren.",
+    canc_note: "Ausfälle: Anteil ausgefallener ICE/IC/EC-Ankünfte. Sie zählen in den Punkten bereits als unpünktlich und werden hier nur zusätzlich gezeigt.",
+    canc_cards: [(p) => `${p} % ausgefallen (seit Beginn)`, (p) => `${p} % ausgefallen (letzte 28 Tage)`,
+      (c, a) => `diese Woche ausgefallen (${c} von ${a})`, (d, c, a) => `meiste Ausfälle: ${d} (${c} von ${a})`],
+    canc_day: (c) => `${c} ausgefallen`,
+    map_metric: ["Pünktlichkeit", "Ausfälle"],
+    map_nat_c: (pct, c, n) => `Deutschland gesamt: ${pct} % ausgefallen (${c} von ${n} Ankünften)`,
+    map_tip_c: (pct, c, n, d) => `${pct} % ausgefallen · ${c} von ${n} Ankünften · ${d} Punkte gegenüber Deutschland`,
+    map_legend_c: ["deutlich weniger Ausfälle als Deutschland", "ähnlich (± 1 Punkt)", "deutlich mehr Ausfälle", "keine Daten"],
+    map_cols_c: ["Platz", "Bundesland", "Ausgefallen", "Ankünfte", "vs. Deutschland"],
     called_off: "nicht gewertet", new_tag: "NEU", live: "LIVE",
     season_label: "Saison (KW)", to: "bis",
     season_done: "Saison beendet, Auf- und Abstieg vollzogen.",
@@ -116,7 +126,17 @@ const STR = {
       Rankings describe punctuality as passengers see it at a station; they say nothing about who caused a delay.`,
     updated: (d, g) => `Data through ${d}, built ${g} UTC.`,
     days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    cols: ["Pos", "Station", "Days", "Points", "Avg", "Form"],
+    cols: ["Pos", "Station", "Days", "Points", "Avg", "Form"], col_canc: "Cancelled",
+    canc_tip: "Share of cancelled arrivals this week. Cancellations already count as not punctual in the points; this column only shows how many there were.",
+    canc_note: "Cancelled: share of cancelled ICE/IC/EC arrivals. They already count as not punctual in the points and are only shown here as well.",
+    canc_cards: [(p) => `${p}% cancelled (all time)`, (p) => `${p}% cancelled (last 28 days)`,
+      (c, a) => `cancelled this week (${c} of ${a})`, (d, c, a) => `most cancellations: ${d} (${c} of ${a})`],
+    canc_day: (c) => `${c} cancelled`,
+    map_metric: ["Punctuality", "Cancellations"],
+    map_nat_c: (pct, c, n) => `Germany overall: ${pct}% cancelled (${c} of ${n} arrivals)`,
+    map_tip_c: (pct, c, n, d) => `${pct}% cancelled · ${c} of ${n} arrivals · ${d} points vs Germany`,
+    map_legend_c: ["clearly fewer cancellations than Germany", "similar (± 1 point)", "clearly more cancellations", "no data"],
+    map_cols_c: ["Pos", "State", "Cancelled", "Arrivals", "vs Germany"],
     called_off: "not scored", new_tag: "NEW", live: "LIVE",
     season_label: "Season (week)", to: "to",
     season_done: "Season finished, promotion and relegation applied.",
@@ -263,7 +283,7 @@ function tableHTML(rows, zones, status) {
   const n = rows.length, c = T.cols;
   return `<div class="tablewrap"><table>
     <thead><tr><th>${c[0]}</th><th></th><th>${c[1]}</th><th class="num">${c[2]}</th><th class="num hide-sm">${c[3]}</th>
-    <th class="num">${c[4]}</th><th class="hide-sm">${c[5]}</th></tr></thead><tbody>
+    <th class="num">${c[4]}</th><th class="num hide-sm" title="${esc(T.canc_tip)}">${T.col_canc}</th><th class="hide-sm">${c[5]}</th></tr></thead><tbody>
     ${rows.map((r, i) => {
       const po = (zones.po_up && i === zones.up) || (zones.po_down && i === n - zones.down - 1);
       const cls = [i < zones.up ? "up" : "", i >= n - zones.down ? "down" : "", po ? "po" : "", r.ranked ? "" : "unranked"].join(" ");
@@ -271,9 +291,13 @@ function tableHTML(rows, zones, status) {
       return `<tr class="${cls}"><td class="rank">${r.rank}.</td><td>${trendCell(r.trend)}</td>
         <td class="st"><a href="${stLink(r.eva)}">${esc(r.station)}</a>${tag}</td>
         <td class="num">${r.played}</td><td class="num hide-sm">${num(r.points)}</td><td class="num"><b>${num(r.avg, 3)}</b></td>
+        <td class="num hide-sm" style="color:var(--muted)">${cancPct(r.canceled || 0, r.arrivals || 0)}</td>
         <td class="hide-sm">${formChips(r.form)}</td></tr>`;
     }).join("")}</tbody></table></div>`;
 }
+
+// cancellation rate as "1,2 %" (shown only; cancellations already count as not punctual)
+const cancPct = (c, a) => (a ? `${num((100 * c) / a, 1)} %` : "–");
 
 async function stamp(meta) {
   const u = $("#updated");
@@ -317,8 +341,9 @@ function liveWeek(s, meta) {
 
 // single-day view: rank by one day's points; the day's arrivals = week-to-date arrivals minus the day before
 function dayRows(rows, prevRows) {
-  const before = Object.fromEntries((prevRows || []).map((r) => [r.eva, r.arrivals || 0]));
-  const out = rows.map((r) => ({ ...r, day_points: r.form[r.form.length - 1], day_arrivals: (r.arrivals || 0) - (before[r.eva] || 0) }));
+  const before = Object.fromEntries((prevRows || []).map((r) => [r.eva, [r.arrivals || 0, r.canceled || 0]]));
+  const out = rows.map((r) => ({ ...r, day_points: r.form[r.form.length - 1], day_arrivals: (r.arrivals || 0) - (before[r.eva]?.[0] || 0),
+    day_canceled: (r.canceled || 0) - (before[r.eva]?.[1] || 0) }));
   out.sort((a, b) => (a.day_points == null) - (b.day_points == null) || (b.day_points ?? 0) - (a.day_points ?? 0)
     || b.day_arrivals - a.day_arrivals || a.station.localeCompare(b.station));
   return out;
@@ -327,12 +352,13 @@ function dayRows(rows, prevRows) {
 function dayTableHTML(rows, leagueOf) {
   const c = T.day_cols;
   return `<div class="tablewrap"><table>
-    <thead><tr><th>${c[0]}</th><th>${c[1]}</th>${leagueOf ? "<th></th>" : ""}<th class="num hide-sm">${c[2]}</th><th class="num">${c[3]}</th></tr></thead><tbody>
+    <thead><tr><th>${c[0]}</th><th>${c[1]}</th>${leagueOf ? "<th></th>" : ""}<th class="num hide-sm">${c[2]}</th><th class="num hide-sm" title="${esc(T.canc_tip)}">${T.col_canc}</th><th class="num">${c[3]}</th></tr></thead><tbody>
     ${rows.map((r, i) => `<tr class="${r.day_points == null ? "unranked" : ""}">
       <td class="rank">${r.day_points == null ? "–" : i + 1 + "."}</td>
       <td class="st"><a href="${stLink(r.eva)}">${esc(r.station)}</a></td>
       ${leagueOf ? `<td><img src="${logo(leagueOf(r))}" alt="" style="width:16px;height:19px;vertical-align:-4px"></td>` : ""}
       <td class="num hide-sm">${r.day_arrivals}</td>
+      <td class="num hide-sm" style="color:var(--muted)">${r.day_canceled || 0}</td>
       <td class="num"><b>${r.day_points == null ? T.called_off : num(r.day_points)}</b></td></tr>`).join("")}
     </tbody></table></div>`;
 }

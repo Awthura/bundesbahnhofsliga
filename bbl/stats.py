@@ -64,6 +64,25 @@ def volume(daily: list[dict]) -> dict:
             "busiest": {"day": busiest["day"], "arrivals": busiest["arrivals"]}}
 
 
+def cancellations(daily: list[dict], week_days: list[str], last_day: str | None) -> dict:
+    """Cancelled arrivals of one station: overall, the last 28 days, the running week, and the worst day.
+    Shown only; the score already counts a cancelled arrival as not punctual."""
+    def rate(rows):
+        a = sum(d.get("arrivals") or 0 for d in rows)
+        c = sum(d.get("canceled") or 0 for d in rows)
+        return {"canceled": c, "arrivals": a, "rate": round(c / a, 4) if a else None}
+    days = [d for d in daily if d.get("arrivals")]
+    recent = []
+    if last_day:
+        import datetime as _dt
+        start = (_dt.date.fromisoformat(last_day) - _dt.timedelta(days=27)).isoformat()
+        recent = [d for d in days if d["day"] >= start]
+    worst = max(days, key=lambda d: (d.get("canceled") or 0, d["day"]), default=None)
+    return {"all": rate(days), "last28": rate(recent), "week": rate([d for d in days if d["day"] in set(week_days)]),
+            "worst": {"day": worst["day"], "canceled": worst["canceled"], "arrivals": worst["arrivals"]}
+            if worst and worst.get("canceled") else None}
+
+
 def national_ranks(averages: dict[str, float | None], states: dict[str, str | None]) -> dict[str, dict]:
     """Rank of every current member by overall average, nationally and within its Bundesland."""
     ranked = sorted((e for e, a in averages.items() if a is not None), key=lambda e: -averages[e])

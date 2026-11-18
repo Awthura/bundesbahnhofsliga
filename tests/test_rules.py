@@ -404,9 +404,9 @@ def test_map_states_add_up_to_national():
             {"day": "2026-11-10", "eva": "a", "arrivals": "8", "punctual": "8"}]
     meta = {"a": {"state": "Bayern"}, "b": {"state": "Bayern"}}
     m = maps.map_data(rows, meta, {"a": {"name": "A", "lat": 48.1, "lon": 11.5, "league": "1"}})
-    assert m["states"]["Bayern"] == [[30, 11], [8, 8]] and m["unassigned"] == [[4, 4], [0, 0]]
-    assert m["national"] == [[34, 15], [8, 8]] and maps.check(m) == []
-    assert m["stations"]["a"]["d"] == [[10, 6], [8, 8]]
+    assert m["states"]["Bayern"] == [[30, 11, 0], [8, 8, 0]] and m["unassigned"] == [[4, 4, 0], [0, 0, 0]]
+    assert m["national"] == [[34, 15, 0], [8, 8, 0]] and maps.check(m) == []
+    assert m["stations"]["a"]["d"] == [[10, 6, 0], [8, 8, 0]]
     m["national"][0][0] += 1
     assert maps.check(m)                                                            # a mismatch is caught
 
@@ -425,3 +425,13 @@ def test_finished_days_follow_the_calendar():
     data = league.Data([row("2026-11-16", 10, 10), row("2026-11-17", 6, 10)])
     assert league.final_through(data, wed) == dt.date(2026, 11, 16)
     assert league.final_through(data, dt.date(2026, 11, 19)) == dt.date(2026, 11, 17)
+
+
+def test_cancellations_are_shown_but_do_not_change_points():
+    rows = [{"day": "2026-11-16", "eva": "a", "station": "A", "arrivals": "40", "punctual": "29", "canceled": "3",
+             "points": "0.73", "plays": "True", "scheduled": "40"}]
+    d = league.Data(rows)
+    t = league.table(["a"], d, [dt.date(2026, 11, 16)], None)[0]
+    assert t["canceled"] == 3 and t["avg"] == 0.73          # 3 cancelled count as not punctual, nothing extra
+    c = stats.cancellations([{"day": "2026-11-16", "arrivals": 40, "canceled": 3}], ["2026-11-16"], "2026-11-16")
+    assert c["week"] == {"canceled": 3, "arrivals": 40, "rate": 0.075} and c["worst"]["canceled"] == 3
