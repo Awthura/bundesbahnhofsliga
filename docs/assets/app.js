@@ -15,7 +15,7 @@ try { if (new URLSearchParams(location.search).get("lang")) localStorage.setItem
 const STR = {
   de: {
     nav: ["Home", "Tabellen", "Rangliste", "Karte", "Statistik", "Meister", "Regeln", "Methodik"],
-    ns_title: "Statistik Deutschland", ns_intro: "Wie pünktlich sind ICE, IC und EC bundesweit? Alle planmäßigen Fernverkehrsankünfte an allen Halten in Deutschland, jeder Zug zählt einmal.",
+    ns_title: "Statistik Deutschland", ns_title_land: (s) => `Statistik ${s}`, ns_all: "Ganz Deutschland", ns_intro: "Wie pünktlich sind ICE, IC und EC bundesweit oder in einem Bundesland? Alle planmäßigen Fernverkehrsankünfte an allen Halten, jeder Zug zählt einmal.",
     ns_period: ["Tag", "Woche (KW)", "Letzte 28 Tage", "Seit Beginn"],
     ns_kpi: ["Ankünfte", "pünktlich (< 6 Min.)", "verspätet (≥ 6 Min.)", "ausgefallen", "über 1 Std. verspätet"],
     ns_cmp: "Zeiträume im Vergleich", ns_cmp_rows: ["Diese Woche", "Letzte abgeschlossene Woche", "Letzte 28 Tage", "Seit Beginn"],
@@ -141,7 +141,7 @@ const STR = {
   },
   en: {
     nav: ["Home", "Tables", "Ranking", "Map", "Statistics", "Champions", "Rules", "Methodology"],
-    ns_title: "Germany at a glance", ns_intro: "How punctual are ICE, IC and EC trains nationwide? All scheduled long-distance arrivals at all stops in Germany, every train counted once.",
+    ns_title: "Germany at a glance", ns_title_land: (s) => `${s} at a glance`, ns_all: "All of Germany", ns_intro: "How punctual are ICE, IC and EC trains nationwide or in one state? All scheduled long-distance arrivals at all stops, every train counted once.",
     ns_period: ["Day", "Week", "Last 28 days", "All time"],
     ns_kpi: ["arrivals", "on time (< 6 min)", "late (≥ 6 min)", "cancelled", "over 1 h late"],
     ns_cmp: "Periods compared", ns_cmp_rows: ["This week", "Last finished week", "Last 28 days", "All time"],
