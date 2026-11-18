@@ -130,20 +130,44 @@ def _sort_by(evas, score, names):
     return sorted(evas, key=lambda e: (-score.get(e, -1), names.get(e, e)))
 
 
-def final_through(data: Data) -> dt.date | None:
-    """Last day whose data is complete. The newest day in the data may still be running (it is
-    collected through the day, and late updates arrive with the next day's files), so a day only
-    counts as finished once data for a later day exists."""
-    return data.days[-1] - dt.timedelta(days=1) if data.days else None
+def berlin_today() -> dt.date:
+    from zoneinfo import ZoneInfo
+    return dt.datetime.now(ZoneInfo("Europe/Berlin")).date()
 
 
-def run(rows, states: dict[str, str] | None = None) -> dict:
+def day_finished(data: Data, day: dt.date, today: dt.date) -> bool:
+    """A day is finished once it is over (by the calendar, not by which data happens to exist) and every
+    scheduled arrival of it is in the data. Two days later it counts as finished in any case, so a gap
+    in the data source can't hold a week open forever."""
+    if day >= today:
+        return False
+    if day <= today - dt.timedelta(days=2):
+        return True
+    rows = data.by_day.get(day, {}).values()
+    return bool(rows) and sum(r["scheduled"] for r in rows) == sum(r["arrivals"] for r in rows)
+
+
+def final_through(data: Data, today: dt.date | None = None) -> dt.date | None:
+    """Last day through which all data is final. `today` is the calendar day in Berlin; without it the newest
+    day in the data counts as today (used by the tests)."""
+    if not data.days:
+        return None
+    today = today or data.days[-1]
+    last = None
+    for d in data.days:
+        if not day_finished(data, d, today):
+            break
+        last = d
+    return last if last is not None else data.days[0] - dt.timedelta(days=1)
+
+
+def run(rows, states: dict[str, str] | None = None, today: dt.date | None = None) -> dict:
     """states: eva -> Bundesland, used to place stations in their Regionalbahnhofsliga."""
     data = Data(rows)
     states = states or {}
     if not data.days:
         return {"seasons": [], "names": {}, "data": data, "leagues": {}}
-    done_through = final_through(data)
+    done_through = final_through(data, today)
     nat = config.NATIONAL_TIERS
     sizes = {str(t): config.league_size(t) for t in range(1, nat + 1)}
     nat_ids = [str(t) for t in range(1, nat + 1)]

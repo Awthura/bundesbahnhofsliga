@@ -26,7 +26,8 @@ const STR = {
     season_done: "Saison beendet, Auf- und Abstieg vollzogen.",
     season_live: (n) => `Wertungstag ${n} von 7. Auf- und Abstieg nach dem Sonntag.`,
     sub: (n, id, day) => `${n} Bahnhöfe · Saison ${id} · Tabelle nach ${day}`,
-    matchday: "Wertungstag", running: "läuft",
+    matchday: "Wertungstag", running: "läuft", pending: "Daten folgen",
+    no_data_today: "Für heute liegen noch keine Daten vor. Die Datenquelle veröffentlicht ihre Dateien etwa zweimal am Tag (gegen 2 und 14 Uhr).",
     view_week: "Woche", view_day: "Nur dieser Tag", day_cols: ["Platz", "Bahnhof", "Ankünfte", "Tagespunkte"],
     day_note: (d) => `Nur ${d}: Rangfolge nach den Punkten dieses einen Tages (Anteil pünktlicher Ankünfte). Bei Gleichstand zählen mehr Ankünfte. Auf- und Abstieg entscheidet die ganze Woche.`,
     leader_top: "Tabellenführer", leader: "Spitzenreiter", lantern: "Rote Laterne", day_winner: (d) => `Tagessieger ${d}`,
@@ -45,7 +46,7 @@ const STR = {
     load_error: (m) => `Daten konnten nicht geladen werden (${m}).`,
     fc_title: "Prognose für heute (live)",
     fc_live: (k, m, n) => `Bisher ${k} von ${m} fälligen Ankünften pünktlich (${Math.round(100 * k / m)} %), heute insgesamt etwa ${n} erwartet. Die Prognose wird mit jedem Update angepasst.`,
-    fc_pre: (p) => `Vor Tagesbeginn: ${p} % Ja.`, fc_waiting: "Noch kein Zug fällig: Prognose aus der Vorgeschichte.",
+    fc_pre: (p) => `Vor Tagesbeginn: ${p} % Ja.`, fc_waiting: "Noch keine Daten für heute: Prognose aus der Vorgeschichte. Die Datenquelle veröffentlicht etwa um 2 und 14 Uhr.",
     fc_decided: { yes: "Entschieden: Ja. Die 60 % sind heute schon sicher.", no: "Entschieden: Nein. 60 % sind heute nicht mehr erreichbar." },
     fc_q: (n, d, t) => `Kommen am ${d} mindestens ${t} % der Fernzüge in ${n} pünktlich an?`,
     yes: "Ja", no: "Nein",
@@ -121,7 +122,8 @@ const STR = {
     season_done: "Season finished, promotion and relegation applied.",
     season_live: (n) => `Scoring day ${n} of 7. Promotion and relegation after Sunday.`,
     sub: (n, id, day) => `${n} stations · season ${id} · table after ${day}`,
-    matchday: "Scoring day", running: "in progress",
+    matchday: "Scoring day", running: "in progress", pending: "data pending",
+    no_data_today: "There is no data for today yet. The data source publishes its files about twice a day (around 2 am and 2 pm German time).",
     view_week: "Week", view_day: "This day only", day_cols: ["Pos", "Station", "Arrivals", "Day points"],
     day_note: (d) => `${d} only: ranked by this single day's points (share of punctual arrivals). On a tie, more arrivals win. Promotion and relegation are decided by the whole week.`,
     leader_top: "Top of the league", leader: "League leader", lantern: "Red lantern", day_winner: (d) => `Day winner ${d}`,
@@ -140,7 +142,7 @@ const STR = {
     load_error: (m) => `Could not load data (${m}).`,
     fc_title: "Forecast for today (live)",
     fc_live: (k, m, n) => `So far ${k} of ${m} due arrivals on time (${Math.round(100 * k / m)}%), about ${n} expected today in total. The forecast is updated with every update.`,
-    fc_pre: (p) => `Before the day started: ${p}% Yes.`, fc_waiting: "No train due yet: forecast from the station's history.",
+    fc_pre: (p) => `Before the day started: ${p}% Yes.`, fc_waiting: "No data for today yet: forecast from the station's history. The data source publishes around 2 am and 2 pm German time.",
     fc_decided: { yes: "Decided: Yes. The 60% are already certain today.", no: "Decided: No. 60% can no longer be reached today." },
     fc_q: (n, d, t) => `Will at least ${t}% of long-distance trains arrive on time at ${n} on ${d}?`,
     yes: "Yes", no: "No",
@@ -301,8 +303,17 @@ function fold(t) {
     .replace(/ae/g, "a").replace(/oe/g, "o").replace(/ue/g, "u").replace(/[^a-z0-9]+/g, " ").trim();
 }
 
-// label for a day button; the newest day in the data is still being collected
-const dayButton = (d, i, lastDay) => `${i + 1} · ${dayLabel(d)}${d === lastDay ? ` <span class="running">· ${T.running}</span>` : ""}`;
+// label for a day button: "in progress" only for today (Berlin), "data pending" for a past day not yet complete
+const dayButton = (d, i, meta) => `${i + 1} · ${dayLabel(d)}${d === meta.running ? ` <span class="running">· ${T.running}</span>`
+  : (meta.pending || []).includes(d) ? ` <span class="running">· ${T.pending}</span>` : ""}`;
+
+// live week: which scoring day it is by the calendar, and a note when today has no data yet
+function liveWeek(s, meta) {
+  const inWeek = meta.today >= s.start && meta.today <= s.end;
+  const n = inWeek ? Math.round((Date.parse(meta.today) - Date.parse(s.start)) / 864e5) + 1 : s.matchdays.length;
+  const note = inWeek && !meta.running ? T.no_data_today : "";
+  return { n, note };
+}
 
 // single-day view: rank by one day's points; the day's arrivals = week-to-date arrivals minus the day before
 function dayRows(rows, prevRows) {

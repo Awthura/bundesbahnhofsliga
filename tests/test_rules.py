@@ -409,3 +409,19 @@ def test_map_states_add_up_to_national():
     assert m["stations"]["a"]["d"] == [[10, 6], [8, 8]]
     m["national"][0][0] += 1
     assert maps.check(m)                                                            # a mismatch is caught
+
+
+def test_finished_days_follow_the_calendar():
+    def row(day, arr, sched):
+        return {"day": day, "eva": "a", "station": "A", "arrivals": str(arr), "punctual": "5", "points": "0.5",
+                "plays": "True", "scheduled": str(sched)}
+    data = league.Data([row("2026-11-16", 10, 10), row("2026-11-17", 10, 10)])
+    wed = dt.date(2026, 11, 18)
+    # Tuesday is over and fully collected: finished, even though there is no data for Wednesday yet
+    assert league.final_through(data, wed) == dt.date(2026, 11, 17)
+    # on Tuesday itself it is still running
+    assert league.final_through(data, dt.date(2026, 11, 17)) == dt.date(2026, 11, 16)
+    # a past day with trains still missing is pending, until two days later
+    data = league.Data([row("2026-11-16", 10, 10), row("2026-11-17", 6, 10)])
+    assert league.final_through(data, wed) == dt.date(2026, 11, 16)
+    assert league.final_through(data, dt.date(2026, 11, 19)) == dt.date(2026, 11, 17)

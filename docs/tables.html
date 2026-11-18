@@ -28,7 +28,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <h2 id="moves-title"></h2>
   <div id="moves" class="moves"></div>
 </main>
-<script src="assets/app.js?v=5f9eadd17e"></script>
+<script src="assets/app.js?v=6119075df5"></script>
 <script>
 chrome("tables.html");
 $("#tagline").textContent = T.tagline;
@@ -56,7 +56,7 @@ async function loadSeason(id) {
   const s = state.data;
   $("#season-state").innerHTML = s.complete
     ? T.season_done
-    : `<b style="color:var(--red)">${T.live}</b>: ${T.season_live(s.matchdays.length)}`;
+    : `<b style="color:var(--red)">${T.live}</b>: ${T.season_live(liveWeek(s, state.meta).n)} ${liveWeek(s, state.meta).note}`;
   const lids = s.league_order;
   if (!lids.includes(state.league)) state.league = params.get("liga") && lids.includes(params.get("liga")) ? params.get("liga") : lids[0];
   $("#tabs").innerHTML = lids.map((l) => {
@@ -77,7 +77,7 @@ function render() {
   $("#lg-name").textContent = lg.name;
   $("#lg-sub").innerHTML = `${esc(T.sub(rows.length, s.id, dayLabel(s.matchdays[state.md])))} · <a href="champions.html?liga=${lid}&lang=${LANG}">${T.ch_link}</a> · <a href="ranking.html?season=${s.id}&lang=${LANG}">${T.rk_link}</a>`;
   $("#matchdays").innerHTML = `${T.matchday}: ` + s.matchdays.map((d, i) =>
-    `<button class="${i === state.md ? "on" : ""}" data-i="${i}">${dayButton(d, i, state.meta.last_day)}</button>`).join("");
+    `<button class="${i === state.md ? "on" : ""}" data-i="${i}">${dayButton(d, i, state.meta)}</button>`).join("");
   $("#matchdays").querySelectorAll("button[data-i]").forEach((b) => (b.onclick = () => { state.md = +b.dataset.i; render(); }));
   revealActive($("#matchdays"));
   $("#view").innerHTML = viewToggle(state);

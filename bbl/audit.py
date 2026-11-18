@@ -11,7 +11,7 @@ import math
 from . import config, league
 
 
-def audit(res: dict, rows: list[dict], states: dict[str, str]) -> list[str]:
+def audit(res: dict, rows: list[dict], states: dict[str, str], today=None) -> list[str]:
     errors: list[str] = []
     err = errors.append
     data: league.Data = res["data"]
@@ -39,7 +39,7 @@ def audit(res: dict, rows: list[dict], states: dict[str, str]) -> list[str]:
             err(f"{r['day']} {name(r['eva'])}: plays={plays} but arrivals={a}")
 
     prev = None
-    last_final = league.final_through(data)
+    last_final = league.final_through(data, today)
     for s in res["seasons"]:
         sid = s["id"]
         # a week may only be closed (moves, deciders, champion) once its Sunday is completely collected

@@ -35,7 +35,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <div id="table"></div>
   <p class="sub" id="note"></p>
 </main>
-<script src="assets/app.js?v=5f9eadd17e"></script>
+<script src="assets/app.js?v=6119075df5"></script>
 <script>
 chrome("map.html");
 $("#t").textContent = T.map_title; $("#intro").textContent = T.map_intro; $("#dots-l").textContent = T.map_dots; $("#note").textContent = T.map_note;
@@ -73,7 +73,7 @@ const pct = (x) => (x == null ? "-" : num(x * 100, 1));
     $("#week").style.display = S.period === 1 ? "" : "none";
     if (+sl.value !== S.i) sl.value = S.i;
     const first = days[r.pick[0]], lastPick = days[r.pick[r.pick.length - 1]];
-    $("#when").textContent = T.map_range(dayLabel(first), dayLabel(lastPick)) + (r.pick.includes(last) ? ` · ${T.running}` : "");
+    $("#when").textContent = T.map_range(dayLabel(first), dayLabel(lastPick)) + (r.pick.some((k) => days[k] === M.running) ? ` · ${T.running}` : r.pick.some((k) => (M.pending || []).includes(days[k])) ? ` · ${T.pending}` : "");
     const n = sum(M.national, r.pick), nat = n[0] ? n[1] / n[0] : null;
     $("#nat").textContent = T.map_nat(pct(nat), n[0].toLocaleString(LANG));
     const rows = geo.states.map((g) => { const v = sum(M.states[g.name] || [], r.pick); return { g, a: v[0], share: v[0] ? v[1] / v[0] : null }; });

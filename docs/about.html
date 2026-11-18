@@ -53,7 +53,7 @@ Natural Earth (gemeinfrei).</p>
 Tabellen, Mitgliedschaften, Auf- und Abstiege, Relegationen und Nachrücker aus den Rohdaten nach und erklärt jeden
 Ligawechsel. Findet es auch nur einen Widerspruch, wird nichts veröffentlicht.</p>
 <h2>Aktualisierung</h2>
-<p>Die Seite wird automatisch per GitHub Actions neu gebaut, alle drei Stunden. Die Tabelle der laufenden Woche ist live
+<p>Die Seite wird automatisch per GitHub Actions neu gebaut; neue Daten werden stündlich abgefragt. Die Datenquelle veröffentlicht ihre Dateien etwa zweimal am Tag (gegen 2 und 14 Uhr), deshalb springen die Live-Tabellen in diesen Schritten. Die Tabelle der laufenden Woche ist live
 und ändert sich nach jedem Wertungstag; Auf- und Abstieg gibt es nach dem Sonntag.</p>
 <h2>Keine Verbindung zur DB</h2>
 <p>Dies ist ein unabhängiges Fanprojekt, nicht verbunden mit der Deutschen Bahn AG und nicht von ihr unterstützt. Alle
@@ -97,14 +97,14 @@ The dots on the map are the league stations, coloured by the same rule. Base map
 memberships, promotions, relegations, deciders and gap fills, and it requires every league change to be explained. If it
 finds a single contradiction, nothing is published.</p>
 <h2>Updates</h2>
-<p>The site is rebuilt automatically by GitHub Actions every three hours. The current week's
+<p>The site is rebuilt automatically by GitHub Actions, which checks for new data every hour. The data source publishes its files about twice a day (around 2 am and 2 pm German time), so the live tables move in those steps. The current week's
 table is live and will change after every scoring day; promotion and relegation are applied after Sunday.</p>
 <h2>Not affiliated</h2>
 <p>This is an independent fan project. It is not affiliated with or endorsed by Deutsche Bahn AG. All crests on this site
 are our own designs. No betting, no prizes, just bragging rights.</p>
 </div>
 </main>
-<script src="assets/app.js?v=5f9eadd17e"></script>
+<script src="assets/app.js?v=6119075df5"></script>
 <script>chrome("about.html");
 getJSON("data/meta.json").then((m) => {
   stamp(m);

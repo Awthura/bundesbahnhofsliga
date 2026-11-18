@@ -4,6 +4,7 @@ from __future__ import annotations
 import csv
 import datetime as dt
 import json
+import os
 import shutil
 import statistics
 import sys
@@ -45,8 +46,11 @@ def main():
     if sp.exists():
         stations_meta = json.loads(sp.read_text())
     states = {e: v.get("state") for e, v in stations_meta.items()}
-    res = league.run(rows, states)
-    problems = audit.audit(res, rows, states)
+    # the calendar day in Berlin decides what is "today"; the newest day in the data may be older, because the
+    # archive uploads its files only about twice a day (BBL_TODAY=YYYY-MM-DD overrides it for testing)
+    today = dt.date.fromisoformat(os.environ["BBL_TODAY"]) if os.environ.get("BBL_TODAY") else league.berlin_today()
+    res = league.run(rows, states, today=today)
+    problems = audit.audit(res, rows, states, today=today)
     if problems:   # never publish a history that breaks the rules
         print(f"AUDIT FAILED: {len(problems)} violations", file=sys.stderr)
         for p in problems[:50]:
@@ -112,9 +116,16 @@ def main():
             r["change"] = prev_ranks[e]["rank"] - r["rank"]          # positive = moved up
             r["state_change"] = prev_ranks[e]["state_rank"] - r["state_rank"] if prev_ranks[e].get("state") == r.get("state") else None
     # forecast settings re-tuned on all past days (every forecast only uses data before its day)
-    running = data.days[-1]
+    done_through = league.final_through(data, today)
+    # data completeness: warn about finished days with far fewer arrivals than the days around them
+    totals = {d: sum(r["arrivals"] for r in data.by_day[d].values()) for d in data.days}
+    for d in data.days:
+        near = sorted(totals[x] for x in data.days if x != d and abs((x - d).days) <= 7)
+        if d <= done_through and near and totals[d] < 0.8 * near[len(near) // 2]:
+            print(f"DATA WARNING: {d} has {totals[d]} arrivals, usual about {near[len(near) // 2]}", file=sys.stderr)
+    running = today          # the forecast is always about the calendar day, with or without data for it yet
     fc_model = forecast.tune([[(dt.date.fromisoformat(d["day"]), d["points"]) for d in full_daily[e]
-                               if d["plays"] and d["points"] is not None and d["day"] < running.isoformat()]
+                               if d["plays"] and d["points"] is not None and d["day"] <= done_through.isoformat()]
                               for e in members])
     print(f"forecast model: {fc_model}")
     for eva in members:
@@ -123,14 +134,16 @@ def main():
         best = max(played, key=lambda x: x["points"], default=None)
         worst = min(played, key=lambda x: x["points"], default=None)
         m = stations_meta.get(eva, {})
-        fc = forecast.station_forecast(daily, data.days[-1], params=fc_model["params"])
+        # forecast for today; days that are over but not complete yet don't count as outcomes
+        fc = forecast.station_forecast([d for d in daily if d["day"] <= done_through.isoformat() or d["day"] == today.isoformat()],
+                                       today, params=fc_model["params"])
         dump(OUT / "stations" / f"{eva}.json", {
             "forecast": fc,
             "eva": eva, "name": data.names[eva], "state": config.STATE_OVERRIDES.get(eva) or m.get("state"), "lat": m.get("lat"), "lon": m.get("lon"),
             "daily": daily[-120:], "best": best, "worst": worst, "history": history[eva],
             "stats": {"overall_avg": stats.overall_average(daily), "national": ranks.get(eva),
-                      # the running day is still open, so it does not count for streaks yet
-                      "streaks": stats.streaks([d for d in daily if d["day"] < running.isoformat()]),
+                      # only finished days count for streaks
+                      "streaks": stats.streaks([d for d in daily if d["day"] <= done_through.isoformat()]),
                       "weekdays": stats.weekday_profile(daily),
                       "records": stats.records(history[eva]), "volume": stats.volume(daily)}})
 
@@ -148,6 +161,10 @@ def main():
     dump(OUT / "meta.json", {
         "generated": dt.datetime.now(dt.timezone.utc).isoformat(timespec="minutes"),
         "last_day": data.days[-1].isoformat() if data.days else None,
+        # today (Berlin); running = today if there is data for it; pending = past days whose data is not complete yet
+        "today": today.isoformat(), "final_through": done_through.isoformat(),
+        "running": today.isoformat() if today in data.by_day else None,
+        "pending": [d.isoformat() for d in data.days if done_through < d < today],
         "leagues": list(res["leagues"].values()), "seasons": index, "latest": latest["id"] if latest else None,
         "stations": {eva: {"name": data.names[eva], "league": current.get(eva),
                            "state": config.STATE_OVERRIDES.get(eva) or stations_meta.get(eva, {}).get("state"),
@@ -174,6 +191,8 @@ def main():
         sys.exit(1)
     md["seasons"] = [{k: x[k] for k in ("id", "start", "end", "complete")} for x in index]
     md["last_day"] = data.days[-1].isoformat()
+    md["running"] = today.isoformat() if today in data.by_day else None
+    md["pending"] = [d.isoformat() for d in data.days if done_through < d < today]
     dump(OUT / "map.json", md)
 
     # sanity check: every station page must have all its statistics (a missing key once emptied a chart silently)

@@ -65,12 +65,16 @@ def available_months():
     return [m for m in months if m >= config.HF_FIRST_MONTH]
 
 
-def raw_day_files(day: dt.date):
+def raw_day_listing(day: dt.date) -> list[list]:
     try:
         files = _get_json(f"{HF_API}/raw_data/year={day.year}/month={day.month}/day={day.day}")
     except Exception:
         return []
-    return [f["path"] for f in files if f["path"].endswith(".parquet")]
+    return sorted([f["path"], f.get("size")] for f in files if f["path"].endswith(".parquet"))
+
+
+def raw_day_files(day: dt.date):
+    return [p for p, _ in raw_day_listing(day)]
 
 
 def do_month(month: str, keep_raw: bool):
@@ -89,7 +93,10 @@ def do_raw_day(day: dt.date, keep_raw: bool):
     paths = []
     for d in (day, day + dt.timedelta(days=1)):
         for p in raw_day_files(d):
-            paths.append(_download(f"{HF_RESOLVE}/{p}", CACHE / "daily" / Path(p).name))
+            # the archive files hours by upload batch, and the same file name can appear in two day folders
+            # with different contents (e.g. an evening split across two uploads): keep the folder in the name
+            folder = Path(p).parent.name.replace("=", "")
+            paths.append(_download(f"{HF_RESOLVE}/{p}", CACHE / "daily" / f"{Path(p).stem}__{folder}.parquet"))
         paths += [Path(p) for p in glob.glob(str(DATA / "collector" / f"{d}_*.parquet"))]
     if not paths:
         print(f"day {day}: no raw data")
@@ -110,8 +117,10 @@ def do_raw_day(day: dt.date, keep_raw: bool):
     return True
 
 
-def rebuild_points():
-    files = sorted(STOPS.glob("*.parquet"))
+def rebuild_points(days=None):
+    """Recompute daily points from the stop files of `days` (the days fetched in this run); all other days are
+    kept from daily_points.csv, so a leftover stop file from an earlier, partial fetch can never overwrite them."""
+    files = sorted(f for f in STOPS.glob("*.parquet") if days is None or f.stem in set(days))
     if not files:
         return
     con = duckdb.connect()
@@ -146,7 +155,8 @@ def main(argv=None):
     src = load_sources()
     today = dt.date.today()
 
-    if a.months is None and a.days is None:   # auto mode
+    auto = a.months is None and a.days is None
+    if auto:
         avail = available_months()
         a.months = [m for m in avail if m not in src["months"]][: a.max_months]
         last_month = max(avail + src["months"]) if (avail or src["months"]) else None
@@ -163,13 +173,29 @@ def main(argv=None):
         do_month(m, a.keep_raw)
         src["months"] = sorted(set(src["months"]) | {m})
         SOURCES.write_text(json.dumps(src, indent=1))
+    listing = src.setdefault("listing", {})
+    fetched = []
     for d in a.days or []:
         day = dt.date.fromisoformat(d)
+        # skip a day whose source files (its folder and the next day's) have not changed since the last fetch
+        sig = json.dumps([raw_day_listing(day), raw_day_listing(day + dt.timedelta(days=1))])
+        if auto and d in src["days"] and listing.get(d) == sig:
+            src["days"][d] = day <= today - dt.timedelta(days=2)
+            print(f"day {day}: source unchanged")
+            continue
         if do_raw_day(day, a.keep_raw):
+            listing[d] = sig
+            fetched.append(d)
             # a day is final once the next day's dump exists in full (2 days later to be safe)
             src["days"][d] = day <= today - dt.timedelta(days=2)
             SOURCES.write_text(json.dumps(src, indent=1))
-    rebuild_points()
+    rebuild_points(fetched + [str(day) for m in (a.months or []) for day in _month_days(m)])
+
+
+def _month_days(month: str):
+    first = dt.date.fromisoformat(month + "-01")
+    nxt = (first.replace(day=28) + dt.timedelta(days=4)).replace(day=1)
+    return [first + dt.timedelta(days=i) for i in range((nxt - first).days)]
 
 
 if __name__ == "__main__":

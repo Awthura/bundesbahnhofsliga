@@ -63,7 +63,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <div class="steps" id="steps"></div>
   <p><a id="rules-link" href="rules.html"></a></p>
 </main>
-<script src="assets/app.js?v=5f9eadd17e"></script>
+<script src="assets/app.js?v=6119075df5"></script>
 <script>
 chrome("index.html");
 const $$ = (id, txt) => ($(id).textContent = txt);
@@ -79,7 +79,7 @@ $("#steps").innerHTML = T.home_steps.map(([n, h, t]) => `<div class="card step">
   stamp(meta);
   const s = await getJSON(`data/season/${meta.latest}.json`);
   const k = s.matchdays.length - 1;
-  $$("#live", s.complete ? T.home_done(s.id) : T.home_live(s.id, s.matchdays.length));
+  $$("#live", s.complete ? T.home_done(s.id) : T.home_live(s.id, liveWeek(s, meta).n));
 
   // league tables card: the three national leagues
   // all leagues, each straight to its table: national ones big, the five regional ones smaller
