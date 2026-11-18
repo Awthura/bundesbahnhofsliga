@@ -15,6 +15,7 @@ try { if (new URLSearchParams(location.search).get("lang")) localStorage.setItem
 const STR = {
   de: {
     nav: ["Home", "Tabellen", "Rangliste", "Karte", "Statistik", "Meister", "Regeln", "Methodik"],
+    home_nat: "Deutschland: Wie pünktlich sind die Fernzüge?", home_nat_link: "Alle Statistiken, auch nach Bundesland",
     ns_title: "Statistik Deutschland", ns_title_land: (s) => `Statistik ${s}`, ns_all: "Ganz Deutschland", ns_intro: "Wie pünktlich sind ICE, IC und EC bundesweit oder in einem Bundesland? Alle planmäßigen Fernverkehrsankünfte an allen Halten, jeder Zug zählt einmal.",
     ns_period: ["Tag", "Woche (KW)", "Letzte 28 Tage", "Seit Beginn"],
     ns_kpi: ["Ankünfte", "pünktlich (< 6 Min.)", "verspätet (≥ 6 Min.)", "ausgefallen", "über 1 Std. verspätet"],
@@ -141,6 +142,7 @@ const STR = {
   },
   en: {
     nav: ["Home", "Tables", "Ranking", "Map", "Statistics", "Champions", "Rules", "Methodology"],
+    home_nat: "Germany: how punctual are long-distance trains?", home_nat_link: "All statistics, also by state",
     ns_title: "Germany at a glance", ns_title_land: (s) => `${s} at a glance`, ns_all: "All of Germany", ns_intro: "How punctual are ICE, IC and EC trains nationwide or in one state? All scheduled long-distance arrivals at all stops, every train counted once.",
     ns_period: ["Day", "Week", "Last 28 days", "All time"],
     ns_kpi: ["arrivals", "on time (< 6 min)", "late (≥ 6 min)", "cancelled", "over 1 h late"],

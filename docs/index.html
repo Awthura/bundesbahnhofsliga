@@ -14,7 +14,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=3d279d046a">
+<link rel="stylesheet" href="assets/style.css?v=af3c884c76">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 <script>(function(){var p=new URLSearchParams(location.search);if(p.has("liga")||p.has("season")){location.replace("tables.html"+location.search);}})();</script>
@@ -31,13 +31,17 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
     </div>
   </section>
 
-  <section class="home-grid">
-    <div class="card home-card" id="card-tables">
-      <h2 id="t-tables"></h2><p class="sub" id="t-tables-sub"></p>
-      <div class="crest-row" id="crests"></div>
-      <div class="crest-label" id="regional"></div>
-      <div class="crest-row small" id="crests-rl"></div>
+  <section class="home-stats">
+    <div class="home-stats-head">
+      <div><h2 id="t-nat"></h2><p class="sub" id="t-nat-sub"></p></div>
+      <span class="view-toggle" id="nat-period"></span>
     </div>
+    <div class="kpis" id="nat-kpis"></div>
+    <div class="mix" id="nat-mix"></div>
+    <p><a id="nat-link" href="stats.html"></a></p>
+  </section>
+
+  <section class="home-grid">
     <div class="card home-card" id="card-ranking">
       <h2 id="t-ranking"></h2><p class="sub" id="t-ranking-sub"></p>
       <div class="podium-label" id="top-label"></div>
@@ -54,6 +58,12 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
       </div>
       <p class="popular" id="popular"></p>
     </div>
+    <div class="card home-card" id="card-tables">
+      <h2 id="t-tables"></h2><p class="sub" id="t-tables-sub"></p>
+      <div class="crest-row" id="crests"></div>
+      <div class="crest-label" id="regional"></div>
+      <div class="crest-row small" id="crests-rl"></div>
+    </div>
   </section>
 
   <h2 id="t-week"></h2>
@@ -63,7 +73,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <div class="steps" id="steps"></div>
   <p><a id="rules-link" href="rules.html"></a></p>
 </main>
-<script src="assets/app.js?v=287587216c"></script>
+<script src="assets/app.js?v=398156ceba"></script>
 <script>
 chrome("index.html");
 const $$ = (id, txt) => ($(id).textContent = txt);
@@ -74,9 +84,33 @@ $$("#t-search", T.home_search); $("#q").placeholder = T.home_search_ph;
 $$("#t-week", T.home_week); $$("#t-how", T.home_how); $$("#rules-link", T.home_rules + " →");
 $("#steps").innerHTML = T.home_steps.map(([n, h, t]) => `<div class="card step"><b class="step-n">${n}</b><h3>${h}</h3><p class="sub">${t}</p></div>`).join("");
 
+// nationwide rings: all ICE/IC/EC arrivals in Germany, from the map's national day sums
+async function renderNational(meta) {
+  const M = await getJSON("data/map.json"), days = M.days;
+  const cur = M.seasons[M.seasons.length - 1];
+  const sets = [days.map((d, k) => k).filter((k) => days[k] >= cur.start && days[k] <= cur.end), days.map((_, k) => k).slice(-28), days.map((_, k) => k)];
+  const pc = (x, a) => (a ? num((100 * x) / a, 1) : "–");
+  $$("#t-nat", T.home_nat); $("#nat-link").textContent = T.home_nat_link + " →"; $("#nat-link").href = `stats.html?lang=${LANG}`;
+  const draw = (i) => {
+    const ks = sets[i], v = ks.reduce((t, k) => t.map((x, j) => x + (M.national[k][j] || 0)), [0, 0, 0, 0, 0, 0, 0, 0]);
+    const [a, p, c] = v, late = v[3] + v[4] + v[5] + v[6] + v[7];
+    const run = ks.some((k) => days[k] === M.running) ? ` · ${T.running}` : "";
+    $$("#t-nat-sub", T.map_range(dayLabel(days[ks[0]]), dayLabel(days[ks[ks.length - 1]])) + run + ` · ${a.toLocaleString(LANG)} ${T.mix_center[0]}`);
+    $("#nat-kpis").innerHTML = [[pc(p, a) + " %", T.ns_kpi[1]], [pc(late, a) + " %", T.ns_kpi[2]], [pc(c, a) + " %", T.ns_kpi[3]], [pc(v[6] + v[7], a) + " %", T.ns_kpi[4]]]
+      .map(([x, l]) => `<div class="kpi"><b>${x}</b><span>${l}</span></div>`).join("");
+    const all = [{ label: T.mix_cats[0], n: p, col: "var(--mx-ok)" }, { label: T.mix_cats[1], n: late, col: "var(--mx-late)" }, { label: T.mix_cats[2], n: c, hatch: true }];
+    const dis = [3, 4, 5, 6, 7].map((j, n) => ({ label: T.mix_bins[n], n: v[j], col: `var(--mx-b${n + 1})` })).concat([{ label: T.mix_bins[5], n: c, hatch: true }]);
+    $("#nat-mix").innerHTML = donut(all, T.mix_center[0], T.mix_all, "ha") + donut(dis, T.mix_center[1], T.mix_dis, "hd");
+    $("#nat-period").innerHTML = T.mix_periods.map((l, n) => `<button class="${n === i ? "on" : ""}" data-k="${n}">${l}</button>`).join("");
+    $("#nat-period").querySelectorAll("button").forEach((b) => (b.onclick = () => draw(+b.dataset.k)));
+  };
+  draw(0);
+}
+
 (async () => {
   const meta = await getJSON("data/meta.json");
   stamp(meta);
+  renderNational(meta);
   const s = await getJSON(`data/season/${meta.latest}.json`);
   const k = s.matchdays.length - 1;
   $$("#live", s.complete ? T.home_done(s.id) : T.home_live(s.id, liveWeek(s, meta).n));
@@ -99,8 +133,6 @@ $("#steps").innerHTML = T.home_steps.map(([n, h, t]) => `<div class="card step">
 
   // this week: BBL leader, biggest climber since the day before, day winner nationwide
   const items = [];
-  const bbl = s.leagues["1"]?.tables[k]?.find((r) => r.ranked);
-  if (bbl) items.push([T.home_leader, `<a href="${stLink(bbl.eva)}">${esc(bbl.station)}</a> (${num(bbl.avg, 3)})`]);
   if (k > 0) {
     const before = Object.fromEntries(nationalTable(s, k - 1).map((r) => [r.eva, r.nrank]));
     const up = nat.filter((r) => before[r.eva]).map((r) => [r, before[r.eva] - r.nrank]).sort((a, b) => b[1] - a[1])[0];
