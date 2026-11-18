@@ -11106,7 +11106,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays,scheduled
 2026-11-17,08000039,Bingen(Rhein) Hbf,4,2,0,0.5,False,4
 2026-11-17,08000041,Bochum Hbf,82,27,11,0.33,True,82
 2026-11-17,08000044,Bonn Hbf,36,12,3,0.33,True,36
-2026-11-17,08000049,Braunschweig Hbf,65,5,40,0.08,True,65
+2026-11-17,08000049,Braunschweig Hbf,65,5,34,0.08,True,65
 2026-11-17,08000050,Bremen Hbf,64,26,1,0.41,True,64
 2026-11-17,08000055,Bruchsal,26,20,2,0.77,True,26
 2026-11-17,08000057,Buchloe,14,5,0,0.36,True,14
@@ -11119,7 +11119,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays,scheduled
 2026-11-17,08000073,Singen(Hohentwiel),33,23,0,0.7,True,33
 2026-11-17,08000076,Soest,5,1,1,0.2,True,5
 2026-11-17,08000078,Donauwörth,18,7,0,0.39,True,18
-2026-11-17,08000080,Dortmund Hbf,103,22,11,0.21,True,103
+2026-11-17,08000080,Dortmund Hbf,103,22,10,0.21,True,103
 2026-11-17,08000082,Düsseldorf Flughafen,36,14,9,0.39,True,36
 2026-11-17,08000085,Düsseldorf Hbf,149,59,17,0.4,True,149
 2026-11-17,08000086,Duisburg Hbf,133,55,18,0.41,True,133
@@ -11157,7 +11157,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays,scheduled
 2026-11-17,08000177,Horb,33,14,0,0.42,True,33
 2026-11-17,08000183,Ingolstadt Hbf,40,13,1,0.33,True,40
 2026-11-17,08000189,Kaiserslautern Hbf,11,8,0,0.73,True,11
-2026-11-17,08000191,Karlsruhe Hbf,91,44,2,0.48,True,91
+2026-11-17,08000191,Karlsruhe Hbf,91,44,3,0.48,True,91
 2026-11-17,08000192,Herne-Wanne-Eickel Hbf,12,3,0,0.25,True,12
 2026-11-17,08000196,Warburg(Westf),4,1,0,0.25,False,4
 2026-11-17,08000197,Kempten(Allgäu)Hbf,1,0,0,0.0,False,1
@@ -11292,7 +11292,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays,scheduled
 2026-11-17,08010205,Leipzig Hbf,89,51,1,0.57,True,89
 2026-11-17,08010216,Ludwigslust,26,9,0,0.35,True,26
 2026-11-17,08010222,Lutherstadt Wittenberg Hbf,43,19,1,0.44,True,43
-2026-11-17,08010224,Magdeburg Hbf,58,8,37,0.14,True,58
+2026-11-17,08010224,Magdeburg Hbf,58,8,33,0.14,True,58
 2026-11-17,08010240,Naumburg(Saale)Hbf,6,4,0,0.67,True,6
 2026-11-17,08010268,Pasewalk,8,6,0,0.75,True,8
 2026-11-17,08010282,Prenzlau,6,5,0,0.83,True,6
@@ -11319,7 +11319,7 @@ day,eva,station,arrivals,punctual,canceled,points,plays,scheduled
 2026-11-17,08011201,Flughafen BER,12,8,0,0.67,True,12
 2026-11-17,08011956,Jena Paradies,6,4,0,0.67,True,6
 2026-11-17,08012183,Leipzig/Halle Flughafen,17,12,0,0.71,True,17
-2026-11-17,08012666,Potsdam Hbf,27,0,27,0.0,True,27
+2026-11-17,08012666,Potsdam Hbf,27,1,21,0.04,True,27
 2026-11-17,08012763,Ribnitz-Damgarten West,10,6,0,0.6,True,10
 2026-11-17,08013236,Warnemünde,1,0,1,0.0,False,1
 2026-11-17,08013493,Niesky,4,4,0,1.0,False,4
@@ -11329,3 +11329,232 @@ day,eva,station,arrivals,punctual,canceled,points,plays,scheduled
 2026-11-17,08098160,Berlin Hbf,152,50,12,0.33,True,152
 2026-11-17,08098261,München Hbf Gl.27-36,8,6,0,0.75,True,8
 2026-11-17,08098262,München Hbf Gl.5-10,5,4,0,0.8,True,5
+2026-11-18,08000001,Aachen Hbf,9,3,0,0.33,True,10
+2026-11-18,08000002,Aalen Hbf,8,4,0,0.5,True,9
+2026-11-18,08000004,Altenbeken,2,1,0,0.5,False,2
+2026-11-18,08000009,Ansbach,8,3,0,0.38,True,10
+2026-11-18,08000013,Augsburg Hbf,57,41,1,0.72,True,66
+2026-11-18,08000020,Bad Hersfeld,7,0,0,0.0,True,8
+2026-11-18,08000025,Bamberg,17,11,1,0.65,True,19
+2026-11-18,08000031,Bensheim,13,9,3,0.69,True,16
+2026-11-18,08000036,Bielefeld Hbf,30,3,1,0.1,True,34
+2026-11-18,08000039,Bingen(Rhein) Hbf,2,1,0,0.5,False,2
+2026-11-18,08000041,Bochum Hbf,39,22,1,0.56,True,43
+2026-11-18,08000044,Bonn Hbf,16,5,1,0.31,True,19
+2026-11-18,08000049,Braunschweig Hbf,30,7,1,0.23,True,34
+2026-11-18,08000050,Bremen Hbf,29,13,0,0.45,True,34
+2026-11-18,08000055,Bruchsal,12,7,3,0.58,True,13
+2026-11-18,08000057,Buchloe,7,4,0,0.57,True,8
+2026-11-18,08000058,Büchen,7,6,0,0.86,True,9
+2026-11-18,08000059,Bünde(Westf),4,1,0,0.25,False,4
+2026-11-18,08000064,Celle,11,1,0,0.09,True,12
+2026-11-18,08000067,Crailsheim,8,4,0,0.5,True,9
+2026-11-18,08000068,Darmstadt Hbf,15,10,3,0.67,True,18
+2026-11-18,08000070,Delmenhorst,9,5,0,0.56,True,11
+2026-11-18,08000073,Singen(Hohentwiel),15,8,0,0.53,True,17
+2026-11-18,08000076,Soest,2,1,0,0.5,False,2
+2026-11-18,08000078,Donauwörth,9,4,1,0.44,True,11
+2026-11-18,08000080,Dortmund Hbf,43,16,2,0.37,True,50
+2026-11-18,08000082,Düsseldorf Flughafen,16,10,1,0.62,True,19
+2026-11-18,08000085,Düsseldorf Hbf,71,28,3,0.39,True,81
+2026-11-18,08000086,Duisburg Hbf,63,25,5,0.4,True,73
+2026-11-18,08000087,Solingen Hbf,14,3,3,0.21,True,15
+2026-11-18,08000096,Stuttgart Hbf,62,34,4,0.55,True,75
+2026-11-18,08000098,Essen Hbf,53,23,4,0.43,True,61
+2026-11-18,08000101,Eutingen im Gäu,2,1,0,0.5,False,2
+2026-11-18,08000103,Flensburg,4,3,0,0.75,False,5
+2026-11-18,08000105,Frankfurt(Main)Hbf,64,19,2,0.3,True,78
+2026-11-18,08000107,Freiburg(Breisgau) Hbf,28,13,1,0.46,True,32
+2026-11-18,08000108,Freilassing,4,1,0,0.25,False,6
+2026-11-18,08000111,Friedberg(Hess),1,1,0,1.0,False,1
+2026-11-18,08000112,Friedrichshafen Stadt,1,1,0,1.0,False,1
+2026-11-18,08000115,Fulda,45,9,4,0.2,True,53
+2026-11-18,08000116,Traunstein,5,2,0,0.4,True,7
+2026-11-18,08000118,Gelsenkirchen Hbf,9,2,0,0.22,True,12
+2026-11-18,08000122,Treuchtlingen,4,1,1,0.25,False,4
+2026-11-18,08000124,Gießen,5,1,0,0.2,True,5
+2026-11-18,08000128,Göttingen,43,5,0,0.12,True,52
+2026-11-18,08000129,Treysa,5,1,0,0.2,True,5
+2026-11-18,08000139,Günzburg,12,10,0,0.83,True,13
+2026-11-18,08000142,Hagen Hbf,29,2,3,0.07,True,35
+2026-11-18,08000147,Hamburg-Harburg,47,24,3,0.51,True,56
+2026-11-18,08000149,Hamm(Westf)Hbf,24,5,0,0.21,True,28
+2026-11-18,08000150,Hanau Hbf,26,8,1,0.31,True,29
+2026-11-18,08000152,Hannover Hbf,72,12,0,0.17,True,82
+2026-11-18,08000156,Heidelberg Hbf,27,17,5,0.63,True,30
+2026-11-18,08000159,Helmstedt,1,0,0,0.0,False,1
+2026-11-18,08000162,Herford,2,0,1,0.0,False,2
+2026-11-18,08000163,Tuttlingen,14,6,0,0.43,True,18
+2026-11-18,08000168,Uelzen,13,6,0,0.46,True,14
+2026-11-18,08000169,Hildesheim Hbf,7,1,1,0.14,True,8
+2026-11-18,08000170,Ulm Hbf,40,32,0,0.8,True,47
+2026-11-18,08000176,Homburg(Saar)Hbf,2,2,0,1.0,False,2
+2026-11-18,08000177,Horb,15,3,0,0.2,True,18
+2026-11-18,08000183,Ingolstadt Hbf,18,9,0,0.5,True,20
+2026-11-18,08000189,Kaiserslautern Hbf,4,3,0,0.75,False,4
+2026-11-18,08000191,Karlsruhe Hbf,39,20,1,0.51,True,47
+2026-11-18,08000192,Herne-Wanne-Eickel Hbf,6,1,0,0.17,True,7
+2026-11-18,08000196,Warburg(Westf),2,0,0,0.0,False,2
+2026-11-18,08000197,Kempten(Allgäu)Hbf,1,1,0,1.0,False,1
+2026-11-18,08000199,Kiel Hbf,3,0,2,0.0,False,3
+2026-11-18,08000206,Koblenz Hbf,15,6,1,0.4,True,18
+2026-11-18,08000207,Köln Hbf,52,16,3,0.31,True,61
+2026-11-18,08000225,Leer(Ostfriesl),10,7,1,0.7,True,12
+2026-11-18,08000228,Lichtenfels,3,3,0,1.0,False,3
+2026-11-18,08000236,Ludwigshafen(Rh)Hbf,1,1,0,1.0,False,1
+2026-11-18,08000238,Lüneburg,21,10,0,0.48,True,24
+2026-11-18,08000240,Mainz Hbf,20,10,1,0.5,True,22
+2026-11-18,08000244,Mannheim Hbf,75,37,2,0.49,True,85
+2026-11-18,08000249,Memmingen,7,4,0,0.57,True,9
+2026-11-18,08000250,Wiesbaden Hbf,5,2,1,0.4,True,5
+2026-11-18,08000252,Minden(Westf),10,3,1,0.3,True,11
+2026-11-18,08000257,Worms Hbf,1,1,0,1.0,False,1
+2026-11-18,08000260,Würzburg Hbf,33,11,0,0.33,True,37
+2026-11-18,08000261,München Hbf,29,13,0,0.45,True,33
+2026-11-18,08000262,München Ost,6,5,0,0.83,True,9
+2026-11-18,08000263,Münster(Westf)Hbf,27,6,0,0.22,True,32
+2026-11-18,08000266,Wuppertal Hbf,29,6,3,0.21,True,34
+2026-11-18,08000271,Neumünster,8,2,3,0.25,True,9
+2026-11-18,08000275,Neustadt(Weinstr)Hbf,2,2,0,1.0,False,2
+2026-11-18,08000279,Nienburg(Weser),8,4,0,0.5,True,9
+2026-11-18,08000284,Nürnberg Hbf,42,14,1,0.33,True,50
+2026-11-18,08000286,Oberhausen Hbf,14,3,0,0.21,True,16
+2026-11-18,08000290,Offenburg,21,12,0,0.57,True,24
+2026-11-18,08000291,Oldenburg(Oldb)Hbf,4,1,0,0.25,False,5
+2026-11-18,08000294,Osnabrück Hbf,24,10,0,0.42,True,28
+2026-11-18,08000297,Paderborn Hbf,2,1,0,0.5,False,2
+2026-11-18,08000299,Pforzheim Hbf,7,5,0,0.71,True,8
+2026-11-18,08000307,Recklinghausen Hbf,9,2,0,0.22,True,13
+2026-11-18,08000310,Remagen,1,0,0,0.0,False,1
+2026-11-18,08000316,Rheine,12,9,0,0.75,True,15
+2026-11-18,08000320,Rosenheim,8,6,0,0.75,True,10
+2026-11-18,08000322,Rottweil,14,5,0,0.36,True,17
+2026-11-18,08000323,Saarbrücken Hbf,2,1,0,0.5,False,3
+2026-11-18,08000329,Schwäbisch Gmünd,8,4,0,0.5,True,9
+2026-11-18,08000331,Andernach,1,0,0,0.0,False,1
+2026-11-18,08000337,Marburg(Lahn),5,2,0,0.4,True,5
+2026-11-18,08000339,Mühlacker,7,6,0,0.86,True,8
+2026-11-18,08000368,Wabern(Bz Kassel),5,0,0,0.0,True,5
+2026-11-18,08000377,Weinheim(Bergstr)Hbf,15,11,3,0.73,True,17
+2026-11-18,08000522,Hude,8,4,0,0.5,True,10
+2026-11-18,08000667,Montabaur,14,12,0,0.86,True,15
+2026-11-18,08000732,Bad Oeynhausen,1,0,1,0.0,False,1
+2026-11-18,08000774,Baden-Baden,13,7,0,0.54,True,14
+2026-11-18,08000800,Norden,10,6,1,0.6,True,12
+2026-11-18,08000879,Bad Bentheim,6,4,0,0.67,True,8
+2026-11-18,08000880,Radolfzell,1,1,0,1.0,False,1
+2026-11-18,08000943,Biberach(Riß),1,1,0,1.0,False,1
+2026-11-18,08001055,Böblingen,16,8,0,0.5,True,18
+2026-11-18,08001080,Bondorf(b Herrenberg),8,2,0,0.25,True,10
+2026-11-18,08001338,Coburg,4,3,0,0.75,False,4
+2026-11-18,08001443,Diepholz,3,1,0,0.33,False,3
+2026-11-18,08001751,Ellwangen,8,5,0,0.62,True,9
+2026-11-18,08001768,Emden Hbf,10,8,1,0.8,True,13
+2026-11-18,08001773,Emmerich,3,0,0,0.0,False,4
+2026-11-18,08001790,Engen,8,4,0,0.5,True,9
+2026-11-18,08001833,Ergenzingen,1,1,0,1.0,False,1
+2026-11-18,08001844,Erlangen,12,8,1,0.67,True,13
+2026-11-18,08001920,Esslingen(Neckar),1,0,0,0.0,False,1
+2026-11-18,08002041,Frankfurt(Main)Süd,17,5,4,0.29,True,19
+2026-11-18,08002166,Gäufelden,8,2,0,0.25,True,10
+2026-11-18,08002461,Gütersloh Hbf,1,0,1,0.0,False,1
+2026-11-18,08002548,Hamburg Dammtor,27,14,0,0.52,True,30
+2026-11-18,08002549,Hamburg Hbf,65,33,1,0.51,True,76
+2026-11-18,08002553,Hamburg-Altona,15,3,0,0.2,True,18
+2026-11-18,08002554,Hamburg-Bergedorf,9,7,0,0.78,True,11
+2026-11-18,08002785,Herrenberg,9,2,0,0.22,True,11
+2026-11-18,08003184,Karlsruhe-Durlach,1,0,1,0.0,False,1
+2026-11-18,08003200,Kassel-Wilhelmshöhe,43,9,0,0.21,True,50
+2026-11-18,08003218,Kehl,1,1,0,1.0,False,1
+2026-11-18,08003330,Köln/Bonn Flughafen,3,3,0,1.0,False,3
+2026-11-18,08003368,Köln Messe/Deutz,1,1,0,1.0,False,1
+2026-11-18,08003446,Kronach,2,2,0,1.0,False,2
+2026-11-18,08003515,Landstuhl,1,1,0,1.0,False,1
+2026-11-18,08003680,Limburg Süd,14,11,0,0.79,True,15
+2026-11-18,08003693,Lindau-Reutin,7,4,0,0.57,True,8
+2026-11-18,08003701,Lingen(Ems),5,3,0,0.6,True,7
+2026-11-18,08003770,Ludwigsstadt,2,2,0,1.0,False,2
+2026-11-18,08003866,Marienhafe,7,4,1,0.57,True,8
+2026-11-18,08003978,Meppen,6,5,0,0.83,True,7
+2026-11-18,08004124,Müllheim im Markgräflerland,2,2,0,1.0,False,2
+2026-11-18,08004158,München-Pasing,36,25,2,0.69,True,41
+2026-11-18,08004449,Norddeich,9,7,1,0.78,True,11
+2026-11-18,08004563,Oberndorf(Neckar),10,2,0,0.2,True,11
+2026-11-18,08004689,Osnabrück Altstadt,4,4,0,1.0,False,5
+2026-11-18,08004751,Papenburg(Ems),6,5,0,0.83,True,7
+2026-11-18,08004885,Prien am Chiemsee,0,0,0,,False,1
+2026-11-18,08004965,Ravensburg,1,1,0,1.0,False,1
+2026-11-18,08005101,Ringsheim/Europa-Park,1,1,0,1.0,False,1
+2026-11-18,08005362,Schleswig,2,0,1,0.0,False,2
+2026-11-18,08005424,Schorndorf,2,1,0,0.5,False,2
+2026-11-18,08005556,Siegburg/Bonn,28,18,0,0.64,True,33
+2026-11-18,08005609,Sonthofen,1,0,0,0.0,False,1
+2026-11-18,08005616,Spaichingen,9,3,0,0.33,True,10
+2026-11-18,08005776,Stuttgart-Vaihingen,1,0,0,0.0,False,1
+2026-11-18,08005791,Sulz(Neckar),10,3,0,0.3,True,11
+2026-11-18,08006053,Vaihingen(Enz),13,9,2,0.69,True,16
+2026-11-18,08006076,Verden(Aller),8,5,0,0.62,True,9
+2026-11-18,08006272,Weil am Rhein,1,1,0,1.0,False,1
+2026-11-18,08006421,Wiesloch-Walldorf,5,2,2,0.4,True,6
+2026-11-18,08006730,Neu-Ulm,1,1,0,1.0,False,1
+2026-11-18,08007768,Norddeich Mole,3,2,0,0.67,False,3
+2026-11-18,08010018,Bad Kleinen,3,2,0,0.67,False,4
+2026-11-18,08010022,Bad Schandau,1,1,0,1.0,False,1
+2026-11-18,08010033,Bergen auf Rügen,5,4,0,0.8,True,8
+2026-11-18,08010036,Berlin-Lichtenberg,13,8,0,0.62,True,16
+2026-11-18,08010050,Bitterfeld,10,3,3,0.3,True,11
+2026-11-18,08010060,Brandenburg Hbf,2,0,0,0.0,False,2
+2026-11-18,08010066,Bützow,8,6,0,0.75,True,10
+2026-11-18,08010085,Dresden Hbf,8,6,1,0.75,True,11
+2026-11-18,08010089,Dresden-Neustadt,23,18,1,0.78,True,26
+2026-11-18,08010093,Eberswalde Hbf,5,5,0,1.0,True,6
+2026-11-18,08010097,Eisenach Hbf,15,5,0,0.33,True,18
+2026-11-18,08010099,Elsterwerda,8,5,0,0.62,True,10
+2026-11-18,08010101,Erfurt Hbf,55,17,3,0.31,True,64
+2026-11-18,08010113,Frankfurt(Oder),11,6,0,0.55,True,14
+2026-11-18,08010133,Jena-Göschwitz,3,3,0,1.0,False,3
+2026-11-18,08010136,Gotha,8,3,0,0.38,True,9
+2026-11-18,08010139,Greifswald,5,5,0,1.0,True,6
+2026-11-18,08010159,Halle(Saale)Hbf,39,13,3,0.33,True,45
+2026-11-18,08010177,Hoyerswerda,2,1,0,0.5,False,2
+2026-11-18,08010195,Köthen,11,5,1,0.45,True,12
+2026-11-18,08010205,Leipzig Hbf,35,15,1,0.43,True,42
+2026-11-18,08010216,Ludwigslust,13,10,0,0.77,True,14
+2026-11-18,08010222,Lutherstadt Wittenberg Hbf,18,8,5,0.44,True,22
+2026-11-18,08010224,Magdeburg Hbf,29,9,0,0.31,True,32
+2026-11-18,08010240,Naumburg(Saale)Hbf,3,3,0,1.0,False,3
+2026-11-18,08010268,Pasewalk,4,4,0,1.0,False,5
+2026-11-18,08010282,Prenzlau,2,2,0,1.0,False,3
+2026-11-18,08010297,Riesa,13,10,0,0.77,True,14
+2026-11-18,08010304,Rostock Hbf,7,6,0,0.86,True,10
+2026-11-18,08010306,Rudolstadt(Thür),2,2,0,1.0,False,2
+2026-11-18,08010308,Ruhland,2,1,0,0.5,False,2
+2026-11-18,08010309,Saalfeld(Saale),3,3,0,1.0,False,3
+2026-11-18,08010310,Salzwedel,1,1,0,1.0,False,1
+2026-11-18,08010324,Schwerin Hbf,12,10,0,0.83,True,16
+2026-11-18,08010334,Stendal Hbf,3,1,0,0.33,False,3
+2026-11-18,08010338,Stralsund Hbf,6,6,0,1.0,True,9
+2026-11-18,08010355,Velgast,5,5,0,1.0,True,6
+2026-11-18,08010368,Weißenfels,1,1,0,1.0,False,1
+2026-11-18,08010382,Wittenberge,12,6,0,0.5,True,14
+2026-11-18,08010396,Züssow,5,5,0,1.0,True,6
+2026-11-18,08010404,Berlin-Spandau,20,11,0,0.55,True,22
+2026-11-18,08010405,Berlin-Wannsee,1,0,0,0.0,False,1
+2026-11-18,08011044,Anklam,3,2,0,0.67,False,4
+2026-11-18,08011102,Berlin Gesundbrunnen,19,12,2,0.63,True,23
+2026-11-18,08011113,Berlin Südkreuz,41,18,1,0.44,True,47
+2026-11-18,08011162,Berlin Ostkreuz,7,7,0,1.0,True,8
+2026-11-18,08011191,Ostseebad Binz,2,2,0,1.0,False,4
+2026-11-18,08011201,Flughafen BER,7,4,0,0.57,True,8
+2026-11-18,08011956,Jena Paradies,3,3,0,1.0,False,3
+2026-11-18,08012183,Leipzig/Halle Flughafen,8,6,1,0.75,True,9
+2026-11-18,08012666,Potsdam Hbf,11,5,0,0.45,True,13
+2026-11-18,08012763,Ribnitz-Damgarten West,5,5,0,1.0,True,6
+2026-11-18,08013236,Warnemünde,1,0,0,0.0,False,1
+2026-11-18,08013493,Niesky,2,1,0,0.5,False,2
+2026-11-18,08070003,Frankfurt(M) Flughafen Fernbf,82,48,4,0.59,True,97
+2026-11-18,08070004,Frankfurt(M) Flughafen Regionalbf,1,0,1,0.0,False,1
+2026-11-18,08073368,Köln Messe/Deutz Gl.11-12,30,13,1,0.43,True,36
+2026-11-18,08098160,Berlin Hbf,64,32,2,0.5,True,72
+2026-11-18,08098261,München Hbf Gl.27-36,3,1,0,0.33,False,3
+2026-11-18,08098262,München Hbf Gl.5-10,3,3,0,1.0,False,4
