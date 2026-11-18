@@ -28,6 +28,9 @@ def season_id(start: dt.date) -> str:
     return f"{y}-KW{w:02d}"
 
 
+DELAY_BINS = ("d6_15", "d16_30", "d31_60", "d61_120", "d121p")
+
+
 class Data:
     def __init__(self, rows):
         self.by_day: dict[dt.date, dict[str, dict]] = defaultdict(dict)
@@ -44,6 +47,9 @@ class Data:
             self.by_day[day][r["eva"]] = {"points": pts, "plays": plays, "arrivals": arr, "share": share,
                                           "punctual": int(pun) if pun not in (None, "") else None,
                                           "canceled": int(r.get("canceled") or 0),
+                                          # late arrivals by delay range; None for days without the breakdown
+                                          **{k: (int(r[k]) if r.get(k) not in (None, "") else None)
+                                             for k in DELAY_BINS},
                                           "scheduled": int(sch) if sch not in (None, "") else arr}
             self.names[r["eva"]] = r["station"]
         self.days = sorted(self.by_day)

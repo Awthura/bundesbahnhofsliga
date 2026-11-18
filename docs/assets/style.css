@@ -11,11 +11,16 @@
   --up-soft: #e6f4ea;
   --down-soft: #fde8e8;
   --po-soft: #fff4d6;
+  /* delay charts (validated: colour-blind separation and contrast, light and dark) */
+  --mx-ok: #1f7a3a; --mx-late: #e39b1b; --mx-canc: #5f6670; --mx-hatch: rgba(255,255,255,.55);
+  --mx-b1: #e98a93; --mx-b2: #dc5a68; --mx-b3: #c8102e; --mx-b4: #960c22; --mx-b5: #5e0715;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --ink: #f2f2f2; --muted: #a8a8a8; --line: #333; --bg: #141414; --panel: #1c1c1c;
     --red-soft: #3a1219; --up-soft: #15301e; --down-soft: #3a1515; --po-soft: #3a3012; --up: #59c27a;
+    --mx-ok: #3fa564; --mx-late: #b8861a; --mx-canc: #8a9099; --mx-hatch: rgba(0,0,0,.45);
+    --mx-b1: #ffc2c7; --mx-b2: #f6909a; --mx-b3: #e8576a; --mx-b4: #d02e47; --mx-b5: #a51f36;
   }
 }
 * { box-sizing: border-box; }
@@ -254,3 +259,19 @@ a.lg-link.sub-link:hover { color: var(--red); }
 .podium.bottom { margin-top: 0; padding-left: 34px; }
 .podium.bottom b { color: var(--red); }
 #bottom-label { border-top: 1px solid var(--line); padding-top: 8px; }
+
+/* delay mix: two donuts with a legend each; one column on phones */
+.mix { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 10px 0 4px; }
+@media (max-width: 640px) { .mix { grid-template-columns: 1fr; } }
+.mix-card { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--panel);
+  display: flex; gap: 14px; align-items: center; }
+.mix-card svg { width: 150px; height: 150px; flex: 0 0 150px; }
+.mix-card path { stroke: var(--panel); stroke-width: 2; }
+.mix-card path:hover { opacity: .8; }
+.mix-card h4 { margin: 0 0 6px; font-size: 14px; }
+.mix-leg { list-style: none; margin: 0; padding: 0; font-size: 13px; flex: 1; min-width: 0; }
+.mix-leg li { display: grid; grid-template-columns: 12px 1fr auto auto; gap: 6px; align-items: center; padding: 2px 0; }
+.mix-leg i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.mix-leg .n { color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+.mix-leg .p { font-weight: 700; text-align: right; min-width: 52px; font-variant-numeric: tabular-nums; }
+@media (max-width: 400px) { .mix-card { flex-direction: column; align-items: stretch; } .mix-card svg { margin: 0 auto; } }

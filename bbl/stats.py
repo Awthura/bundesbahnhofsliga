@@ -83,6 +83,23 @@ def cancellations(daily: list[dict], week_days: list[str], last_day: str | None)
             if worst and worst.get("canceled") else None}
 
 
+def delay_mix(daily: list[dict], week_days: list[str], last_day: str | None) -> dict:
+    """Arrivals split into punctual, the five delay ranges and cancelled, for the running week, the last 28 days
+    and all days. Only days that have the delay breakdown count (all days after the backfill)."""
+    import datetime as _dt
+    bins = ("d6_15", "d16_30", "d31_60", "d61_120", "d121p")
+
+    def mix(rows):
+        rows = [d for d in rows if d.get("arrivals") and all(d.get(k) is not None for k in bins)]
+        out = {"days": len(rows), "arrivals": sum(d["arrivals"] for d in rows),
+               "punctual": sum(d["punctual"] or 0 for d in rows), "canceled": sum(d.get("canceled") or 0 for d in rows)}
+        out.update({k: sum(d[k] for d in rows) for k in bins})
+        return out
+    start = (_dt.date.fromisoformat(last_day) - _dt.timedelta(days=27)).isoformat() if last_day else ""
+    return {"week": mix([d for d in daily if d["day"] in set(week_days)]),
+            "last28": mix([d for d in daily if d["day"] >= start]), "all": mix(daily)}
+
+
 def national_ranks(averages: dict[str, float | None], states: dict[str, str | None]) -> dict[str, dict]:
     """Rank of every current member by overall average, nationally and within its Bundesland."""
     ranked = sorted((e for e, a in averages.items() if a is not None), key=lambda e: -averages[e])

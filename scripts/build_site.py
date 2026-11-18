@@ -147,7 +147,9 @@ def main():
                       "weekdays": stats.weekday_profile(daily),
                       "records": stats.records(history[eva]), "volume": stats.volume(daily),
                       "cancel": stats.cancellations(daily, res["seasons"][-1]["matchdays"] if res["seasons"] else [],
-                                                    data.days[-1].isoformat() if data.days else None)}})
+                                                    data.days[-1].isoformat() if data.days else None),
+                      "delays": stats.delay_mix(daily, res["seasons"][-1]["matchdays"] if res["seasons"] else [],
+                                                data.days[-1].isoformat() if data.days else None)}})
 
     # typical day (median ICE/IC/EC arrivals over the last 28 days), for the frequency filter on the ranking page
     recent = data.days[-config.MEMBERSHIP_WINDOW_DAYS:]
@@ -198,7 +200,7 @@ def main():
     dump(OUT / "map.json", md)
 
     # sanity check: every station page must have all its statistics (a missing key once emptied a chart silently)
-    need = {"overall_avg", "national", "streaks", "weekdays", "records", "volume", "cancel"}
+    need = {"overall_avg", "national", "streaks", "weekdays", "records", "volume", "cancel", "delays"}
     for f in (OUT / "stations").glob("*.json"):
         missing = need - set(json.loads(f.read_text())["stats"])
         if missing:

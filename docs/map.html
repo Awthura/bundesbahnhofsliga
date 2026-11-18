@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Karte · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=07614f7e9a">
+<link rel="stylesheet" href="assets/style.css?v=3d279d046a">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 <style>
@@ -25,7 +25,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
 <main class="wrap">
   <h1 id="t" style="margin:4px 0 2px"></h1>
   <p class="sub" id="intro"></p>
-  <div class="map-ctl"><span class="view-toggle" id="period"></span><select id="week" aria-label="KW"></select><span class="view-toggle" id="mode"></span><span class="view-toggle" id="metric"></span>
+  <div class="map-ctl"><span class="view-toggle" id="period"></span><select id="week" aria-label="KW"></select><span class="view-toggle" id="mode"></span><label><span id="metric-l"></span> <select id="metric"></select></label>
     <label><input type="checkbox" id="dots" checked> <span id="dots-l"></span></label></div>
   <div class="map-ctl"><button class="btn" id="play" style="display:inline-block;padding:5px 14px;margin:0"></button>
     <input type="range" id="slider" min="0" value="0"><b id="when"></b></div>
@@ -35,20 +35,42 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <div id="table"></div>
   <p class="sub" id="note"></p>
 </main>
-<script src="assets/app.js?v=25f6be8f63"></script>
+<script src="assets/app.js?v=b0226252d3"></script>
 <script>
 chrome("map.html");
 $("#t").textContent = T.map_title; $("#intro").textContent = T.map_intro; $("#dots-l").textContent = T.map_dots; $("#note").textContent = T.map_note;
-const S = { period: 1, mode: 0, i: 999, dots: true, timer: null, season: null, metric: new URLSearchParams(location.search).get("metric") === "cancel" ? 1 : 0 };   // metric 0 punctual, 1 cancelled   // default: current week, cumulative
+// day sums are [arrivals, punctual, cancelled, late 6-15, 16-30, 31-60, 61-120, >120 min]; a metric is the share of
+// arrivals in some of those parts. Only "on time" is better when higher; for all other metrics fewer is better.
+const METRICS = [["punctual", [1]], ["late", [3, 4, 5, 6, 7]], ["d6_15", [3]], ["d16_30", [4]], ["d31_60", [5]],
+  ["d61_120", [6]], ["d121p", [7]], ["over30", [5, 6, 7]], ["over60", [6, 7]], ["cancel", [2]]];
+const mq = new URLSearchParams(location.search).get("metric");
+const S = { period: 1, mode: 0, i: 999, dots: true, timer: null, season: null,   // default: current week, cumulative
+  metric: Math.max(0, METRICS.findIndex((m) => m[0] === mq)) };
 const GREEN = [31, 122, 58], RED = [200, 16, 46], GREY = [176, 176, 176];
 const mix = (a, b, t) => `rgb(${a.map((v, k) => Math.round(v + (b[k] - v) * t)).join(",")})`;
-function colour(v, nat) {   // relative to Germany. Punctuality: grey within 3 points, full colour at 15.
-  if (v == null) return "var(--line)";   // Cancellations (lower is better): grey within 1 point, full colour at 5.
-  const d = S.metric ? nat - v : v - nat, g = S.metric ? 0.01 : 0.03, span = S.metric ? 0.04 : 0.12;
+// grey band and colour span: punctuality 3 and 12 points; disruption metrics scale with the national level
+const band = (nat) => (S.metric === 0 ? [0.03, 0.12] : [Math.max(0.005, nat * 0.2), Math.max(0.01, nat * 0.8)]);
+// on-time share uses a fixed scale: red below 45 %, grey 45 to 55 %, green above 55 %, each band in shades
+const RAMP = { red: [[240, 160, 168], [139, 10, 30]], grey: [[205, 205, 205], [150, 150, 150]], green: [[159, 214, 174], [20, 92, 43]] };
+function fixedColour(v) {
+  const t = (x) => Math.max(0, Math.min(1, x));
+  if (v < 0.45) return mix(RAMP.red[0], RAMP.red[1], t((0.45 - v) / 0.20));       // darkest at 25 % and below
+  if (v <= 0.55) return mix(RAMP.grey[0], RAMP.grey[1], t((v - 0.45) / 0.10));
+  return mix(RAMP.green[0], RAMP.green[1], t((v - 0.55) / 0.20));                  // darkest at 75 % and above
+}
+function colour(v, nat) {
+  if (v == null) return "var(--line)";
+  if (S.metric === 0) return fixedColour(v);
+  if (nat == null) return "var(--line)";
+  const d = S.metric === 0 ? v - nat : nat - v, [g, span] = band(nat);
   if (Math.abs(d) <= g) return mix(GREY, GREY, 0);
   return mix(GREY, d > 0 ? GREEN : RED, Math.min(1, (Math.abs(d) - g) / span));
 }
-const val = (v) => (v[0] ? (S.metric ? v[2] : v[1]) / v[0] : null);
+const cnt = (v) => METRICS[S.metric][1].reduce((t, k) => t + (v[k] || 0), 0);
+const val = (v) => (v[0] ? cnt(v) / v[0] : null);
+const signed = (x) => (x >= 0 ? "+" : "") + num(x * 100, 1);
+// breakdown in percent: on time, the five delay ranges, cancelled
+const parts = (v) => [1, 3, 4, 5, 6, 7, 2].map((k) => (v[0] ? v[k] / v[0] : null));
 const pct = (x) => (x == null ? "-" : num(x * 100, 1));
 (async () => {
   const [geo, M, meta] = await Promise.all([getJSON("assets/map/states.json"), getJSON("data/map.json"), getJSON("data/meta.json")]);
@@ -65,7 +87,15 @@ const pct = (x) => (x == null ? "-" : num(x * 100, 1));
     const i = Math.min(S.i, span.length - 1);
     return { all: span, pick: S.mode === 0 ? span.slice(0, i + 1) : [span[i]] };
   }
-  const sum = (arr, pick) => pick.reduce((t, k) => [t[0] + (arr[k][0] || 0), t[1] + (arr[k][1] || 0), t[2] + (arr[k][2] || 0)], [0, 0, 0]);
+  const sum = (arr, pick) => pick.reduce((t, k) => t.map((x, j) => x + ((arr[k] && arr[k][j]) || 0)), [0, 0, 0, 0, 0, 0, 0, 0]);
+  $("#metric-l").textContent = T.map_metric_l;
+  $("#metric").innerHTML = T.map_metrics.map((l, k) => `<option value="${k}">${l}</option>`).join("");
+  $("#metric").value = S.metric;
+  $("#metric").onchange = (e) => {
+    S.metric = +e.target.value;
+    const p = new URLSearchParams(location.search); if (S.metric) p.set("metric", METRICS[S.metric][0]); else p.delete("metric");
+    history.replaceState(null, "", "?" + p.toString()); render();
+  };
   function render() {
     const max = (S.period === 0 ? days.length : range().all.length) - 1;
     S.i = Math.max(0, Math.min(S.i, max));
@@ -76,13 +106,14 @@ const pct = (x) => (x == null ? "-" : num(x * 100, 1));
     const first = days[r.pick[0]], lastPick = days[r.pick[r.pick.length - 1]];
     $("#when").textContent = T.map_range(dayLabel(first), dayLabel(lastPick)) + (r.pick.some((k) => days[k] === M.running) ? ` · ${T.running}` : r.pick.some((k) => (M.pending || []).includes(days[k])) ? ` · ${T.pending}` : "");
     const n = sum(M.national, r.pick), nat = val(n);
-    $("#nat").textContent = S.metric ? T.map_nat_c(pct(nat), n[2].toLocaleString(LANG), n[0].toLocaleString(LANG)) : T.map_nat(pct(nat), n[0].toLocaleString(LANG));
-    const rows = geo.states.map((g) => { const v = sum(M.states[g.name] || [], r.pick); return { g, a: v[0], c: v[2], share: val(v) }; });
+    const lbl = T.map_metrics[S.metric];
+    $("#nat").textContent = T.map_nat_m(lbl, pct(nat), cnt(n).toLocaleString(LANG), n[0].toLocaleString(LANG));
+    const rows = geo.states.map((g) => { const v = sum(M.states[g.name] || [], r.pick); return { g, v, a: v[0], k: cnt(v), share: val(v) }; });
     let svg = rows.map((x) => `<path d="${x.g.d}" fill="${colour(x.share, nat)}" fill-rule="evenodd" data-n="${esc(x.g.name)}"></path>`).join("");
     if (S.dots) for (const [e, st] of Object.entries(M.stations)) {
-      const v = sum(st.d.map((x) => x || [0, 0, 0]), r.pick); if (!v[0]) continue;
+      const v = sum(st.d.map((x) => x || [0, 0, 0, 0, 0, 0, 0, 0]), r.pick); if (!v[0]) continue;
       const [x, y] = proj(st.lat, st.lon), rad = Math.max(2.5, Math.sqrt(v[0] / r.pick.length) * 0.6);
-      svg += `<a href="${stLink(e)}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rad.toFixed(1)}" fill="${colour(val(v), nat)}" stroke="#fff" stroke-width="1"><title>${esc(st.name)}: ${pct(val(v))} %${S.metric ? " · " + T.canc_day(v[2]) : ""}</title></circle></a>`;
+      svg += `<a href="${stLink(e)}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rad.toFixed(1)}" fill="${colour(val(v), nat)}" stroke="#fff" stroke-width="1"><title>${esc(st.name)}: ${lbl} ${pct(val(v))} % (${cnt(v)} / ${v[0]})\n${parts(v).map((x, j) => `${T.map_short[j]} ${pct(x)} %`).join(" · ")}</title></circle></a>`;
     }
     svg += rows.map((x) => `<text x="${x.g.label[0]}" y="${x.g.label[1]}" font-size="${x.g.short ? 10 : 11}" font-weight="700" text-anchor="middle"
       fill="#1a1a1a" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke" style="pointer-events:none">${esc(x.g.short || x.g.name)}</text>`).join("");
@@ -92,25 +123,34 @@ const pct = (x) => (x == null ? "-" : num(x * 100, 1));
       const x = rows.find((q) => q.g.name === el.dataset.n);
       const show = (ev) => { const b = $(".map-wrap").getBoundingClientRect(), t = $("#tip");
         t.style.display = "block"; t.style.left = Math.min(ev.clientX - b.left + 12, b.width - 250) + "px"; t.style.top = (ev.clientY - b.top + 12) + "px";
-        t.innerHTML = `<b>${esc(x.g.name)}</b><br>${x.share == null ? T.map_legend[3] : (S.metric ? T.map_tip_c(pct(x.share), x.c, x.a, (x.share - nat >= 0 ? "+" : "") + num((x.share - nat) * 100, 1))
-          : T.map_tip(pct(x.share), x.a, (x.share - nat >= 0 ? "+" : "") + num((x.share - nat) * 100, 1)))}`; };
+        t.innerHTML = `<b>${esc(x.g.name)}</b><br>${x.share == null ? T.map_leg_m(0)[3]
+          : T.map_tip_m(lbl, pct(x.share), x.k.toLocaleString(LANG), x.a.toLocaleString(LANG), signed(x.share - nat))
+            + `<br><span style="color:var(--muted)">${parts(x.v).map((q, j) => `${T.map_short[j]} ${pct(q)} %`).join(" · ")}</span>`}`; };
       el.onmousemove = show; el.onclick = show; el.onmouseleave = () => ($("#tip").style.display = "none");
     });
-    const leg = [GREEN, GREY, RED].map((c, k) => `<span><i style="background:rgb(${c})"></i>${(S.metric ? T.map_legend_c : T.map_legend)[k]}</span>`).join("");
-    $("#legend").innerHTML = leg;
-    const sorted = rows.filter((x) => x.share != null).sort((a, b) => (S.metric ? a.share - b.share : b.share - a.share) || b.a - a.a);
-    const c = S.metric ? T.map_cols_c : T.map_cols;
-    $("#table").innerHTML = `<div class="tablewrap"><table><thead><tr><th>${c[0]}</th><th>${c[1]}</th><th class="num">${c[2]}</th><th class="num hide-sm">${c[3]}</th><th class="num">${c[4]}</th></tr></thead><tbody>
+    if (S.metric === 0) {   // fixed scale legend, best first
+      const grad = (r) => `linear-gradient(90deg,rgb(${r[0]}),rgb(${r[1]}))`;
+      $("#legend").innerHTML = [[RAMP.green, T.map_fixed[0]], [RAMP.grey, T.map_fixed[1]], [RAMP.red.slice().reverse(), T.map_fixed[2]]]
+        .map(([r, l]) => `<span><i style="background:${grad(r)};width:28px"></i>${l}</span>`).join("");
+    } else {
+      const L = T.map_leg_m(num(band(nat || 0)[0] * 100, 1));
+      $("#legend").innerHTML = [GREEN, GREY, RED].map((c, k) => `<span><i style="background:rgb(${c})"></i>${L[k]}</span>`).join("");
+    }
+    // table: chosen metric, then the full breakdown in percent for every state and for Germany
+    const sorted = rows.filter((x) => x.share != null).sort((a, b) => (S.metric === 0 ? b.share - a.share : a.share - b.share) || b.a - a.a);
+    const c = T.map_cols_m, br = (v) => parts(v).map((q) => `<td class="num hide-sm">${pct(q)}</td>`).join("");
+    $("#table").innerHTML = `<div class="tablewrap"><table><thead><tr><th>${c[0]}</th><th>${c[1]}</th><th class="num">${esc(lbl)} %</th>
+      <th class="num">${c[3]}</th><th class="num hide-sm">${c[2]}</th>${T.map_short.map((h) => `<th class="num hide-sm">${h} %</th>`).join("")}</tr></thead><tbody>
       ${sorted.map((x, k) => `<tr><td class="rank">${k + 1}.</td><td class="st"><i style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${colour(x.share, nat)};margin-right:6px"></i>${esc(x.g.name)}</td>
-        <td class="num"><b>${pct(x.share)} %</b></td><td class="num hide-sm">${x.a.toLocaleString(LANG)}</td><td class="num">${(x.share - nat >= 0 ? "+" : "") + num((x.share - nat) * 100, 1)}</td></tr>`).join("")}</tbody></table></div>`;
+        <td class="num"><b>${pct(x.share)} %</b></td><td class="num">${signed(x.share - nat)}</td><td class="num hide-sm">${x.a.toLocaleString(LANG)}</td>${br(x.v)}</tr>`).join("")}
+      <tr style="border-top:2px solid var(--ink)"><td></td><td class="st"><b>${T.map_de}</b></td><td class="num"><b>${pct(nat)} %</b></td><td class="num">–</td>
+        <td class="num hide-sm">${n[0].toLocaleString(LANG)}</td>${br(n)}</tr></tbody></table></div>`;
     $("#period").innerHTML = T.map_period.map((l, k) => `<button class="${S.period === k ? "on" : ""}" data-p="${k}">${l}</button>`).join("");
     // Day starts on the last finished day (the newest day is still running); week and 4 weeks on their latest day
     $("#period").querySelectorAll("button").forEach((b) => (b.onclick = () => { S.period = +b.dataset.p; S.i = S.period === 0 ? Math.max(last - 1, 0) : 999; render(); }));
     $("#mode").style.display = S.period === 0 ? "none" : "";
     $("#mode").innerHTML = T.map_mode.map((l, k) => `<button class="${S.mode === k ? "on" : ""}" data-m="${k}">${l}</button>`).join("");
     $("#mode").querySelectorAll("button").forEach((b) => (b.onclick = () => { S.mode = +b.dataset.m; render(); }));
-    $("#metric").innerHTML = T.map_metric.map((l, k) => `<button class="${S.metric === k ? "on" : ""}" data-k="${k}">${l}</button>`).join("");
-    $("#metric").querySelectorAll("button").forEach((b) => (b.onclick = () => { S.metric = +b.dataset.k; render(); }));
     $("#play").textContent = S.timer ? "⏸ " + T.map_pause : "▶ " + T.map_play;
   }
   S.season = M.seasons[M.seasons.length - 1].id;

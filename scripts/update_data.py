@@ -135,13 +135,13 @@ def rebuild_points(days=None):
     rows.sort(key=lambda r: (r["day"], r["eva"]))
     with POINTS_CSV.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["day", "eva", "station", "arrivals", "punctual", "canceled", "points", "plays",
-                                          "scheduled"])
+                                          "scheduled", *points.DELAY_BINS])
         w.writeheader()
         for r in rows:
             r.setdefault("scheduled", r["arrivals"])   # finished days: everything scheduled is due
             if r["scheduled"] in (None, ""):
                 r["scheduled"] = r["arrivals"]
-            w.writerow({k: r[k] for k in w.fieldnames})
+            w.writerow({k: r.get(k, "") for k in w.fieldnames})   # delay bins are empty for days not yet re-fetched
     print(f"daily_points.csv: {len(rows)} rows, {len({r['day'] for r in rows})} days")
 
 

@@ -38,6 +38,15 @@ def audit(res: dict, rows: list[dict], states: dict[str, str], today=None) -> li
         if plays != (a >= config.MIN_ARRIVALS):
             err(f"{r['day']} {name(r['eva'])}: plays={plays} but arrivals={a}")
 
+    # delay ranges: together they must be exactly the late, not cancelled arrivals of the day
+    for d in data.days:
+        for e, r in data.by_day[d].items():
+            b = [r.get(k) for k in league.DELAY_BINS]
+            if all(x is not None for x in b) and r["punctual"] is not None \
+                    and sum(b) != r["arrivals"] - r["punctual"] - r["canceled"]:
+                err(f"{d} {name(e)}: delay ranges add up to {sum(b)}, late arrivals are "
+                    f"{r['arrivals'] - r['punctual'] - r['canceled']}")
+
     # shown cancellation counts in the tables must match the daily data
     for s in res["seasons"]:
         for lid, lg in s["leagues"].items():

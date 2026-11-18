@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bahnhof · Bundesbahnhofsliga</title>
 <link rel="icon" href="assets/logos/favicon.svg">
-<link rel="stylesheet" href="assets/style.css?v=07614f7e9a">
+<link rel="stylesheet" href="assets/style.css?v=3d279d046a">
 <script>(function(){var l;try{l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("bbl-lang")}catch(e){}
 if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document.documentElement.dataset.lang=l;document.documentElement.lang=l})();</script>
 </head>
@@ -18,6 +18,10 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <h3 id="chart-title"></h3>
   <div id="chart-box"><svg class="chart" id="chart" role="img"></svg></div>
   <p class="sub" id="chart-note"></p>
+  <h3 id="mix-title"></h3>
+  <span class="view-toggle" id="mix-period"></span>
+  <div class="mix" id="mix"></div>
+  <p class="sub" id="mix-note"></p>
   <div id="forecast"></div>
   <h3 id="wd-title"></h3>
   <div id="weekdays" class="pyramid"></div>
@@ -30,7 +34,7 @@ if(l!=="de"&&l!=="en")l=/^de\b/i.test(navigator.language||"")?"de":"en";document
   <h3 id="hist-title"></h3>
   <div id="hist"></div>
 </main>
-<script src="assets/app.js?v=25f6be8f63"></script>
+<script src="assets/app.js?v=b0226252d3"></script>
 <script>
 chrome("");
 $("#chart-title").textContent = T.chart_title;
@@ -68,6 +72,7 @@ $("#pyr-note").textContent = T.pyr_note;
   whenSized($("#pyramid"), (w) => renderPyramid(st, meta, w));
   renderStats(st);
   whenSized($("#weekdays"), (w) => renderWeekdays(st, w));
+  renderMix(st, 1);
 
   const drawDaily = (W) => {
   // bar chart, plain SVG
@@ -142,6 +147,48 @@ function renderStats(st) {
     [T.rec.longest, `${T.n_days(s.longest)}<span>${s.longest ? `${dayLabel(s.longest_from)} ${T.to} ${dayLabel(s.longest_to)} · ` : ""}${T.rec.current_short(T.n_days(s.current))}</span>`],
   ];
   $("#records").innerHTML = rec.map(([k, v]) => `<div class="kpi"><span>${k}</span><b class="kpi-small">${v}</b></div>`).join("");
+}
+
+// two donuts: all arrivals (on time / late / cancelled) and the disruptions alone (delay ranges + cancelled)
+function donut(parts, centre, label, id) {
+  const total = parts.reduce((t, p) => t + p.n, 0), R = 72, r0 = 46, c = 75;
+  const pt = (a, rad) => [c + rad * Math.sin(a), c - rad * Math.cos(a)];
+  let a = 0, g = `<defs><pattern id="h${id}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <rect width="6" height="6" fill="var(--mx-canc)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--mx-hatch)" stroke-width="2"/></pattern></defs>`;
+  for (const p of parts) {
+    if (!p.n) continue;
+    const share = p.n / total, fill = p.hatch ? `url(#h${id})` : p.col, tip = `${p.label}: ${p.n.toLocaleString(LANG)} (${num(share * 100, 1)} %)`;
+    if (share > 0.9999) {   // a full ring cannot be drawn as one arc
+      g += `<path d="M${c},${c - R}A${R},${R} 0 1 1 ${c - 0.01},${c - R}L${c - 0.01},${c - r0}A${r0},${r0} 0 1 0 ${c},${c - r0}Z" fill="${fill}"><title>${esc(tip)}</title></path>`;
+      break;
+    }
+    const b = a + share * 2 * Math.PI, big = b - a > Math.PI ? 1 : 0;
+    const [x1, y1] = pt(a, R), [x2, y2] = pt(b, R), [x3, y3] = pt(b, r0), [x4, y4] = pt(a, r0);
+    g += `<path d="M${x1},${y1}A${R},${R} 0 ${big} 1 ${x2},${y2}L${x3},${y3}A${r0},${r0} 0 ${big} 0 ${x4},${y4}Z" fill="${fill}"><title>${esc(tip)}</title></path>`;
+    a = b;
+  }
+  g += `<text x="${c}" y="${c + 2}" text-anchor="middle" font-size="20" font-weight="700" fill="var(--ink)">${total.toLocaleString(LANG)}</text>
+    <text x="${c}" y="${c + 18}" text-anchor="middle" font-size="11" fill="var(--muted)">${esc(centre)}</text>`;
+  const leg = parts.map((p) => `<li><i style="background:${p.hatch ? `repeating-linear-gradient(45deg,var(--mx-canc) 0 3px,var(--mx-hatch) 3px 5px)` : p.col}"></i>
+    <span>${esc(p.label)}</span><span class="n">${p.n.toLocaleString(LANG)}</span><span class="p">${total ? num((p.n / total) * 100, 1) : "0"} %</span></li>`).join("");
+  return `<div class="mix-card"><svg viewBox="0 0 150 150" role="img" aria-label="${esc(label)}">${g}</svg>
+    <div style="flex:1;min-width:0"><h4>${esc(label)}</h4><ul class="mix-leg">${leg}</ul></div></div>`;
+}
+
+function renderMix(st, k) {
+  $("#mix-title").textContent = T.mix_title;
+  const keys = ["week", "last28", "all"], m = st.stats.delays && st.stats.delays[keys[k]];
+  $("#mix-period").innerHTML = T.mix_periods.map((l, i) => `<button class="${i === k ? "on" : ""}" data-k="${i}">${l}</button>`).join("");
+  $("#mix-period").querySelectorAll("button").forEach((b) => (b.onclick = () => renderMix(st, +b.dataset.k)));
+  if (!m || !m.days || !m.arrivals) { $("#mix").innerHTML = `<p class="sub">${T.mix_none}</p>`; $("#mix-note").textContent = ""; return; }
+  const bins = ["d6_15", "d16_30", "d31_60", "d61_120", "d121p"], late = bins.reduce((t, b) => t + m[b], 0);
+  const all = [{ label: T.mix_cats[0], n: m.punctual, col: "var(--mx-ok)" }, { label: T.mix_cats[1], n: late, col: "var(--mx-late)" },
+    { label: T.mix_cats[2], n: m.canceled, hatch: true }];
+  const dis = bins.map((b, i) => ({ label: T.mix_bins[i], n: m[b], col: `var(--mx-b${i + 1})` }))
+    .concat([{ label: T.mix_bins[5], n: m.canceled, hatch: true }]);
+  $("#mix").innerHTML = donut(all, T.mix_center[0], T.mix_all, "a")
+    + (late + m.canceled ? donut(dis, T.mix_center[1], T.mix_dis, "d") : `<div class="mix-card"><p class="sub">${T.mix_nodis}</p></div>`);
+  $("#mix-note").textContent = T.mix_note(m.days);
 }
 
 function renderWeekdays(st, W) {

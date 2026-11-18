@@ -404,9 +404,9 @@ def test_map_states_add_up_to_national():
             {"day": "2026-11-10", "eva": "a", "arrivals": "8", "punctual": "8"}]
     meta = {"a": {"state": "Bayern"}, "b": {"state": "Bayern"}}
     m = maps.map_data(rows, meta, {"a": {"name": "A", "lat": 48.1, "lon": 11.5, "league": "1"}})
-    assert m["states"]["Bayern"] == [[30, 11, 0], [8, 8, 0]] and m["unassigned"] == [[4, 4, 0], [0, 0, 0]]
-    assert m["national"] == [[34, 15, 0], [8, 8, 0]] and maps.check(m) == []
-    assert m["stations"]["a"]["d"] == [[10, 6, 0], [8, 8, 0]]
+    assert m["states"]["Bayern"] == [[30, 11, 0] + [0] * 5, [8, 8, 0] + [0] * 5] and m["unassigned"] == [[4, 4, 0] + [0] * 5, [0] * 8]
+    assert m["national"] == [[34, 15, 0] + [0] * 5, [8, 8, 0] + [0] * 5] and maps.check(m) == []
+    assert m["stations"]["a"]["d"] == [[10, 6, 0] + [0] * 5, [8, 8, 0] + [0] * 5]
     m["national"][0][0] += 1
     assert maps.check(m)                                                            # a mismatch is caught
 
@@ -435,3 +435,19 @@ def test_cancellations_are_shown_but_do_not_change_points():
     assert t["canceled"] == 3 and t["avg"] == 0.73          # 3 cancelled count as not punctual, nothing extra
     c = stats.cancellations([{"day": "2026-11-16", "arrivals": 40, "canceled": 3}], ["2026-11-16"], "2026-11-16")
     assert c["week"] == {"canceled": 3, "arrivals": 40, "rate": 0.075} and c["worst"]["canceled"] == 3
+
+
+def test_delay_ranges_add_up_to_late_arrivals():
+    import duckdb
+    from bbl import points
+    con = duckdb.connect()
+    con.sql("""CREATE TABLE s AS SELECT * FROM (VALUES
+        ('1', 'a', 'A', TIMESTAMP '2026-11-16 08:00', 0, false, true), ('2', 'a', 'A', TIMESTAMP '2026-11-16 09:00', 5, false, true),
+        ('3', 'a', 'A', TIMESTAMP '2026-11-16 10:00', 6, false, true), ('4', 'a', 'A', TIMESTAMP '2026-11-16 11:00', 30, false, true),
+        ('5', 'a', 'A', TIMESTAMP '2026-11-16 12:00', 31, false, true), ('6', 'a', 'A', TIMESTAMP '2026-11-16 13:00', 120, false, true),
+        ('7', 'a', 'A', TIMESTAMP '2026-11-16 14:00', 121, false, true), ('8', 'a', 'A', TIMESTAMP '2026-11-16 15:00', 0, true, true))
+        AS t(id, eva, station, planned, delay_in_min, canceled, due)""")
+    r = points.daily_counts(con, "s")[0]
+    assert (r["arrivals"], r["punctual"], r["canceled"]) == (8, 2, 1)
+    assert [r[k] for k in points.DELAY_BINS] == [1, 1, 1, 1, 1]          # 6 | 30 | 31 | 120 | 121
+    assert sum(r[k] for k in points.DELAY_BINS) == r["arrivals"] - r["punctual"] - r["canceled"]
