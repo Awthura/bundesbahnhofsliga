@@ -673,8 +673,8 @@
 },
 "08000111": {
 "category": 3,
-"lat": 50.332606,
-"lon": 8.762056,
+"lat": 50.332864,
+"lon": 8.760918,
 "name": "Friedberg (Hess)",
 "state": "Hessen"
 },
@@ -4553,7 +4553,7 @@
 "category": 6,
 "lat": 51.051197,
 "lon": 8.394109,
-"name": "Bad Berleburg",
+"name": "Bad Berleburg-Berghausen",
 "state": "Nordrhein-Westfalen"
 },
 "08000908": {
@@ -5463,7 +5463,7 @@
 "category": 6,
 "lat": 51.41917,
 "lon": 8.776566,
-"name": "Marsberg Bredelar",
+"name": "Marsberg-Bredelar",
 "state": "Nordrhein-Westfalen"
 },
 "08001138": {
@@ -5771,7 +5771,7 @@
 "category": 6,
 "lat": 51.20792,
 "lon": 7.571086,
-"name": "Lüdenscheid Brügge (Westf)",
+"name": "Lüdenscheid-Brügge",
 "state": "Nordrhein-Westfalen"
 },
 "08001214": {
@@ -5979,8 +5979,8 @@
 },
 "08001269": {
 "category": 6,
-"lat": 53.182145,
-"lon": 7.265994,
+"lat": 53.1824461,
+"lon": 7.26491837,
 "name": "Bunde",
 "state": "Niedersachsen"
 },
@@ -7885,7 +7885,7 @@
 "category": 6,
 "lat": 50.847299,
 "lon": 7.987071,
-"name": "Eiserfeld (Sieg)",
+"name": "Siegen-Eiserfeld",
 "state": "Nordrhein-Westfalen"
 },
 "08001731": {
@@ -9691,7 +9691,7 @@
 "category": 7,
 "lat": 51.321459,
 "lon": 7.839903,
-"name": "Balve Garbeck",
+"name": "Balve-Garbeck",
 "state": "Nordrhein-Westfalen"
 },
 "08002182": {
@@ -12498,7 +12498,7 @@
 "category": 7,
 "lat": 51.378059,
 "lon": 8.640059,
-"name": "Brilon Hoppecke",
+"name": "Brilon-Hoppecke",
 "state": "Nordrhein-Westfalen"
 },
 "08002994": {
@@ -12706,8 +12706,8 @@
 },
 "08003051": {
 "category": 6,
-"lat": 53.169364,
-"lon": 7.450189,
+"lat": 53.17069,
+"lon": 7.45106,
 "name": "Ihrhove",
 "state": "Niedersachsen"
 },
@@ -18231,7 +18231,7 @@
 "category": 6,
 "lat": 50.844187,
 "lon": 7.970657,
-"name": "Niederschelden Nord Hp",
+"name": "Sieg-Niederschelden Nord",
 "state": "Nordrhein-Westfalen"
 },
 "08004409": {
@@ -19120,7 +19120,7 @@
 "category": 6,
 "lat": 51.39202,
 "lon": 8.132081,
-"name": "Arnsberg Oeventrop",
+"name": "Arnsberg-Oeventrop",
 "state": "Nordrhein-Westfalen"
 },
 "08004643": {
@@ -19622,8 +19622,8 @@
 },
 "08004767": {
 "category": 6,
-"lat": 47.749249,
-"lon": 11.371875,
+"lat": 47.7494092,
+"lon": 11.371665,
 "name": "Penzberg",
 "state": "Bayern"
 },
@@ -19979,8 +19979,8 @@
 },
 "08004885": {
 "category": 4,
-"lat": 47.855513,
-"lon": 12.346615,
+"lat": 47.8552216,
+"lon": 12.3469806,
 "name": "Prien am Chiemsee",
 "state": "Bayern"
 },
@@ -21535,7 +21535,7 @@
 "category": 7,
 "lat": 51.353665,
 "lon": 7.878844,
-"name": "Balve Sanssouci",
+"name": "Balve-Sanssouci",
 "state": "Nordrhein-Westfalen"
 },
 "08005292": {
@@ -21689,7 +21689,7 @@
 "category": 6,
 "lat": 51.524738,
 "lon": 9.04794,
-"name": "Scherfede",
+"name": "Warburg-Scherfede",
 "state": "Nordrhein-Westfalen"
 },
 "08005338": {
@@ -22494,7 +22494,7 @@
 "category": 7,
 "lat": 51.22367,
 "lon": 8.481124,
-"name": "Silbach",
+"name": "Winterberg-Silbach",
 "state": "Nordrhein-Westfalen"
 },
 "08005572": {
@@ -24349,7 +24349,7 @@
 "category": 7,
 "lat": 51.359889,
 "lon": 7.872214,
-"name": "Balve Volkringhausen",
+"name": "Balve-Volkringhausen",
 "state": "Nordrhein-Westfalen"
 },
 "08006112": {
@@ -25196,7 +25196,7 @@
 "category": 6,
 "lat": 51.494589,
 "lon": 8.910255,
-"name": "Marsberg Westheim (Westf.)",
+"name": "Marsberg-Westheim",
 "state": "Nordrhein-Westfalen"
 },
 "08006380": {
@@ -30206,8 +30206,8 @@
 },
 "08011533": {
 "category": 4,
-"lat": 52.406725,
-"lon": 13.824926,
+"lat": 52.4079644,
+"lon": 13.794153,
 "name": "Fangschleuse",
 "state": "Brandenburg"
 },
